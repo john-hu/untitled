@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Social Chef</title>
+</head>
+<body>
+<button type="button" onclick="fbLogin()">FB Login</button>
+<script>
+function fbLogin() {
+  FB.getLoginStatus(function(response) {
+    if (response.status === 'connected') {
+      testToken('facebook', response.authResponse)
+    } else {
+      FB.login(function(response) {
+        if (response.authResponse) {
+          testToken('facebook', response.authResponse)
+        } else {
+          alert('cancelled');
+        }
+      }, { scope: 'public_profile,email' });
+    }
+  });
+}
+
+function testToken(backend, backendToken) {
+  console.log(backendToken.accessToken);
+}
+
+</script>
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId: '1627966500734672',
+      autoLogAppEvents: true,
+      xfbml: true,
+      version: 'v12.0'
+    });
+  };
+</script>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+</body>
+</html>

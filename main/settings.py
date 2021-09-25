@@ -25,22 +25,27 @@ SECRET_KEY = 'django-insecure-7sz^3^*62!(+0h-m9ohd1tmz^z7x-t-q(&(t-#w+^jtzf817n%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    # 3rd parties
-    'rest_framework',
     # built-in apps
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.staticfiles',
+    # 3rd parties
+    'rest_framework',
+    'oauth2_provider',
+    'social_django',
+    'rest_framework_social_oauth2',
+    'socialchef'
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -48,6 +53,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'main.urls'
@@ -63,6 +69,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -130,5 +138,32 @@ REST_FRAMEWORK = {
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ]
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+        'rest_framework_social_oauth2.authentication.SocialAuthentication',
+    ],
 }
+
+CORS_ORIGIN_ALLOW_ALL = True
+
+# enabled authentication backend used by rest_framework_social_oauth2
+AUTHENTICATION_BACKENDS = (
+    # facebook authentication backend
+    'social_core.backends.facebook.FacebookAppOAuth2',
+    'social_core.backends.facebook.FacebookOAuth2',
+    # let django-oauth-toolkit be the first priority
+    'rest_framework_social_oauth2.backends.DjangoOAuth2',
+    # fallback to django auth
+    'django.contrib.auth.backends.ModelBackend',
+)
+# social_django
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {'fields': 'id, name, email'}
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+SOCIAL_AUTH_FACEBOOK_KEY = '{ask john hu}'
+SOCIAL_AUTH_FACEBOOK_SECRET = '{ask john hu}'
+FACEBOOK_EXTENDED_PERMISSIONS = ['email']
+SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['username', 'first_name', 'email']
+# Normal user must be email
+SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = True
