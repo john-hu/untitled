@@ -34,11 +34,9 @@ INSTALLED_APPS = [
     # 3rd parties
     'rest_framework',
     # built-in apps
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
 
