@@ -23,3 +23,4 @@ Basic
   * Collaborator editing
 * Experiment record book
   * The history of cooking trials
+* Integrated author's owned Google Analytics
