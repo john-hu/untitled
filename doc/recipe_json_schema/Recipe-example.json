@@ -1,0 +1,112 @@
+{
+  "authors": ["John Hu", "Francis Zhuang"],
+  "cookTime": "PT30M",
+  "cookingMethods": [
+    "fried"
+  ],
+  "nutrition": {
+    "calories": {
+      "number": 100,
+      "unit": "cal"
+    },
+    "carbohydrateContent": {
+      "number": 0,
+      "unit": "mg"
+    },
+    "cholesterolContent": {
+      "number": 0,
+      "unit": "mg"
+    },
+    "fatContent": {
+      "number": 0,
+      "unit": "mg"
+    },
+    "fiberContent": {
+      "number": 0,
+      "unit": "mg"
+    },
+    "proteinContent": {
+      "number": 0,
+      "unit": "mg"
+    },
+    "saturatedFatContent": {
+      "number": 0,
+      "unit": "mg"
+    },
+    "servingSize": {
+      "number": 100,
+      "unit": "mg"
+    },
+    "sodiumContent": {
+      "number": 10,
+      "unit": "mg"
+    },
+    "sugarContent": {
+      "number": 0,
+      "unit": "mg"
+    },
+    "transFatContent": {
+      "number": 0,
+      "unit": "mg"
+    },
+    "unsaturatedFatContent": {
+      "number": 5,
+      "unit": "mg"
+    }
+  },
+  "categories": [
+    "fired chicken",
+    "chicken"
+  ],
+  "ingredients": [
+    {
+      "name": "chicken",
+      "size": {
+        "unit": "piece",
+        "number": 1
+      }
+    },
+    {
+      "name": "salt",
+      "size": {
+        "unit": "mg",
+        "number": 10
+      }
+    },
+    {
+      "name": "palm oil",
+      "size": {
+        "unit": "ml",
+        "number": 5
+      }
+    }
+  ],
+  "instructions": [
+    {
+      "abstract": "mix with chicken and salt",
+      "language": "en_us",
+      "id": "step1",
+      "text": "mix with chicken and salt"
+    },
+    {
+      "abstract": "put chicken in air fryer",
+      "equipments": [
+        "air fryer"
+      ],
+      "language": "en_us",
+      "id": "step2",
+      "text": "put chicken in air fryer"
+    }
+  ],
+  "yield": {
+    "unit": "serve",
+    "number": 1
+  },
+  "title": "Fried chicken",
+  "language": "en_US",
+  "keywords": [
+    "fried",
+    "chicken"
+  ],
+  "id": "https://example.recipe.org/recipes/1234567/"
+}

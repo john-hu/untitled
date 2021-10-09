@@ -1,0 +1,328 @@
+{
+  "$id": "https://untitled.com/recipe",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "duration": {
+      "type": "string",
+      "pattern": "^P(?!$)(\\d+Y)?(\\d+M)?(\\d+W)?(\\d+D)?(T(?=\\d+[HMS])(\\d+H)?(\\d+M)?(\\d+S)?)?$",
+      "description": "ISO 8601 duration format"
+    },
+    "mass": {
+      "type": "object",
+      "properties": {
+        "number": {
+          "type": "number"
+        },
+        "unit": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "number",
+        "unit"
+      ]
+    },
+    "urls": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "uri",
+        "uniqueItems": true
+      }
+    }
+  },
+  "type": "object",
+  "properties": {
+    "audience": {
+      "type": "string"
+    },
+    "audios": {
+      "$ref": "#/$defs/urls"
+    },
+    "authors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "categories": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "cookingMethods": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "cookTime": {
+      "$ref": "#/$defs/duration"
+    },
+    "cuisines": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "dateCreated": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "dateModified": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "description": {
+      "type": "string"
+    },
+    "equipments": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "estimatedCost": {
+      "$ref": "#/$defs/mass"
+    },
+    "examples": {
+      "$ref": "#/$defs/urls"
+    },
+    "id": {
+      "type": "string",
+      "description": "unique id of this recipe"
+    },
+    "images": {
+      "$ref": "#/$defs/urls"
+    },
+    "ingredients": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "size": {
+            "$ref": "#/$defs/mass"
+          }
+        },
+        "required": [
+          "name",
+          "size"
+        ]
+      },
+      "uniqueItems": true,
+      "minItems": 1
+    },
+    "instructions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "audience": {
+            "type": "string"
+          },
+          "audios": {
+            "$ref": "#/$defs/urls"
+          },
+          "authors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "dateCreated": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateModified": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "equipments": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          },
+          "examples": {
+            "$ref": "#/$defs/urls"
+          },
+          "id": {
+            "type": "string",
+            "description": "unique id of this instruction"
+          },
+          "images": {
+            "$ref": "#/$defs/urls"
+          },
+          "keywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "language": {
+            "type": "string"
+          },
+          "mainLink": {
+            "type": "string",
+            "description": "If an anchor can be found at the original site, we should put it in.",
+            "format": "uri"
+          },
+          "text": {
+            "type": "string"
+          },
+          "timeRequired": {
+            "$ref": "#/$defs/duration"
+          },
+          "translationOf": {
+            "type": "string",
+            "format": "uri",
+            "description": "the link of original instruction"
+          },
+          "videos": {
+            "$ref": "#/$defs/urls"
+          }
+        },
+        "required": [
+          "id",
+          "language",
+          "text"
+        ]
+      },
+      "uniqueItems": true,
+      "minItems": 1
+    },
+    "keywords": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "language": {
+      "type": "string"
+    },
+    "mainLink": {
+      "type": "string",
+      "format": "uri"
+    },
+    "nutrition": {
+      "type": "object",
+      "properties": {
+        "calories": {
+          "$ref": "#/$defs/mass"
+        },
+        "carbohydrateContent": {
+          "$ref": "#/$defs/mass"
+        },
+        "cholesterolContent": {
+          "$ref": "#/$defs/mass"
+        },
+        "fatContent": {
+          "$ref": "#/$defs/mass"
+        },
+        "fiberContent": {
+          "$ref": "#/$defs/mass"
+        },
+        "proteinContent": {
+          "$ref": "#/$defs/mass"
+        },
+        "saturatedFatContent": {
+          "$ref": "#/$defs/mass"
+        },
+        "servingSize": {
+          "$ref": "#/$defs/mass"
+        },
+        "sodiumContent": {
+          "$ref": "#/$defs/mass"
+        },
+        "sugarContent": {
+          "$ref": "#/$defs/mass"
+        },
+        "transFatContent": {
+          "$ref": "#/$defs/mass"
+        },
+        "unsaturatedFatContent": {
+          "$ref": "#/$defs/mass"
+        }
+      },
+      "required": [
+        "calories",
+        "carbohydrateContent",
+        "cholesterolContent",
+        "fatContent",
+        "fiberContent",
+        "proteinContent",
+        "saturatedFatContent",
+        "servingSize",
+        "sodiumContent",
+        "sugarContent",
+        "transFatContent",
+        "unsaturatedFatContent"
+      ]
+    },
+    "prepTime": {
+      "$ref": "#/$defs/duration"
+    },
+    "suitableForDiet": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "DiabeticDiet",
+          "GlutenFreeDiet",
+          "HalalDiet",
+          "HinduDiet",
+          "KosherDiet",
+          "LowCalorieDiet",
+          "LowFatDiet",
+          "LowLactoseDiet",
+          "LowSaltDiet",
+          "VeganDiet",
+          "VegetarianDiet"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "timeRequired": {
+      "$ref": "#/$defs/duration"
+    },
+    "title": {
+      "type": "string"
+    },
+    "totalTime": {
+      "$ref": "#/$defs/duration"
+    },
+    "translationOf": {
+      "type": "string",
+      "format": "uri",
+      "description": "the link of original instruction"
+    },
+    "videos": {
+      "$ref": "#/$defs/urls"
+    },
+    "yield": {
+      "$ref": "#/$defs/mass"
+    }
+  },
+  "title": "recipe",
+  "required": [
+    "authors",
+    "categories",
+    "id",
+    "ingredients",
+    "instructions",
+    "keywords",
+    "language",
+    "title",
+    "yield"
+  ]
+}
