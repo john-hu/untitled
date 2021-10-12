@@ -9,11 +9,24 @@ We would like to provide a recipe search service to our users. They can find rec
 
 ## System modules
 
-### Recipe parsers
-The recipe parsers is a web crawler to convert data in a web page to [recipe data model](./recipe_json_schema/Recipe.json). Once a file is parsed, it calls the recipe maintenance endpoint to upload a recipe data.
+```
+ |--------|    |--------|    |--------------|    |---------------|
+ |  USER  |--->| NGINX  |--->| Silver Plate |--->| Cutting Board |
+ |--------|    |--------|    |--------------|    |---------------|
+                                  ^
+                                  |
+                                  |
+                             |----------|
+                             |  Peeler  |
+                             |----------|
 
-### Recipe search service
-THe recipe search service is a django web server. It serves two endpoints:
+```
+
+### Peeler - Recipe parsers
+Peeler is a web crawler to convert data in a web page to [recipe data model](./recipe_json_schema/Recipe.json). Once a file is parsed, it calls the recipe maintenance endpoint to upload a recipe data.
+
+### Silver Plate -  Recipe search service
+The recipe search service is a django web server. It serves two endpoints:
 
 1. Recipe search engine: the main endpoint for our users to find the recipes.
    * Auth: none
@@ -22,7 +35,7 @@ THe recipe search service is a django web server. It serves two endpoints:
 
 We should also deploy a nginx between users and django server for future scaling up.
 
-### Apache Solr search engine
+### Cutting Board - Apache Solr search engine
 The raw recipe data model payloads are stored at the search engine.
 
 #### The indexes
@@ -33,7 +46,7 @@ The raw recipe data model payloads are stored at the search engine.
 |cuisines|terms|yes|no|
 |description|string|yes|no|
 |equipments|terms|yes|no|
-|id|id|yes|no|
+|id|id|yes|yes|
 |ingredients|terms|yes|no|
 |ingredientCount|integer|no|no|
 |instructions|string|yes|no|
@@ -43,11 +56,16 @@ The raw recipe data model payloads are stored at the search engine.
 |title|string|yes|no|
 |audios|boolean, has or not|no|no|
 |cookTime|integer in sec|no|no|
-|estimatedCost|currency|no|no|
 |examples|boolean, has or not|no|no|
 |images|boolean, has or not|no|no|
 |nutrition|boolean, has or not|no|no|
 |prepTime|integer in sec|no|no|
 |totalTime|integer in sec|no|no|
 |videos|boolean, has or not|no|no|
-|_text_ (special)|string, for full text search|no|yes|
+|_version_ (special)|long, version of doc|no|no|
+|_text_ (special)|string, for full text search|no|no|
+
+#### The store fields
+|field|type|store|
+|-----|----|-----|
+|_rawJSON_ (special)|string, raw data|yes|
