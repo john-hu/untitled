@@ -64,8 +64,9 @@
     <field name="instructions" type="string" indexed="true" stored="false" required="true" multiValued="true" />
     <field name="instructionCount" type="pint" indexed="true" stored="false" required="false" multiValued="false" />
     <field name="keywords" type="string" indexed="true" stored="false" required="false" multiValued="true" />
-    *<field name="suitableForDiet" type="string" indexed="true" stored="false" required="false" multiValued="true" />
+    <field name="suitableForDiet" type="dietenum" indexed="true" stored="false" required="false" multiValued="true" />
     <field name="title" type="string" indexed="true" stored="false" required="true" multiValued="false" />
+    <field name="sourceSite" type="string" indexed="true" stored="false" required="true" multiValued="false" />
     <field name="audios" type="boolean" indexed="true" stored="false" required="false" multiValued="false" />
     <field name="cookTime" type="pint" indexed="true" stored="false" required="false" multiValued="false" />
     <field name="examples" type="boolean" indexed="true" stored="false" required="false" multiValued="false" />
@@ -125,7 +126,7 @@
          then default lucene sorting will be used which places docs without the
          field first in an ascending sort and last in a descending sort.
     -->
-
+    <fieldType name="dietenum" class="solr.EnumFieldType" enumsConfig="recipeEnum.xml" enumName="diet" />
     <!-- The StrField type is not analyzed, but indexed/stored verbatim. -->
     <fieldType name="string" class="solr.StrField" sortMissingLast="true" docValues="true" />
     <fieldType name="strings" class="solr.StrField" sortMissingLast="true" multiValued="true" docValues="true" />

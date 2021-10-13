@@ -109,6 +109,8 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+peeler_env/
+recipe_env/
 
 # Spyder project settings
 .spyderproject

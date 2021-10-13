@@ -101,6 +101,14 @@ FIELDS = {
         'required': False,
         'stored': False
     },
+    'sourceSite': {
+        'name': 'sourceSite',
+        'type': 'string',
+        'multiValued': False,
+        'indexed': True,
+        'required': True,
+        'stored': False
+    },
     'suitableForDiet': {
         'name': 'suitableForDiet',
         'type': 'dietenum',

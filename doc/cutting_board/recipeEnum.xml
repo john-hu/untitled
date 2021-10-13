@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<enumsConfig>
+  <enum name="diet">
+    <value>DiabeticDiet</value>
+    <value>GlutenFreeDiet</value>
+    <value>HalalDiet</value>
+    <value>HinduDiet</value>
+    <value>KosherDiet</value>
+    <value>LowCalorieDiet</value>
+    <value>LowFatDiet</value>
+    <value>LowLactoseDiet</value>
+    <value>LowSaltDiet</value>
+    <value>VeganDiet</value>
+    <value>VegetarianDiet</value>
+  </enum>
+</enumsConfig>
+

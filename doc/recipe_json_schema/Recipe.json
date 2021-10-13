@@ -272,6 +272,10 @@
     "prepTime": {
       "$ref": "#/$defs/duration"
     },
+    "sourceSite": {
+      "type": "string",
+      "description": "The name of source website"
+    },
     "suitableForDiet": {
       "type": "array",
       "items": {
@@ -322,6 +326,7 @@
     "instructions",
     "keywords",
     "language",
+    "sourceSite",
     "title",
     "yield"
   ]
