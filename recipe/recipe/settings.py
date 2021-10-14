@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_extensions',
     'cutting_board',
+    'silver_plate',
 ]
 
 MIDDLEWARE = [
