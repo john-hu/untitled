@@ -297,7 +297,7 @@ def ensure_all_copies(all_copies, update_url):
         elif copy_field['source'] in missing_copies:
             # the field is already in missing_copies, pop it out.
             print(f'keep copy field {copy_field["source"]}')
-            del missing_copies[copy_field['source']]
+            missing_copies.remove(copy_field['source'])
     print('add missing copy fields')
     create_list = [{'source': source, 'dest': '_text_'} for source in missing_copies]
     payload = {
