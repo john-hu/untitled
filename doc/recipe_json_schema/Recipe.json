@@ -3,9 +3,8 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$defs": {
     "duration": {
-      "type": "string",
-      "pattern": "^P(?!$)(\\d+Y)?(\\d+M)?(\\d+W)?(\\d+D)?(T(?=\\d+[HMS])(\\d+H)?(\\d+M)?(\\d+S)?)?$",
-      "description": "ISO 8601 duration format"
+      "type": "number",
+      "description": "in seconds"
     },
     "mass": {
       "type": "object",
@@ -290,6 +289,7 @@
           "LowFatDiet",
           "LowLactoseDiet",
           "LowSaltDiet",
+          "LowFodmapDiet",
           "VeganDiet",
           "VegetarianDiet"
         ]
@@ -327,7 +327,6 @@
     "keywords",
     "language",
     "sourceSite",
-    "title",
-    "yield"
+    "title"
   ]
 }

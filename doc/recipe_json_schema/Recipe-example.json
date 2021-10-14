@@ -1,6 +1,6 @@
 {
   "authors": ["John Hu", "Francis Zhuang"],
-  "cookTime": "PT30M",
+  "cookTime": 1800,
   "cookingMethods": [
     "fried"
   ],
