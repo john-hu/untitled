@@ -1,10 +1,10 @@
-from datetime import date, datetime
 import glob
 import json
 import os
+from datetime import date, datetime
 
-from ..unit_utils import time_str_to_second
 from .api import SpoonacularAPI
+from ..unit_utils import time_str_to_second
 
 
 def append_diet(dest, diet):
@@ -49,6 +49,7 @@ class SpoonacularPeeler:
         assert 'analyzedInstructions' in source and source['analyzedInstructions']
         instructions = source.get('analyzedInstructions')[0].get('steps', [])
         dest['instructions'] = []
+        dest['equipments'] = []
         for instruction in instructions:
             dest_instruction = {
                 'id': str(instruction.get('number')),
@@ -56,6 +57,9 @@ class SpoonacularPeeler:
                 'language': 'en',
                 'text': instruction.get('step'),
             }
+            # copy equipments and dedupe
+            dest['equipments'] = dest['equipments'] + list(
+                set(dest_instruction['equipments']) - set(dest['equipments']))
             if 'length' in instruction:
                 time_required = instruction.get('length')
                 dest_instruction['timeRequired'] = time_required.get('number') * time_str_to_second(
