@@ -40,3 +40,32 @@ docker exec -it cutting_board solr stop -p 8983
 ```shell
 docker start cutting_board
 ```
+
+## Silver Plate
+
+### First startup
+Since we use django as our base framework, we have to run the migration to build the useless DB.
+TODO [#14](https://github.com/john-hu/untitled/issues/14): we should remove it in the future.
+```shell
+python manage.py migrate
+```
+
+### Start the server
+```shell
+python manage.py runserver
+```
+
+### APIs
+We already create 3 APIs for peeler to upload the recipes:
+* GET /peeler/< path:id >: It gets the recipe doc with the recipe ID
+* DELETE /peeler/< path:id >: It removes the recipe from the cutting board.
+* POST /peeler/: It loads recipes to the cutting board. Limitations:
+  * Request type: application/json
+  * Payload type: Array of [recipe data model](../doc/recipe_json_schema/Recipe.json)
+    * 400 return if failed
+  * Maximum length of the whole payload: 10 MB
+    * RequestDataTooBig thrown, TODO [#13](https://github.com/john-hu/untitled/issues/13): we should change this to API friendly.
+  * Maximum count of recipes: 500
+    * 400 return if failed
+
+If you would like to test it, you can ask John Hu to get the postman collection.
