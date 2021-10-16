@@ -4,6 +4,7 @@ import os
 from datetime import date, datetime
 
 from .api import SpoonacularAPI
+from ..utils import clean_html
 from ..utils.files import append_to
 from ..utils.units import time_str_to_second
 
@@ -81,7 +82,8 @@ class SpoonacularPeeler:
         dest = {
             'authors': ['anonymous'],
             'categories': source['dishTypes'] if source.get('dishTypes', None) else ['uncategorized'],
-            'cookTime': source.get('readyInMinutes', 0) * 60, 'description': source.get('summary', ''),
+            'cookTime': source.get('readyInMinutes', 0) * 60,
+            'description': clean_html(source.get('summary', '')),
             'language': 'en'
         }
         assert 'title' in source
