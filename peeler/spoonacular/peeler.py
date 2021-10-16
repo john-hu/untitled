@@ -4,7 +4,12 @@ import os
 from datetime import date, datetime
 
 from .api import SpoonacularAPI
-from ..unit_utils import time_str_to_second
+from ..utils.files import append_to
+from ..utils.units import time_str_to_second
+
+RAW_PREFIX = 'raw'
+RECIPE_PREFIX = 'recipes'
+USED_MAX_QUOTA = 120
 
 
 def append_diet(dest, diet):
@@ -96,47 +101,75 @@ class SpoonacularPeeler:
         self.convert_instructions(source, dest)
         return dest
 
+    def is_out_of_quote(self):
+        quota_file = os.path.join(self.__storage, 'quota.json')
+        if os.path.isfile(quota_file):
+            with open(quota_file, 'r') as fp:
+                quota = json.load(fp)
+        else:
+            quota = {
+                'utc': datetime.utcnow().strftime('%Y%m%d'),
+                'used': 0
+            }
+        today_utc = datetime.utcnow().strftime('%Y%m%d')
+        quota_utc = quota['utc']
+        if today_utc != quota_utc:
+            print(f'switch date from {quota_utc} to {today_utc} (utc) reset used')
+            quota['utc'] = today_utc
+            quota['used'] = 0
+        return quota['used'] > USED_MAX_QUOTA
+
+    def update_quote(self, quota):
+        quota_file = os.path.join(self.__storage, 'quota.json')
+        quota_data = {
+            'utc': datetime.utcnow().strftime('%Y%m%d'),
+            'used': quota
+        }
+        with open(quota_file, 'w') as fp:
+            json.dump(quota_data, fp)
+
     def fetch_one(self):
+        if self.is_out_of_quote():
+            raise Exception(f'out of quote')
         spoonacular = SpoonacularAPI(self.__api_key)
         print('start to get random recipe')
         source = spoonacular.random_recipe()
-        now_str = datetime.now().strftime('%Y%m%d-%H%M%S.%f')
-        raw_filename = os.path.join(self.__storage, f'raw_{now_str}.json')
-        print(f'write raw to {raw_filename}')
-        with open(raw_filename, 'w') as raw_fp:
-            json.dump(source, raw_fp, indent=4, sort_keys=True)
+        self.update_quote(spoonacular.used_quote)
         print('convert to our format')
-        recipe = self.convert_recipe(source)
-        self.save_recipe(recipe)
+        try:
+            recipe = self.convert_recipe(source)
+            self.save_recipe(recipe, False)
+            # Optional: save source recipe for further investigation
+            self.save_recipe(source, True)
+        except AssertionError:
+            print('error found, unable to save')
+            today_str = date.today().strftime('%Y%m%d')
+            append_to(self.__storage, 'error', today_str, source)
 
-    def save_recipe(self, recipe):
-        data_year = date.today().year
-        data_week = date.today().isocalendar().week
-        filename = os.path.join(self.__storage, f'recipes_{data_year}_{data_week}.json')
-        if os.path.isfile(filename):
-            print(f'append recipe to {filename}')
-            with open(filename, 'r') as fp:
-                output = json.load(fp)
-        else:
-            print(f'write recipe to {filename}')
-            output = []
-        output.append(recipe)
-        with open(filename, 'w') as fp:
-            json.dump(output, fp)
-        print('done')
+    def save_recipe(self, recipe, raw=False, today_str=None):
+        prefix = RAW_PREFIX if raw else RECIPE_PREFIX
+        if not today_str:
+            today_str = date.today().strftime('%Y%m%d')
+        append_to(self.__storage, prefix, today_str, recipe)
 
     def delete_output(self):
         print('remove all output recipes')
-        recipe_files = glob.glob(os.path.join(self.__storage, 'recipes_*.json'), recursive=True)
+        recipe_files = glob.glob(os.path.join(self.__storage, f'{RECIPE_PREFIX}_*.json'), recursive=True)
         for recipe_file in recipe_files:
             os.remove(recipe_file)
 
     def reconvert(self):
         self.delete_output()
-        raw_files = glob.glob(os.path.join(self.__storage, 'raw_*.json'), recursive=True)
+        raw_files = glob.glob(os.path.join(self.__storage, f'{RAW_PREFIX}_*.json'), recursive=True)
         for raw_file in raw_files:
             print(f'reconvert file: {raw_file}')
+            # load the file
             with open(raw_file, 'r') as fp:
-                source = json.load(fp)
-            recipe = self.convert_recipe(source)
-            self.save_recipe(recipe)
+                sources = json.load(fp)
+            # parse the date string from file, + 1 for '_', -5 for '.json'
+            basename = os.path.basename(os.path.normpath(raw_file))
+            date_str = basename[len(RAW_PREFIX) + 1:-5]
+
+            # since we have 100 quota per day, it won't break 500 limitations.
+            for source in sources:
+                self.save_recipe(self.convert_recipe(source), today_str=date_str)
