@@ -142,7 +142,6 @@ class SpoonacularPeeler:
         print('start to get random recipe')
         source = spoonacular.random_recipe()
         self.update_quote(spoonacular.used_quote)
-        print('convert to our format')
         try:
             recipe = self.convert_recipe(source)
             self.save_recipe(recipe, False)

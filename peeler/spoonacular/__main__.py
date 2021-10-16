@@ -11,6 +11,7 @@ def main():
     parser.add_argument('--reconvert', type=str)
     parser.add_argument('--storage', type=str, default='peeler_output/spoonacular')
     parser.add_argument('--count', type=int, default='1', help='number of requests')
+    parser.add_argument('--request-delay', type=int, default='5', help='sleep between each request')
     args = parser.parse_args()
     peeler = SpoonacularPeeler(args.api_key, args.storage)
     if args.reconvert == 'yes':
@@ -18,7 +19,7 @@ def main():
     else:
         for i in range(args.count):
             peeler.fetch_one()
-            time.sleep(2)
+            time.sleep(args.request_delay)
 
 
 if __name__ == '__main__':
