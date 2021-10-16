@@ -18,6 +18,12 @@ def append_diet(dest, diet):
     dest['suitableForDiet'].append(diet)
 
 
+class OverQuotaError(Exception):
+    def __init__(self, message, quota):
+        super().__init__(message if message else 'Over quota')
+        self.quota = quota
+
+
 class SpoonacularPeeler:
     DIET_MAP = {
         'vegetarian': 'VegetarianDiet',
@@ -117,7 +123,7 @@ class SpoonacularPeeler:
             print(f'switch date from {quota_utc} to {today_utc} (utc) reset used')
             quota['utc'] = today_utc
             quota['used'] = 0
-        return quota['used'] > USED_MAX_QUOTA
+        return quota['used'] > USED_MAX_QUOTA, quota['used']
 
     def update_quote(self, quota):
         quota_file = os.path.join(self.__storage, 'quota.json')
@@ -129,8 +135,9 @@ class SpoonacularPeeler:
             json.dump(quota_data, fp)
 
     def fetch_one(self):
-        if self.is_out_of_quote():
-            raise Exception(f'out of quote')
+        over_quota, used = self.is_out_of_quote()
+        if over_quota:
+            raise OverQuotaError(f'out of quote: {used}', used)
         spoonacular = SpoonacularAPI(self.__api_key)
         print('start to get random recipe')
         source = spoonacular.random_recipe()

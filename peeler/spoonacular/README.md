@@ -15,3 +15,11 @@ python -m peeler.spoonacular --api_key [api-key]
 * storage: the output storage. The default value of this is `peeler_output/spoonacular`. Two types of files will be output:
   * raw_[yyyyMMdd-HHmmss.tttttt].json: raw data from Spoonacular
   * recipe_[yyyy_week].json: the converted recipe list.
+* count: the count of request would be made
+
+## Quota mechanism
+Spoonacular limits 150 points per day. One request may consume 1.01 points. We introduce a quota secure mechanism. This
+peeler will save the quota value from API response to a `quota.json` file who is stored at the same folder of recipe
+files, peeler_output/spoonacular/quota.json in default.
+
+The maximum limit is 120 points. The peeler raise an OverQuotaError with the used points if the API response over this value.
