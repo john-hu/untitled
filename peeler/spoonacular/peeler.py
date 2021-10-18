@@ -2,6 +2,7 @@ import glob
 import json
 import os
 from datetime import date, datetime
+from urllib.parse import urlparse
 
 from .api import SpoonacularAPI
 from ..utils import clean_html
@@ -95,8 +96,11 @@ class SpoonacularPeeler:
         dest['mainLink'] = source.get('sourceUrl')
         if source.get('image', None):
             dest['images'] = [source.get('image')]
-        assert 'sourceName' in source
-        dest['sourceSite'] = source.get('sourceName')
+        if source.get('sourceName', None):
+            dest['sourceSite'] = source.get('sourceName')
+        else:
+            mainUrl = urlparse(dest['mainLink'])
+            dest['sourceSite'] = mainUrl.hostname
         assert 'title' in source
         dest['title'] = source.get('title')
         if 'servings' in source:
