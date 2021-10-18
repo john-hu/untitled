@@ -245,15 +245,15 @@ def ensure_diet_enum(all_types, update_url):
 def should_replace(field1, field2):
     assert field1['name'] == field2[
         'name'], f'inconsistent field name, unable to compare: {field1["name"]}, {field2["name"]}'
-    if field1['type'] != field2['type']:
+    if field1.get('type', None) != field2.get('type', None):
         return True
-    elif field1['multiValued'] != field2['multiValued']:
+    elif field1.get('multiValued', None) != field2.get('multiValued', None):
         return True
-    elif field1['indexed'] != field2['indexed']:
+    elif field1.get('indexed', None) != field2.get('indexed', None):
         return True
-    elif field1['required'] != field2['required']:
+    elif field1.get('required', None) != field2.get('required', None):
         return True
-    elif field1['stored'] != field2['stored']:
+    elif field1.get('stored', None) != field2.get('stored', None):
         return True
     else:
         return False
@@ -335,7 +335,6 @@ def run(*args):
     collection = args[1]
     # all urls
     list_url = parse.urljoin(base_url, f'solr/{collection}/schema')
-    dietenum_type_url = parse.urljoin(base_url, f'solr/{collection}/schema/fieldtypes/dietenum')
     update_url = parse.urljoin(base_url, f'solr/{collection}/schema')
     # list fields
     all_fields, all_types, all_copies = print_all_fields(list_url)

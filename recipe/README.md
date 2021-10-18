@@ -21,6 +21,11 @@ Turn off the auto-create-fields
 docker exec -it cutting_board solr config -c recipe -p 8983 -action set-user-property -property update.autoCreateFields -value false
 ```
 
+Copy enum config to `recipe` data folder
+```shell
+cp doc/cutting_board/recipeEnum.xml build/data/data/recipe/
+```
+
 Loading the schema into Apache Solr
 ```shell
 pip install -r recipe-requirement.txt
