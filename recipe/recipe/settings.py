@@ -129,3 +129,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Enlarge the max data size to support large recipe JSON post.
 DATA_UPLOAD_MAX_MEMORY_SIZE = 1024 * 1024 * 10
+
+# Silver plate configs
+CUTTING_BOARD_URL = 'http://localhost:8983/solr/recipe'
+
+# Peeler endpoint configs
+PEELER_BASIC_AUTH_USERNAME = 'peeler'
+PEELER_BASIC_AUTH_PASSWORD = '123456'
+PEELER_BASIC_AUTH_REALM = 'peeler_endpoints'
