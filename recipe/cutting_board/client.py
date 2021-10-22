@@ -1,13 +1,25 @@
 import json
 import re
-from typing import List
+from typing import List, TypedDict, Union
 
-from pysolr import Solr
+from pysolr import Solr, SolrError
 
 from .utils import convert_solr_doc
 
 SOLR_ESCAPE_RE = r'(")'
 SOLR_ESCAPE_SUB = '\\\1'
+
+
+class SearchHit(TypedDict):
+    id: str
+    data: dict
+
+
+class RecipeSearchResult(TypedDict):
+    query_time: int
+    hits: int
+    docs: List[SearchHit]
+    error: Union[None, str]
 
 
 class Client:
@@ -29,3 +41,20 @@ class Client:
 
     def add_recipe(self, docs: List[dict]) -> None:
         self.client.add([convert_solr_doc(doc) for doc in docs], commit=True)
+
+    def search_recipe(self, query: str, page_index: int = 0, page_size: int = 36) -> RecipeSearchResult:
+        escaped_query = re.sub(SOLR_ESCAPE_RE, SOLR_ESCAPE_SUB, query)
+        try:
+            solr_result = self.client.search(escaped_query, fl='id,_rawJSON_', start=page_index * page_size,
+                                             rows=page_size)
+            return {'query_time': solr_result.qtime,
+                    'hits': solr_result.hits,
+                    'docs': [{'id': doc['id'], 'data': json.loads(doc['_rawJSON_'])} for doc in solr_result],
+                    'error': None}
+        except SolrError as ex:
+            return {
+                'query_time': 0,
+                'hits': 0,
+                'docs': [],
+                'error': str(ex)
+            }

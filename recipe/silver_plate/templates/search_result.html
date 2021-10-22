@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block header %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'silver_plate/css/search_result.css' %}">
+    {% if redirect_page0 %}
+<meta http-equiv="refresh" content="0;url=search?q={{query|urlencode}}" />
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+{% include 'navbar_search.html' %}
+<div class="container perf">
+    {{ total_hits }} recipes found at {{ search_result.query_time }}ms
+</div>
+{% if total_hits > 0 %}
+    {% include 'recipes_search.html' %}
+    {% include 'pagination_search.html' %}
+{% else %}
+<div class="container">No data found or syntax error</div>
+{% endif %}
+
+{% endblock %}

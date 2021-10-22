@@ -1,0 +1,68 @@
+body, html {
+    background-color: var(--bs-gray-300);
+}
+
+.navbar {
+    border-bottom: solid 2px var(--bs-secondary);
+}
+
+.navbar-brand {
+    line-height: 2;
+    margin-right: 0;
+}
+
+.perf {
+    text-align: right;
+    padding-right: 2rem;
+}
+
+.recipe-container {
+    display: grid;
+    grid-template-columns: auto;
+}
+
+.recipe-card {
+    width: auto;
+    margin: 1rem;
+}
+
+.recipe-description {
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+    line-clamp: 6;
+    box-orient: vertical;
+    overflow: hidden;
+}
+
+.search-form, .search-form > .row {
+    width: 100%;
+}
+
+.search-form .row .col-auto:last-child {
+    padding-right: 0;
+}
+/* for screen smaller then 768, we need to remove extra left padding at col or col-auto */
+@media only screen and (max-width: 768px) {
+    .col, .col-auto {
+        padding-left: calc(var(--bs-gutter-x) * .25);
+        padding-right: 0;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    .recipe-container {
+        grid-template-columns: auto auto;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    .recipe-container {
+        grid-template-columns: auto auto auto auto;
+    }
+
+    .recipe-card {
+        max-width: 18rem;
+        margin: 1rem;
+    }
+}

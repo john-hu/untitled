@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% include 'navbar.html' %}
+<!-- main search -->
+<header class="masthead">
+    <div class="container position-relative">
+        <div class="row justify-content-center">
+            <div class="col-xl-6">
+                <div class="text-center text-white">
+                    <h1 class="mb-5">Search a good recipe to feed your life!</h1>
+                    <form class="form-search" method="get" action="search">
+                        <div class="row">
+                            <div class="col">
+                                <input class="form-control form-control-lg" type="text" placeholder="Keywords"
+                                       name="q">
+                            </div>
+                            <div class="col-auto">
+                                <button class="btn btn-primary btn-lg" type="submit">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+{% endblock %}
