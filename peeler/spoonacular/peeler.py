@@ -40,7 +40,7 @@ class SpoonacularPeeler:
         os.makedirs(storage, exist_ok=True)
 
     def convert_diet(self, source, dest):
-        for (source_key, dest_value) in enumerate(self.DIET_MAP):
+        for _index, (source_key, dest_value) in enumerate(self.DIET_MAP.items()):
             if source.get(source_key, False):
                 append_diet(dest, dest_value)
 
@@ -99,8 +99,8 @@ class SpoonacularPeeler:
         if source.get('sourceName', None):
             dest['sourceSite'] = source.get('sourceName')
         else:
-            mainUrl = urlparse(dest['mainLink'])
-            dest['sourceSite'] = mainUrl.hostname
+            main_url = urlparse(dest['mainLink'])
+            dest['sourceSite'] = main_url.hostname
         assert 'title' in source
         dest['title'] = source.get('title')
         if 'servings' in source:
