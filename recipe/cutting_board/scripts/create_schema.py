@@ -23,7 +23,7 @@ FIELDS = {
     },
     'categories': {
         'name': 'categories',
-        'type': 'string',
+        'type': 'strings',
         'multiValued': True,
         'indexed': True,
         'required': True,
@@ -31,7 +31,7 @@ FIELDS = {
     },
     'cookingMethod': {
         'name': 'cookingMethod',
-        'type': 'string',
+        'type': 'strings',
         'multiValued': True,
         'indexed': True,
         'required': False,
@@ -39,7 +39,7 @@ FIELDS = {
     },
     'cuisines': {
         'name': 'cuisines',
-        'type': 'string',
+        'type': 'strings',
         'multiValued': True,
         'indexed': True,
         'required': False,
@@ -47,15 +47,15 @@ FIELDS = {
     },
     'description': {
         'name': 'description',
-        'type': 'string',
+        'type': 'text_general',
         'multiValued': False,
         'indexed': True,
         'required': False,
-        'stored': False
+        'stored': True
     },
     'equipments': {
         'name': 'equipments',
-        'type': 'string',
+        'type': 'strings',
         'multiValued': True,
         'indexed': True,
         'required': False,
@@ -63,7 +63,7 @@ FIELDS = {
     },
     'ingredients': {
         'name': 'ingredients',
-        'type': 'string',
+        'type': 'strings',
         'multiValued': True,
         'indexed': True,
         'required': True,
@@ -71,7 +71,7 @@ FIELDS = {
     },
     'instructions': {
         'name': 'instructions',
-        'type': 'string',
+        'type': 'strings',
         'multiValued': True,
         'indexed': True,
         'required': True,
@@ -95,7 +95,7 @@ FIELDS = {
     },
     'keywords': {
         'name': 'keywords',
-        'type': 'string',
+        'type': 'strings',
         'multiValued': True,
         'indexed': True,
         'required': False,
@@ -105,6 +105,7 @@ FIELDS = {
         'name': 'sourceSite',
         'type': 'string',
         'multiValued': False,
+        'docValues': True,
         'indexed': True,
         'required': True,
         'stored': False
@@ -119,11 +120,11 @@ FIELDS = {
     },
     'title': {
         'name': 'title',
-        'type': 'string',
+        'type': 'text_general',
         'multiValued': False,
         'indexed': True,
         'required': True,
-        'stored': False
+        'stored': True
     },
     'audios': {
         'name': 'audios',
@@ -215,13 +216,14 @@ FIELDS = {
     }
 }
 
+# Some fields shouldn't be in the copied field:
+# * id: we don't want the `http` or `https` to be indexed
 COPY_FIELDS = [
     'categories',
     'cookingMethod',
     'cuisines',
     'description',
     'equipments',
-    'id',
     'ingredients',
     'instructions',
     'keywords',
@@ -254,6 +256,10 @@ def should_replace(field1, field2):
     elif field1.get('required', None) != field2.get('required', None):
         return True
     elif field1.get('stored', None) != field2.get('stored', None):
+        return True
+    elif field1.get('docValues', None) != field2.get('docValues', None):
+        return True
+    elif field1.get('termVectors', None) != field2.get('termVectors', None):
         return True
     else:
         return False
@@ -298,6 +304,9 @@ def ensure_all_copies(all_copies, update_url):
             # the field is already in missing_copies, pop it out.
             print(f'keep copy field {copy_field["source"]}')
             missing_copies.remove(copy_field['source'])
+        else:
+            print(f'delete copy field from {copy_field["source"]}')
+            delete_list.append({'source': copy_field['source'], 'dest': copy_field['dest']})
     print('add missing copy fields')
     create_list = [{'source': source, 'dest': '_text_'} for source in missing_copies]
     payload = {

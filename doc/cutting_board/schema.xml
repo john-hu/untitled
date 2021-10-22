@@ -54,19 +54,19 @@
     -->
 
     <field name="id" type="string" indexed="true" stored="true" required="true" multiValued="false" />
-    <field name="categories" type="string" indexed="true" stored="false" required="true" multiValued="true" />
-    <field name="cookingMethod" type="string" indexed="true" stored="false" required="false" multiValued="true" />
-    <field name="cuisines" type="string" indexed="true" stored="false" required="false" multiValued="true" />
-    <field name="description" type="string" indexed="true" stored="false" required="false" multiValued="false" />
-    <field name="equipments" type="string" indexed="true" stored="false" required="false" multiValued="true" />
-    <field name="ingredients" type="string" indexed="true" stored="false" required="true" multiValued="true" />
+    <field name="categories" type="strings" indexed="true" stored="false" required="true" multiValued="true" />
+    <field name="cookingMethod" type="strings" indexed="true" stored="false" required="false" multiValued="true" />
+    <field name="cuisines" type="strings" indexed="true" stored="false" required="false" multiValued="true" />
+    <field name="description" type="text_general" indexed="true" stored="true" required="false" multiValued="false" />
+    <field name="equipments" type="strings" indexed="true" stored="false" required="false" multiValued="true" />
+    <field name="ingredients" type="strings" indexed="true" stored="false" required="true" multiValued="true" />
     <field name="ingredientCount" type="pint" indexed="true" stored="false" required="false" multiValued="false" />
-    <field name="instructions" type="string" indexed="true" stored="false" required="true" multiValued="true" />
+    <field name="instructions" type="strings" indexed="true" stored="false" required="true" multiValued="true" />
     <field name="instructionCount" type="pint" indexed="true" stored="false" required="false" multiValued="false" />
     <field name="keywords" type="string" indexed="true" stored="false" required="false" multiValued="true" />
     <field name="suitableForDiet" type="dietenum" indexed="true" stored="false" required="false" multiValued="true" />
-    <field name="title" type="string" indexed="true" stored="false" required="true" multiValued="false" />
-    <field name="sourceSite" type="string" indexed="true" stored="false" required="true" multiValued="false" />
+    <field name="title" type="text_general" indexed="true" stored="true" required="true" multiValued="false" />
+    <field name="sourceSite" type="string" indexed="true" stored="false" required="true" multiValued="false" docValues="true" />
     <field name="audios" type="boolean" indexed="true" stored="false" required="false" multiValued="false" />
     <field name="cookTime" type="pint" indexed="true" stored="false" required="false" multiValued="false" />
     <field name="examples" type="boolean" indexed="true" stored="false" required="false" multiValued="false" />
