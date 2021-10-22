@@ -64,7 +64,7 @@
     <field name="instructions" type="strings" indexed="true" stored="false" required="true" multiValued="true" />
     <field name="instructionCount" type="pint" indexed="true" stored="false" required="false" multiValued="false" />
     <field name="keywords" type="string" indexed="true" stored="false" required="false" multiValued="true" />
-    <field name="suitableForDiet" type="dietenum" indexed="true" stored="false" required="false" multiValued="true" />
+    <field name="suitableForDiet" type="dietenum" indexed="true" stored="false" required="false" multiValued="true" default="None" />
     <field name="title" type="text_general" indexed="true" stored="true" required="true" multiValued="false" />
     <field name="sourceSite" type="string" indexed="true" stored="false" required="true" multiValued="false" docValues="true" />
     <field name="audios" type="boolean" indexed="true" stored="false" required="false" multiValued="false" />

@@ -113,6 +113,8 @@ FIELDS = {
     'suitableForDiet': {
         'name': 'suitableForDiet',
         'type': 'dietenum',
+        'default': 'None',
+        'docValues': True,
         'multiValued': True,
         'indexed': True,
         'required': False,
@@ -260,6 +262,8 @@ def should_replace(field1, field2):
     elif field1.get('docValues', None) != field2.get('docValues', None):
         return True
     elif field1.get('termVectors', None) != field2.get('termVectors', None):
+        return True
+    elif field1.get('default', None) != field2.get('default', None):
         return True
     else:
         return False
