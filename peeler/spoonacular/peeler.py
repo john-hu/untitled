@@ -5,6 +5,7 @@ from datetime import date, datetime
 from urllib.parse import urlparse
 
 from .api import SpoonacularAPI
+from .perf import PerfInspector, PerfType
 from ..utils import clean_html
 from ..utils.files import append_to
 from ..utils.units import time_str_to_second
@@ -37,6 +38,7 @@ class SpoonacularPeeler:
     def __init__(self, api_key, storage):
         self.__api_key = api_key
         self.__storage = storage
+        self.__perf = PerfInspector(storage)
         os.makedirs(storage, exist_ok=True)
 
     def convert_diet(self, source, dest):
@@ -146,16 +148,24 @@ class SpoonacularPeeler:
             raise OverQuotaError(f'out of quote: {used}', used)
         spoonacular = SpoonacularAPI(self.__api_key)
         print('start to get random recipe')
-        source = spoonacular.random_recipe()
+        today_str = date.today().strftime('%Y%m%d')
+        self.__perf.log(PerfType.FETCH, today_str)
+        try:
+            source = spoonacular.random_recipe()
+        except AssertionError:
+            self.__perf.log(PerfType.FETCH_ERROR, today_str)
+            return
         self.update_quote(spoonacular.used_quote)
+        self.__perf.log(PerfType.PARSE, today_str)
         try:
             recipe = self.convert_recipe(source)
-            self.save_recipe(recipe, False)
+            self.save_recipe(recipe, False, today_str)
             # Optional: save source recipe for further investigation
-            self.save_recipe(source, True)
+            self.save_recipe(source, True, today_str)
+            self.__perf.log(PerfType.SUCCESSFUL, today_str, recipe['id'])
         except AssertionError:
+            self.__perf.log(PerfType.PARSE_ERROR, today_str)
             print('error found, unable to save')
-            today_str = date.today().strftime('%Y%m%d')
             append_to(self.__storage, 'error', today_str, source)
 
     def save_recipe(self, recipe, raw=False, today_str=None):
