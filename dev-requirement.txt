@@ -1,2 +1,2 @@
--r peeler-requirement.txt
--r recipe-requirement.txt
+-r peeler/requirement.txt
+-r recipe/requirement.txt

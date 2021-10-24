@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-sq$zw7*m-1j4!izxoni@d8%mntg^&gppe#r=qv4s_i9k(+@@86'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'yes') == 'yes'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -58,7 +58,7 @@ ROOT_URLCONF = 'recipe.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -123,37 +123,19 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'build', 'static')
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Templates
-TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-            ],
-        },
-    },
-]
-
 # Enlarge the max data size to support large recipe JSON post.
 DATA_UPLOAD_MAX_MEMORY_SIZE = 1024 * 1024 * 10
 
 # Silver plate configs
-CUTTING_BOARD_URL = 'http://localhost:8983/solr/recipe'
+CUTTING_BOARD_URL = os.environ.get('CUTTING_BOARD_URL', 'http://localhost:8983/solr/recipe')
 
 # Peeler endpoint configs
-PEELER_BASIC_AUTH_USERNAME = 'peeler'
-PEELER_BASIC_AUTH_PASSWORD = '123456'
+PEELER_BASIC_AUTH_USERNAME = os.environ.get('PEELER_USERNAME', 'peeler')
+PEELER_BASIC_AUTH_PASSWORD = os.environ.get('PEELER_PASSWORD', '123456')
 PEELER_BASIC_AUTH_REALM = 'peeler_endpoints'

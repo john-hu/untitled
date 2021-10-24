@@ -2,7 +2,7 @@
 
 ## Install dependencies 
 ```shell
-pip install -r peeler-requirement.txt
+pip install -r requirement.txt
 ```
 
 ## Run a peeler

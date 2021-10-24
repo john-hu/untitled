@@ -28,7 +28,7 @@ cp doc/cutting_board/recipeEnum.xml build/data/data/recipe/
 
 Loading the schema into Apache Solr
 ```shell
-pip install -r recipe-requirement.txt
+pip install -r requirement.txt
 cd recipe
 python manage.py runscript create_schema --script-args http://localhost:8983/ recipe
 ```
@@ -55,7 +55,7 @@ TODO [#14](https://github.com/john-hu/untitled/issues/14): we should remove it i
 python manage.py migrate
 ```
 
-### Start the server
+### Start the dev server
 ```shell
 python manage.py runserver
 ```
@@ -74,3 +74,35 @@ We already create 3 APIs for peeler to upload the recipes:
     * 400 return if failed
 
 If you would like to test it, you can ask John Hu to get the postman collection.
+
+
+## Docker
+
+### Build the image
+
+```shell
+cd recipe
+docker build -t silver_plate .
+```
+
+### Run the image
+
+The following command:
+1. starts a container with `silver_plate` image,
+2. names the container as silver_plate, and
+3. exposes the container port 8001 to host port 8001
+
+```shell
+docker run --name silver_plate -p 8001:8001 silver_plate
+```
+
+### Environment variables
+This image requires the following env variables:
+* SERVER_IDLE_TIMEOUT: server idle time out, the default is 120s, see [here](https://docs.gunicorn.org/en/stable/settings.html#timeout).
+* SERVER_WORKERS: number of gunicorn worker, the default is 3, see [here](https://docs.gunicorn.org/en/stable/settings.html#timeout).
+* CONNECTION_IDLE_TIMEOUT: keep alive timeout or idle timeout, the default is 90s, see [here](https://docs.gunicorn.org/en/stable/settings.html#timeout).
+* PID_FILE: the PID file for gunicorn, the default is /opt/recipe/pid, see [here](https://docs.gunicorn.org/en/stable/settings.html#timeout).
+* DEBUG: the flag to turn on django debug mode(setting `yes` to enable it), the default is `no`, see [here](https://docs.djangoproject.com/en/3.2/ref/settings/#debug).
+* CUTTING_BOARD_URL: the cutting board URL, the default is `http://host.docker.internal:8983/solr/recipe`.
+* PEELER_USERNAME: the basic auth username for peeler endpoints, the default is `peeler`.
+* PEELER_PASSWORD: the basic auth password for peeler endpoints, the default is `123456`.
