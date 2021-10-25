@@ -2,6 +2,8 @@
 
 It downloads a random recipe from Spoonacular API.
 
+Please note that the current implementation cannot support two instances running at the same time.
+
 ## Run it
 
 ```shell
