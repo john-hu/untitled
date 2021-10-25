@@ -120,6 +120,13 @@
       "uniqueItems": true,
       "minItems": 1
     },
+    "ingredientsRaw": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
     "instructions": {
       "type": "array",
       "items": {
@@ -198,6 +205,13 @@
         ]
       },
       "uniqueItems": true,
+      "minItems": 1
+    },
+    "instructionsRaw": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
       "minItems": 1
     },
     "keywords": {
@@ -310,6 +324,10 @@
       "format": "uri",
       "description": "the link of original instruction"
     },
+    "version": {
+      "type": "string",
+      "enum": ["raw", "parsed"]
+    },
     "videos": {
       "$ref": "#/$defs/urls"
     },
@@ -322,11 +340,13 @@
     "authors",
     "categories",
     "id",
-    "ingredients",
-    "instructions",
     "keywords",
     "language",
     "sourceSite",
     "title"
+  ],
+  "oneOf": [
+    { "required": ["ingredients", "instructions"] },
+    { "required": ["ingredientsRaw", "instructionsRaw"] }
   ]
 }

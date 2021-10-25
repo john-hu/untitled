@@ -50,6 +50,9 @@ class PerfInspector:
         self.__db = sqlite3.connect(os.path.join(storage, 'perf.db'))
         self.__check_structure()
 
+    def __del__(self):
+        self.__db.close()
+
     def __check_structure(self) -> None:
         cursor = self.__db.cursor()
         try:
