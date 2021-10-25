@@ -94,8 +94,11 @@ class SpoonacularPeeler:
         if source.get('cuisines', None):
             dest['cuisines'] = source.get('cuisines')
         assert 'sourceUrl' in source
-        dest['id'] = source.get('sourceUrl')
-        dest['mainLink'] = source.get('sourceUrl')
+        source_url = source.get('sourceUrl')
+        if source_url[0:len('http://www.foodista.com')] == 'http://www.foodista.com':
+            source_url = 'https://www.foodista.com' + source_url[len('http://www.foodista.com'):]
+        dest['id'] = source_url
+        dest['mainLink'] = source_url
         if source.get('image', None):
             dest['images'] = [source.get('image')]
         if source.get('sourceName', None):
