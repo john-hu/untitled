@@ -101,7 +101,7 @@
       "$ref": "#/$defs/urls"
     },
     "ingredients": {
-      "type": "array",
+      "type": ["array", "null"],
       "items": {
         "type": "object",
         "properties": {
@@ -121,14 +121,14 @@
       "minItems": 1
     },
     "ingredientsRaw": {
-      "type": "array",
+      "type": ["array", "null"],
       "items": {
         "type": "string"
       },
       "minItems": 1
     },
     "instructions": {
-      "type": "array",
+      "type": ["array", "null"],
       "items": {
         "type": "object",
         "properties": {
@@ -208,7 +208,7 @@
       "minItems": 1
     },
     "instructionsRaw": {
-      "type": "array",
+      "type": ["array", "null"],
       "items": {
         "type": "string"
       },
@@ -290,7 +290,7 @@
       "description": "The name of source website"
     },
     "suitableForDiet": {
-      "type": "array",
+      "type": ["array", "null"],
       "items": {
         "type": "string",
         "enum": [

@@ -63,7 +63,8 @@ DOWNLOAD_DELAY = 30
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   'peeler.foodista.pipelines.RecipePipeline': 300,
+   'peeler.foodista.pipelines.RecipeURLPipeline': 300,
+   'peeler.foodista.pipelines.RecipeResultPipeline': 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
