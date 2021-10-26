@@ -16,7 +16,7 @@ python -m peeler.spoonacular --api_key [api-key]
 * reconvert: to reconvert the raw to recipe again, yes or no. The default value is `no`. Please note if you set this flag, this peeler will delete all recipe files and reconvert it again.  
 * storage: the output storage. The default value of this is `peeler_output/spoonacular`. Two types of files will be output:
   * raw_[yyyyMMdd-HHmmss.tttttt].json: raw data from Spoonacular
-  * recipe_[yyyy_week].json: the converted recipe list.
+  * recipe_[yyyyMMdd].json: the converted recipe list.
 * count: the count of requests would be made
 * request-delay: sleep between requests.
 
