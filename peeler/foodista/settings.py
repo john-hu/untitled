@@ -7,14 +7,16 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = 'foodista'
+from . import version
+
+BOT_NAME = 'RecipeSearchCrawler'
 
 SPIDER_MODULES = ['peeler.foodista.spiders']
 NEWSPIDER_MODULE = 'peeler.foodista.spiders'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-USER_AGENT = 'DevRecipeSearchCrawler'
+USER_AGENT = f'RecipeSearchCrawler (version: {version})'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True

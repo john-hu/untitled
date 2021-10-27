@@ -7,14 +7,14 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = 'allrecipes'
+BOT_NAME = 'RecipeSearchCrawler'
 
 SPIDER_MODULES = ['allrecipes.spiders']
 NEWSPIDER_MODULE = 'allrecipes.spiders'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'allrecipes (+http://www.yourdomain.com)'
+USER_AGENT = 'RecipeSearchCrawler'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
