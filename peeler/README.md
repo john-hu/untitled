@@ -15,3 +15,22 @@ We named our peelers as `RecipeSearchCrawler`. It should run with the following 
 ```
 RecipeSearchCrawler (version: {version})
 ```
+
+## Upload peeled result to silver plate
+
+```shell
+python -m peeler.utils.uploader \
+       --endpoint https://wiseipes.com \
+       --username peeler \
+       --password 123456 \
+       --mode pull_merge \
+       [json file]
+```
+
+Arguments:
+* `--endpoint`: the endpoint of silver plate, http://localhost:8001 for local.
+* `--username`: the basic auth username
+* `--password`: the basic auth password
+* `--mode`: the upload mode, `pull_merge` or `push_all`.
+  * `pull_merge`: It tries to download the data from silver plate, merge the old data with the new data and upload it back.
+  * `push_all`: It just push the whole json file to the silver plate.
