@@ -5,8 +5,8 @@ from typing import List, Optional
 from scrapy import Request, Spider
 from scrapy.http import Response
 
+from ...utils.storage import Storage
 from ..items import RecipeItem
-from ..storage import Storage
 
 
 logger = logging.getLogger(__name__)

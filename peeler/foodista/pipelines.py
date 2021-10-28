@@ -7,9 +7,9 @@
 # useful for handling different item types with a single interface
 from datetime import datetime
 from ..utils.files import append_to
+from ..utils.storage import Storage
 
 from .items import RecipeItem, RecipeURLItem
-from .storage import Storage
 
 
 class RecipeURLPipeline:

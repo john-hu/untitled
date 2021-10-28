@@ -20,7 +20,6 @@ class Storage:
         self.__storage = storage
         # the sqlite3 may be shared among two processes. We should close it asap.
         self.__db_file = os.path.join(self.__storage, 'recipes.db')
-        logger.info(f'Open database at {self.__db_file}')
         self.__ensure_db()
 
     def __ensure_db(self) -> None:

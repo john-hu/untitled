@@ -46,7 +46,6 @@ class SearchResultView(TemplateView):
         end_index = page_index + 3 if page_index + 3 < pages else pages
         if page_index < 3:
             end_index = min(pages, 5)
-        print(start_index, end_index)
         context['pages'] = [{'index': index,
                              'label': index + 1,
                              'disabled': index == page_index} for index in range(start_index, end_index)]
