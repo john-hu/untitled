@@ -60,7 +60,7 @@ class RecipeResultSpider(Spider):
         storage = Storage(self.settings['storage'])
         try:
             item = RecipeItem(
-                authors=[response.css('[rel=author]::text').get().strip()],
+                authors=[response.css('.username::text').get().strip()],
                 categories=response.css('.field-name-field-tags .field-item a::text').getall(),
                 dateCreated=reformat_datetime(response.css('.pane-node-created .pane-content::text').get().strip()),
                 description='\n'.join(response.css('.field-name-body p::text').getall()),
