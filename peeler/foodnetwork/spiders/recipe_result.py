@@ -17,9 +17,16 @@ class RecipeResultSpider(Spider):
     name = 'recipe_result'
     allowed_domains = ['foodnetwork.co.uk']
 
+    def __init__(self, name=None, **kwargs):
+        super().__init__(name, **kwargs)
+        self.__fetched_count = 0
+        self.__total_count = 0
+
     def start_requests(self):
         storage = Storage(self.settings['storage'])
         urls = storage.lock_recipe_urls(self.settings['peel_count'])
+        logger.info(f'locked urls count: {len(urls)}')
+        self.__total_count = len(urls)
         for url in urls:
             yield Request(url=url, callback=self.parse, errback=self.handle_error)
 
@@ -30,6 +37,7 @@ class RecipeResultSpider(Spider):
 
     def parse(self, response: Response, **kwargs):
         storage = Storage(self.settings['storage'])
+        self.__fetched_count += 1
         try:
             item = RecipeItem(
                 authors=[response.css('.recipe-page meta[itemprop=author]').attrib['content'].strip()],
@@ -54,10 +62,11 @@ class RecipeResultSpider(Spider):
             if response.css('meta[itemprop=recipeYield]'):
                 item.yield_data = parse_yield(response.css('meta[itemprop=recipeYield]').attrib['content'].strip())
             item.suitableForDiet = tags_to_diet(item.keywords, DIET_TAG_MAP)
-            logger.info(f'{response.url} is parsed successfully')
+            logger.info(f'{response.url} is parsed successfully {self.__fetched_count} / {self.__total_count}')
             storage.mark_finished(response.request.url)
             yield item
         except Exception as ex:
-            logger.error(f'translate url, {response.url}, error: {repr(ex)}')
+            logger.error(f'translate url, {response.url},  {self.__fetched_count} / {self.__total_count}, '
+                         f'error: {repr(ex)}')
             storage.unlock_recipe_url(response.request.url)
             raise ex
