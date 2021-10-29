@@ -41,7 +41,6 @@ class RecipeResultSpider(Spider):
         try:
             item = RecipeItem(
                 authors=[response.css('.recipe-page meta[itemprop=author]').attrib['content'].strip()],
-                categories=response.css('.recipe-page meta[itemprop=keywords]').attrib['content'].strip().split(', '),
                 dateCreated=response.css('meta[itemprop=datePublished]').attrib['content'].strip(),
                 description=get_attribute(response.css('meta[name=description]'), 'content'),
                 id=response.request.url,
@@ -55,6 +54,7 @@ class RecipeResultSpider(Spider):
             )
             if response.css('meta[itemprop=keywords]'):
                 item.keywords = response.css('meta[itemprop=keywords]').attrib['content'].strip().split(', ')
+                item.categories = item.keywords
             if response.css('meta[itemprop=cookTime]'):
                 item.cookTime = parse_duration(response.css('meta[itemprop=cookTime]').attrib['content'].strip())
             if response.css('meta[itemprop=prepTime]'):
