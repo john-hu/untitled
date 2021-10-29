@@ -1,29 +1,22 @@
 import logging
-from datetime import datetime, timezone
 
 from scrapy import Request, Spider
 from scrapy.http import Response
 
 from ...scrapy_utils.items import RecipeItem
 from ...utils.storage import Storage
-from ...utils.parsers import parse_yield, tags_to_diet
+from ...utils.parsers import parse_duration, get_attribute, parse_yield, tags_to_diet
 
 
 logger = logging.getLogger(__name__)
 DIET_TAG_MAP = {
-    'gluten-free': 'GlutenFreeDiet',
     'vegetarian': 'VegetarianDiet'
 }
 
 
-def reformat_datetime(value: str):
-    # since we don't know the timezone settings of Foodista, we just assume the datetime is UTC.
-    return datetime.strptime(value, '%A, %B %d, %Y - %I:%M%p').replace(tzinfo=timezone.utc).isoformat()
-
-
 class RecipeResultSpider(Spider):
     name = 'recipe_result'
-    allowed_domains = ['foodista.com']
+    allowed_domains = ['foodnetwork.co.uk']
 
     def start_requests(self):
         storage = Storage(self.settings['storage'])
@@ -40,20 +33,22 @@ class RecipeResultSpider(Spider):
         storage = Storage(self.settings['storage'])
         try:
             item = RecipeItem(
-                authors=[response.css('.username::text').get().strip()],
-                categories=response.css('.field-name-field-tags .field-item a::text').getall(),
-                dateCreated=reformat_datetime(response.css('.pane-node-created .pane-content::text').get().strip()),
-                description='\n'.join(response.css('.field-name-body p::text').getall()),
+                authors=[response.css('.recipe-page meta[itemprop=author]').attrib['content'].strip()],
+                categories=response.css('.recipe-page meta[itemprop=keywords]').attrib['content'].strip().split(', '),
+                dateCreated=response.css('meta[itemprop=datePublished]').attrib['content'].strip(),
+                description=get_attribute(response.css('meta[name=description]'), 'content'),
                 id=response.request.url,
-                images=[response.css('[itemprop=image]').attrib['src']],
-                ingredientsRaw=response.css('[itemprop=ingredients]::text').getall(),
-                instructionsRaw=response.css('[itemprop=recipeInstructions]::text').getall(),
-                keywords=response.css('.field-name-field-tags .field-item a::text').getall(),
-                language=response.css('html').attrib['xml:lang'],
+                images=[response.css('meta[itemprop=image]').attrib['content'].strip()],
+                ingredientsRaw=response.css('[itemprop=recipeIngredient]::text').getall(),
+                instructionsRaw=response.css('[itemprop=recipeInstructions] p::text').getall(),
+                keywords=response.css('meta[itemprop=keywords]').attrib['content'].strip().split(', '),
+                language=response.css('meta[property="og:locale"]').attrib['content'].strip(),
                 mainLink=response.url,
-                sourceSite='Foodista',
+                sourceSite='Food Network',
                 title=response.css('[itemprop=name]::text').get().strip(),
-                yield_data=parse_yield(response.css('[itemprop=recipeYield]::text').get())
+                yield_data=parse_yield(response.css('meta[itemprop=recipeYield]').attrib['content'].strip()),
+                cookTime=parse_duration(response.css('meta[itemprop=cookTime]').attrib['content'].strip()),
+                prepTime=parse_duration(response.css('meta[itemprop=prepTime]').attrib['content'].strip())
             )
             item.suitableForDiet = tags_to_diet(item.keywords, DIET_TAG_MAP)
             logger.info(f'{response.url} is parsed successfully')

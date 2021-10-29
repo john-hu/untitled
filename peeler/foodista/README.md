@@ -12,7 +12,7 @@ python -m peeler.foodista [list|result]
 
 ## Options
 
-* storage: the output storage. The default value of this is `peeler_output/spoonacular`. Two types of files will be output:
+* storage: the output storage. The default value of this is `peeler_output/foodista`. Two types of files will be output:
   * recipes.db: the recipe url list cache.
   * recipe_[yyyymmddHH].json: the converted recipe list.
 * count: the count of requests would be made

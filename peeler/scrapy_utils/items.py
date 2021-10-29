@@ -21,13 +21,15 @@ class RecipeItem:
     keywords: List[str]
     language: str
     mainLink: str
+    sourceSite: str
     title: str
     # `yield` is a reserved word. We use field to convert them.
     yield_data: Optional[dict] = field(metadata=config(field_name='yield'))
     version: str = 'raw'
-    sourceSite: str = 'Foodista'
     suitableForDiet: Optional[List[str]] = None
     ingredientsRaw: Optional[List[str]] = None
     instructionsRaw: Optional[List[str]] = None
     ingredients: Optional[List[dict]] = None
     instructions: Optional[List[dict]] = None
+    cookTime: int = None
+    prepTime: int = None
