@@ -4,9 +4,8 @@ from scrapy import Request, Spider
 from scrapy.http import Response
 
 from ...scrapy_utils.items import RecipeItem
+from ...utils.parsers import get_attribute, parse_duration, parse_yield, tags_to_diet
 from ...utils.storage import Storage
-from ...utils.parsers import parse_duration, get_attribute, parse_yield, tags_to_diet
-
 
 logger = logging.getLogger(__name__)
 DIET_TAG_MAP = {
@@ -41,15 +40,19 @@ class RecipeResultSpider(Spider):
                 images=[response.css('meta[itemprop=image]').attrib['content'].strip()],
                 ingredientsRaw=response.css('[itemprop=recipeIngredient]::text').getall(),
                 instructionsRaw=response.css('[itemprop=recipeInstructions] p::text').getall(),
-                keywords=response.css('meta[itemprop=keywords]').attrib['content'].strip().split(', '),
                 language=response.css('meta[property="og:locale"]').attrib['content'].strip(),
                 mainLink=response.url,
                 sourceSite='Food Network',
-                title=response.css('[itemprop=name]::text').get().strip(),
-                yield_data=parse_yield(response.css('meta[itemprop=recipeYield]').attrib['content'].strip()),
-                cookTime=parse_duration(response.css('meta[itemprop=cookTime]').attrib['content'].strip()),
-                prepTime=parse_duration(response.css('meta[itemprop=prepTime]').attrib['content'].strip())
+                title=response.css('[itemprop=name]::text').get().strip()
             )
+            if response.css('meta[itemprop=keywords]'):
+                item.keywords = response.css('meta[itemprop=keywords]').attrib['content'].strip().split(', ')
+            if response.css('meta[itemprop=cookTime]'):
+                item.cookTime = parse_duration(response.css('meta[itemprop=cookTime]').attrib['content'].strip())
+            if response.css('meta[itemprop=prepTime]'):
+                item.prepTime = parse_duration(response.css('meta[itemprop=prepTime]').attrib['content'].strip())
+            if response.css('meta[itemprop=recipeYield]'):
+                item.yield_data = parse_yield(response.css('meta[itemprop=recipeYield]').attrib['content'].strip())
             item.suitableForDiet = tags_to_diet(item.keywords, DIET_TAG_MAP)
             logger.info(f'{response.url} is parsed successfully')
             storage.mark_finished(response.request.url)
