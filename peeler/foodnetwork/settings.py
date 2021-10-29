@@ -14,7 +14,6 @@ from . import version
 SPIDER_MODULES = ['peeler.foodnetwork.spiders']
 NEWSPIDER_MODULE = 'peeler.foodnetwork.spiders'
 
-DOWNLOAD_DELAY = 30
 
 ROBOTSTXT_OBEY = False
 
