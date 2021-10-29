@@ -18,8 +18,6 @@ class RecipeItem:
     description: str
     id: str
     images: List[str]
-    ingredientsRaw: List[str]
-    instructionsRaw: List[str]
     keywords: List[str]
     language: str
     mainLink: str
@@ -29,3 +27,7 @@ class RecipeItem:
     version: str = 'raw'
     sourceSite: str = 'Foodista'
     suitableForDiet: Optional[List[str]] = None
+    ingredientsRaw: Optional[List[str]] = None
+    instructionsRaw: Optional[List[str]] = None
+    ingredients: Optional[List[dict]] = None
+    instructions: Optional[List[dict]] = None

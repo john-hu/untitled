@@ -3,8 +3,8 @@ from urllib.parse import urljoin
 from scrapy import Request, Spider
 from scrapy.http import Response
 
+from ...scrapy_utils.items import RecipeURLItem
 from ...utils.storage import Storage
-from ..items import RecipeURLItem
 
 
 logger = logging.getLogger(__name__)

@@ -55,4 +55,11 @@ DOWNLOAD_DELAY = 30
 #HTTPCACHE_EXPIRATION_SECS = 0
 #HTTPCACHE_DIR = 'httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES = []
-#HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
+#HTTPCACHE_STORAGE = 'scrapy_utils.extensions.httpcache.FilesystemCacheStorage'
+
+# Configure item pipelines
+# See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
+ITEM_PIPELINES = {
+   'peeler.scrapy_utils.pipelines.RecipeURLPipeline': 300,
+   'peeler.scrapy_utils.pipelines.RecipeResultPipeline': 300,
+}

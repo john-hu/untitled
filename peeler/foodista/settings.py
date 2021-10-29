@@ -8,7 +8,7 @@
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
 # noinspection PyUnresolvedReferences
-from ..utils.base_scrapy_settings import *
+from ..scrapy_utils.base_scrapy_settings import *
 from . import version
 
 SPIDER_MODULES = ['peeler.foodista.spiders']
@@ -33,12 +33,5 @@ USER_AGENT = f'RecipeSearchCrawler (version: {version})'
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
 #EXTENSIONS = {
-#    'scrapy.extensions.telnet.TelnetConsole': None,
+#    'scrapy_utils.extensions.telnet.TelnetConsole': None,
 #}
-
-# Configure item pipelines
-# See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-ITEM_PIPELINES = {
-   'peeler.foodista.pipelines.RecipeURLPipeline': 300,
-   'peeler.foodista.pipelines.RecipeResultPipeline': 300,
-}

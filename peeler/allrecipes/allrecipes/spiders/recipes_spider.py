@@ -1,5 +1,5 @@
 import re
-import scrapy
+import scrapy_utils
 import requests
 from bs4 import BeautifulSoup
 import unicodedata
@@ -45,7 +45,7 @@ def convert_number(message):
             return int(message)
 
 
-class RecipesSpider(scrapy.Spider):
+class RecipesSpider(scrapy_utils.Spider):
     name = "recipes"
     start_urls = parse_sitemap()
 

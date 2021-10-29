@@ -3,7 +3,7 @@
 # See documentation in:
 # https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
-from scrapy import signals
+from scrapy_utils import signals
 
 # useful for handling different item types with a single interface
 from itemadapter import is_item, ItemAdapter
@@ -11,7 +11,7 @@ from itemadapter import is_item, ItemAdapter
 
 class AllrecipesSpiderMiddleware:
     # Not all methods need to be defined. If a method is not defined,
-    # scrapy acts as if the spider middleware does not modify the
+    # scrapy_utils acts as if the spider middleware does not modify the
     # passed objects.
 
     @classmethod
@@ -58,7 +58,7 @@ class AllrecipesSpiderMiddleware:
 
 class AllrecipesDownloaderMiddleware:
     # Not all methods need to be defined. If a method is not defined,
-    # scrapy acts as if the downloader middleware does not modify the
+    # scrapy_utils acts as if the downloader middleware does not modify the
     # passed objects.
 
     @classmethod

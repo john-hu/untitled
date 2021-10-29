@@ -3,10 +3,10 @@
 # See documentation in:
 # https://docs.scrapy.org/en/latest/topics/items.html
 
-import scrapy
+import scrapy_utils
 
 
-class AllrecipesItem(scrapy.Item):
+class AllrecipesItem(scrapy_utils.Item):
     # define the fields for your item here like:
-    # name = scrapy.Field()
+    # name = scrapy_utils.Field()
     pass
