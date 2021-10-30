@@ -55,6 +55,9 @@ class RecipeResultSpider(Spider):
             if response.css('meta[itemprop=keywords]'):
                 item.keywords = response.css('meta[itemprop=keywords]').attrib['content'].strip().split(', ')
                 item.categories = item.keywords
+            else:
+                item.keywords = [item.title]
+                item.categories = ['uncategorized']
             if response.css('meta[itemprop=cookTime]'):
                 item.cookTime = parse_duration(response.css('meta[itemprop=cookTime]').attrib['content'].strip())
             if response.css('meta[itemprop=prepTime]'):
