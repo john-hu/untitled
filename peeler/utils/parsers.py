@@ -22,6 +22,8 @@ def parse_yield(yield_number: str) -> Optional[dict]:
 
 
 def tags_to_diet(tags: List[str], diet_map: Dict[str, str]) -> Optional[List[str]]:
+    if not tags:
+        return None
     tags = [tag.lower() for tag in tags]
     result = []
     for (tag, diet) in diet_map.items():
