@@ -58,6 +58,9 @@ class RecipeResultSpider(Spider):
             else:
                 item.keywords = [item.title]
                 item.categories = ['uncategorized']
+            if not item.instructionsRaw:
+                # the second form of instructions @@.
+                item.instructionsRaw = response.css('[itemprop=recipeInstructions] li::text').getall()
             if response.css('meta[itemprop=cookTime]'):
                 item.cookTime = parse_duration(response.css('meta[itemprop=cookTime]').attrib['content'].strip())
             if response.css('meta[itemprop=prepTime]'):
