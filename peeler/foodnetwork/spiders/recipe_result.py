@@ -40,8 +40,8 @@ class RecipeResultSpider(Spider):
         self.__fetched_count += 1
         try:
             item = RecipeItem(
-                authors=[response.css('.recipe-page meta[itemprop=author]').attrib['content'].strip()],
-                dateCreated=response.css('meta[itemprop=datePublished]').attrib['content'].strip(),
+                authors=[get_attribute(response.css('.recipe-page meta[itemprop=author]'), 'content', 'Food Network')],
+                dateCreated=get_attribute(response.css('meta[itemprop=datePublished]'), 'content'),
                 description=get_attribute(response.css('meta[name=description]'), 'content'),
                 id=response.request.url,
                 images=[response.css('meta[itemprop=image]').attrib['content'].strip()],

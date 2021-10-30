@@ -1,15 +1,14 @@
 from typing import Dict, List, Optional
 
 import isodate
-from scrapy.http import Response
 
 
 def parse_duration(text) -> int:
     return isodate.parse_duration(text).seconds
 
 
-def get_attribute(element, attribute):
-    return element.attrib[attribute].strip() if element else None
+def get_attribute(element, attribute, default_value: str = None) -> str:
+    return element.attrib[attribute].strip() if element else default_value
 
 
 def parse_yield(yield_number: str) -> Optional[dict]:
