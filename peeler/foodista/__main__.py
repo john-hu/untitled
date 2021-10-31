@@ -20,6 +20,7 @@ def main():
     scrapy_settings['peel_count'] = args.count
     if args.log_file:
         scrapy_settings['LOG_FILE'] = args.log_file
+    os.makedirs(args.storage, exist_ok=True)
     process = CrawlerProcess(scrapy_settings)
     process.crawl('recipe_list' if args.mode == 'list' else 'recipe_result', domain='foodista.com')
     process.start()

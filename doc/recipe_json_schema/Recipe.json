@@ -3,11 +3,11 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$defs": {
     "duration": {
-      "type": "number",
+      "type": ["number", "null"],
       "description": "in seconds"
     },
     "mass": {
-      "type": "object",
+      "type": ["object", "null"],
       "properties": {
         "number": {
           "type": "number"
@@ -22,7 +22,7 @@
       ]
     },
     "urls": {
-      "type": "array",
+      "type": ["array", "null"],
       "items": {
         "type": "string",
         "format": "uri",
@@ -33,13 +33,13 @@
   "type": "object",
   "properties": {
     "audience": {
-      "type": "string"
+      "type": ["string", "null"]
     },
     "audios": {
       "$ref": "#/$defs/urls"
     },
     "authors": {
-      "type": "array",
+      "type": ["array", "null"],
       "items": {
         "type": "string"
       },
@@ -54,7 +54,7 @@
       "uniqueItems": true
     },
     "cookingMethods": {
-      "type": "array",
+      "type": ["array", "null"],
       "items": {
         "type": "string"
       },
@@ -64,25 +64,25 @@
       "$ref": "#/$defs/duration"
     },
     "cuisines": {
-      "type": "array",
+      "type": ["array", "null"],
       "items": {
         "type": "string"
       },
       "uniqueItems": true
     },
     "dateCreated": {
-      "type": "string",
+      "type": ["string", "null"],
       "format": "date-time"
     },
     "dateModified": {
-      "type": "string",
+      "type": ["string", "null"],
       "format": "date-time"
     },
     "description": {
-      "type": "string"
+      "type": ["string", "null"]
     },
     "equipments": {
-      "type": "array",
+      "type": ["array", "null"],
       "items": {
         "type": "string"
       }
@@ -221,14 +221,14 @@
       }
     },
     "language": {
-      "type": "string"
+      "type": ["string", "null"]
     },
     "mainLink": {
       "type": "string",
       "format": "uri"
     },
     "nutrition": {
-      "type": "object",
+      "type": ["object", "null"],
       "properties": {
         "calories": {
           "$ref": "#/$defs/mass"
@@ -320,7 +320,7 @@
       "$ref": "#/$defs/duration"
     },
     "translationOf": {
-      "type": "string",
+      "type": ["string", "null"],
       "format": "uri",
       "description": "the link of original instruction"
     },
@@ -345,7 +345,7 @@
     "sourceSite",
     "title"
   ],
-  "oneOf": [
+  "anyOf": [
     { "required": ["ingredients", "instructions"] },
     { "required": ["ingredientsRaw", "instructionsRaw"] }
   ]

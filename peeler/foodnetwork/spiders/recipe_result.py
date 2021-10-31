@@ -6,6 +6,7 @@ from scrapy.http import Response
 from ...scrapy_utils.items import RecipeItem
 from ...utils.parsers import get_attribute, parse_duration, parse_yield, tags_to_diet
 from ...utils.storage import Storage
+from ...utils.validator import validate
 
 logger = logging.getLogger(__name__)
 DIET_TAG_MAP = {
@@ -72,8 +73,9 @@ class RecipeResultSpider(Spider):
                 item.yield_data = parse_yield(response.css('meta[itemprop=recipeYield]').attrib['content'].strip())
             item.suitableForDiet = tags_to_diet(item.keywords, DIET_TAG_MAP)
             logger.info(f'{response.url} is parsed successfully {self.__fetched_count} / {self.__total_count}')
-            storage.mark_finished(response.request.url)
+            validate(item.to_dict())
             yield item
+            storage.mark_finished(response.request.url)
         except Exception as ex:
             logger.error(f'translate url, {response.url},  {self.__fetched_count} / {self.__total_count}, '
                          f'error: {repr(ex)}')

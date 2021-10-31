@@ -9,6 +9,7 @@ from .perf import PerfInspector, PerfType
 from ..utils import clean_html
 from ..utils.files import append_to
 from ..utils.units import time_str_to_second
+from ..utils.validator import validate
 
 RAW_PREFIX = 'raw'
 RECIPE_PREFIX = 'recipes'
@@ -175,6 +176,8 @@ class SpoonacularPeeler:
         prefix = RAW_PREFIX if raw else RECIPE_PREFIX
         if not today_str:
             today_str = date.today().strftime('%Y%m%d')
+        if not raw:
+            validate(recipe)
         append_to(self.__storage, prefix, today_str, recipe)
 
     def delete_output(self):
