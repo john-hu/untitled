@@ -13,7 +13,6 @@ class RecipeURLItem:
 @dataclass
 class RecipeItem:
     id: str
-    images: List[str]
     language: str
     mainLink: str
     sourceSite: str
@@ -21,15 +20,16 @@ class RecipeItem:
     # `yield` is a reserved word. We use field to convert them.
     yield_data: Optional[dict] = field(metadata=config(field_name='yield'), default=None)
     authors: List[str] = None
+    categories: Optional[List[str]] = None
+    cookTime: int = None
     dateCreated: str = None
     description: str = None
-    keywords: Optional[List[str]] = None
-    categories: Optional[List[str]] = None
-    version: str = 'raw'
-    suitableForDiet: Optional[List[str]] = None
-    ingredientsRaw: Optional[List[str]] = None
-    instructionsRaw: Optional[List[str]] = None
+    images: List[str] = None
     ingredients: Optional[List[dict]] = None
+    ingredientsRaw: Optional[List[str]] = None
     instructions: Optional[List[dict]] = None
-    cookTime: int = None
+    instructionsRaw: Optional[List[str]] = None
+    keywords: Optional[List[str]] = None
     prepTime: int = None
+    suitableForDiet: Optional[List[str]] = None
+    version: str = 'raw'

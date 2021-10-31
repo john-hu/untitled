@@ -45,7 +45,6 @@ class RecipeResultSpider(Spider):
                 dateCreated=get_attribute(response.css('meta[itemprop=datePublished]'), 'content'),
                 description=get_attribute(response.css('meta[name=description]'), 'content'),
                 id=response.request.url,
-                images=[response.css('meta[itemprop=image]').attrib['content'].strip()],
                 ingredientsRaw=response.css('[itemprop=recipeIngredient]::text').getall(),
                 instructionsRaw=response.css('[itemprop=recipeInstructions] p::text').getall(),
                 language=response.css('meta[property="og:locale"]').attrib['content'].strip(),
@@ -53,6 +52,8 @@ class RecipeResultSpider(Spider):
                 sourceSite='Food Network',
                 title=response.css('[itemprop=name]::text').get().strip()
             )
+            if response.css('meta[itemprop=image]'):
+                item.images = [response.css('meta[itemprop=image]').attrib['content'].strip()]
             if response.css('meta[itemprop=keywords]'):
                 item.keywords = response.css('meta[itemprop=keywords]').attrib['content'].strip().split(', ')
                 item.categories = item.keywords
