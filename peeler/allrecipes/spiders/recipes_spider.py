@@ -1,5 +1,8 @@
 import re
-import scrapy_utils
+
+from scrapy import Spider
+from scrapy.http import Response
+
 import requests
 from bs4 import BeautifulSoup
 import unicodedata
@@ -14,7 +17,6 @@ def parse_sitemap():
     recipes = []
     for link in links:
         if link.text.split('/')[-3] == 'recipe':
-            print(link.text)
             r1 = requests.get(link.text)
             sp1 = BeautifulSoup(r1.text, 'lxml')
             recipe_links = sp1.find_all('loc')
@@ -45,13 +47,14 @@ def convert_number(message):
             return int(message)
 
 
-class RecipesSpider(scrapy_utils.Spider):
+class RecipesSpider(Spider):
     name = "recipes"
     start_urls = parse_sitemap()
 
     @staticmethod
     def retrieve_recipe_info(message):
-        path = f"//div[@class='recipe-meta-item-header'][contains(text(), '{message}')]/following-sibling::div[1]/text()"
+        path = f"//div[@class='recipe-meta-item-header'][contains(text(), " \
+               f"'{message}')]/following-sibling::div[1]/text()"
         return path
 
     @staticmethod
@@ -82,22 +85,25 @@ class RecipesSpider(scrapy_utils.Spider):
             info_aggs.append(info_agg)
         return info_aggs
 
-    def parse(self, response):
-        data = {"authors": ["John Hu", "Francis Zhuang"],
-                "categories": response.css('.breadcrumbs__title::text')[2].get(), "cookTime": convert_number(
+    def parse(self, response: Response, **kwargs):
+        data = {
+            "authors": ["John Hu", "Francis Zhuang"],
+            "categories": response.css('.breadcrumbs__title::text')[2].get(),
+            "cookTime": convert_number(
                 regex(r'\d+', response.xpath(self.retrieve_recipe_info("cook:")).extract_first())),
-                "description": response.xpath("//meta[@name='description']/@content").extract_first(),
-                "language": response.css('html').xpath('@lang').get(),
-                "keywords": [response.xpath("//h1/text()").get()],
-                "id": response.xpath("//link[@rel='canonical']/@href").extract_first(),
-                "mainLink": response.xpath("//link[@rel='canonical']/@href").extract_first(),
-                "images": [response.css('.recipe-review-image-wrapper noscript img').xpath('@src').get(0)],
-                "sourceSite": response.xpath("//meta[@property='og:site_name']/@content").extract_first(),
-                "title": response.xpath("//h1/text()").get(), "servingSize": {
+            "description": response.xpath("//meta[@name='description']/@content").extract_first(),
+            "language": response.css('html').xpath('@lang').get(),
+            "keywords": [response.xpath("//h1/text()").get()],
+            "id": response.xpath("//link[@rel='canonical']/@href").extract_first(),
+            "mainLink": response.xpath("//link[@rel='canonical']/@href").extract_first(),
+            "images": [response.css('.recipe-review-image-wrapper noscript img').xpath('@src').get(0)],
+            "sourceSite": response.xpath("//meta[@property='og:site_name']/@content").extract_first(),
+            "title": response.xpath("//h1/text()").get(),
+            "servingSize": {
                 "number": convert_number(
-                    regex(r'\d+', response.xpath(self.retrieve_recipe_info("Servings:")).extract_first())
-                ),
+                    regex(r'\d+', response.xpath(self.retrieve_recipe_info("Servings:")).extract_first())),
                 "unit": "people"
-            }, "ingredients": self.retrieve_ingredient_info(response),
-                "instructions": self.retrieve_step_info(response)}
+            },
+            "ingredients": self.retrieve_ingredient_info(response),
+            "instructions": self.retrieve_step_info(response)}
         yield data
