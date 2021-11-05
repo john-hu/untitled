@@ -5,7 +5,7 @@ from scrapy.http import Response
 
 from ...scrapy_utils.items import RecipeItem
 from ...utils.parsers import get_attribute, parse_duration, parse_yield, tags_to_diet
-from ...utils.storage import Storage
+from ...utils.storage import Storage, ParseState
 from ...utils.validator import validate
 
 logger = logging.getLogger(__name__)
@@ -40,6 +40,10 @@ class RecipeResultSpider(Spider):
         storage = Storage(self.settings['storage'])
         self.__fetched_count += 1
         try:
+            if not response.css('[itemprop=recipeIngredient]') or not response.css('[itemprop=recipeInstructions]'):
+                logger.error(f'URL {response.url} does not have ingredient or instruction')
+                storage.mark_as(response.request.url, ParseState.WRONG_DATA)
+                return
             item = RecipeItem(
                 authors=[get_attribute(response.css('.recipe-page meta[itemprop=author]'), 'content', 'Food Network')],
                 dateCreated=get_attribute(response.css('meta[itemprop=datePublished]'), 'content'),

@@ -13,6 +13,7 @@ class ParseState(Enum):
     NEW = 0
     PARSING = 1
     PARSED = 2
+    WRONG_DATA = 3
 
 
 class Storage:
@@ -82,10 +83,16 @@ class Storage:
             conn.close()
 
     def mark_finished(self, url: str) -> None:
+        self.mark_as(url, ParseState.PARSED)
+
+    def mark_as(self, url: str, state: ParseState) -> None:
+        if state not in [ParseState.PARSED, ParseState.WRONG_DATA]:
+            return
         conn = sqlite3.connect(self.__db_file)
         cursor = conn.cursor()
         try:
-            cursor.execute('UPDATE RECIPES_LIST SET parse_state = 2 WHERE parse_state = 1 AND url = :url', {'url': url})
+            cursor.execute('UPDATE RECIPES_LIST SET parse_state = :state WHERE parse_state = 1 AND url = :url',
+                           {'url': url, 'state': state.value})
             conn.commit()
         finally:
             cursor.close()
