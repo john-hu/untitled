@@ -4,7 +4,7 @@ from scrapy import Request, Spider
 from scrapy.http import Response
 
 from ...scrapy_utils.items import RecipeItem
-from ...utils.parsers import get_attribute, parse_duration, parse_yield, tags_to_diet
+from ...utils.parsers import fill_recipe_presets, get_attribute, parse_duration, parse_yield, tags_to_diet
 from ...utils.storage import Storage, ParseState
 from ...utils.validator import validate
 
@@ -62,8 +62,7 @@ class RecipeResultSpider(Spider):
                 item.keywords = response.css('meta[itemprop=keywords]').attrib['content'].strip().split(', ')
                 item.categories = item.keywords
             else:
-                item.keywords = [item.title]
-                item.categories = ['uncategorized']
+                fill_recipe_presets(item)
             if not item.instructionsRaw:
                 # the second form of instructions @@.
                 item.instructionsRaw = response.css('[itemprop=recipeInstructions] li::text').getall()

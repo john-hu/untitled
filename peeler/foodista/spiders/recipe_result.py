@@ -6,7 +6,7 @@ from scrapy.http import Response
 
 from ...scrapy_utils.items import RecipeItem
 from ...utils.storage import Storage
-from ...utils.parsers import parse_yield, tags_to_diet
+from ...utils.parsers import fill_recipe_presets, parse_yield, tags_to_diet
 from ...utils.validator import validate
 
 
@@ -42,20 +42,23 @@ class RecipeResultSpider(Spider):
         try:
             item = RecipeItem(
                 authors=[response.css('.username::text').get().strip()],
-                categories=response.css('.field-name-field-tags .field-item a::text').getall(),
                 dateCreated=reformat_datetime(response.css('.pane-node-created .pane-content::text').get().strip()),
                 description='\n'.join(response.css('.field-name-body p::text').getall()),
                 id=response.request.url,
                 images=[response.css('[itemprop=image]').attrib['src']],
                 ingredientsRaw=response.css('[itemprop=ingredients]::text').getall(),
                 instructionsRaw=response.css('[itemprop=recipeInstructions]::text').getall(),
-                keywords=response.css('.field-name-field-tags .field-item a::text').getall(),
                 language=response.css('html').attrib['xml:lang'],
                 mainLink=response.url,
                 sourceSite='Foodista',
                 title=response.css('[itemprop=name]::text').get().strip(),
                 yield_data=parse_yield(response.css('[itemprop=recipeYield]::text').get())
             )
+            if response.css('.field-name-field-tags .field-item a::text'):
+                item.keywords = response.css('.field-name-field-tags .field-item a::text').getall()
+                item.categories = item.keywords
+            else:
+                fill_recipe_presets(item)
             item.suitableForDiet = tags_to_diet(item.keywords, DIET_TAG_MAP)
             logger.info(f'{response.url} is parsed successfully')
             validate(item.to_dict())

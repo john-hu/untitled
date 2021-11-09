@@ -29,3 +29,10 @@ def tags_to_diet(tags: List[str], diet_map: Dict[str, str]) -> Optional[List[str
         if tag in tags:
             result.append(diet)
     return result if result else None
+
+
+def fill_recipe_presets(item: dict):
+    if not item.keywords:
+        item.keywords = [item.title]
+    if not item.categories:
+        item.categories = ['uncategorized']
