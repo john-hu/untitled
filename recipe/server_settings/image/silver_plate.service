@@ -1,6 +1,6 @@
 [Unit]
-Description=gunicorn daemon
-Requires=gunicorn.socket
+Description=silver_plate daemon
+Requires=silver_plate.socket
 After=network.target
 
 [Service]
@@ -11,9 +11,9 @@ Group=silver_plate
 # another option for an even more restricted service is
 # DynamicUser=yes
 # see http://0pointer.net/blog/dynamic-users-with-systemd.html
-RuntimeDirectory=gunicorn
+RuntimeDirectory=silver_plate
 WorkingDirectory=/opt/silver_plate
-ExecStart=/opt/silver_plate/start_silver_plate.sh
+ExecStart=/opt/silver_plate/scripts/start_silver_plate.sh
 ExecReload=/bin/kill -s HUP $MAINPID
 KillMode=mixed
 TimeoutStopSec=5

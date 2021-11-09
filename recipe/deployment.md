@@ -20,8 +20,6 @@ OpenJDK 64-Bit Server VM (build 17+35-Ubuntu-120.04, mixed mode, sharing)
 
 3. download the solr (running as root)
 ```shell
-sudo mkdir /opt/solr
-cd /opt/solr
 wget https://dlcdn.apache.org/lucene/solr/8.10.1/solr-8.10.1.tgz
 sha512sum solr-8.10.1.tgz
 ```
@@ -38,9 +36,14 @@ sudo bash ./install_solr_service.sh solr-8.10.1.tgz
 
 # Install silver plate
 
+0. prepare nginx
+```shell
+sudo apt install nginx
+```
+
 1. download the source
 ```shell
-mkdir /opt/silver_plate
+mkdir -p /opt/silver_plate
 cd /opt/silver_plate
 wget https://github.com/john-hu/untitled/archive/refs/heads/main.zip
 unzip untitled-main.zip
@@ -68,3 +71,26 @@ source env/bin/activate
 pip install -r requirement.txt
 ```
 
+4. prepare account
+```shell
+useradd -d /opt/silver_plate silver_plate
+chown -R silver_plate:silver_plate /opt/silver_plate
+```
+
+5. start the server
+
+To have the silver_plate service, we have to copy the service and socket file to `systemd` folders.
+```shell
+cp /opt/silver_plate/server_settings/image/silver_plate.service /etc/systemd/system/
+cp /opt/silver_plate/server_settings/image/silver_plate.socket /etc/systemd/system/
+```
+
+Before starting the service, we need to modify the nginx to load the site from silver plate:
+```shell
+cp /opt/silver_plate/server_settings/image/nginx.conf /etc/nginx/sites-available/default
+```
+
+After that, we can start the service
+```shell
+systemctl start silver_plate.service
+```

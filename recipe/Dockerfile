@@ -25,7 +25,7 @@ COPY ./cutting_board $HOME_DIR/cutting_board
 COPY ./recipe $HOME_DIR/recipe
 COPY ./silver_plate $HOME_DIR/silver_plate
 COPY ./manage.py $HOME_DIR/manage.py
-COPY ./server_settings/nginx.conf /etc/nginx/nginx.conf
+COPY ./server_settings/docker/nginx.conf /etc/nginx/nginx.conf
 COPY ./docker.sh $HOME_DIR/docker.sh
 RUN chmod +x $HOME_DIR/docker.sh
 # install 3rd dependencies
