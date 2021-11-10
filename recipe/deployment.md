@@ -34,6 +34,14 @@ tar xzvf solr-8.10.1.tgz solr-8.10.1/bin/install_solr_service.sh --strip-compone
 sudo bash ./install_solr_service.sh solr-8.10.1.tgz
 ```
 
+5. create the recipe category
+```shell
+sudo su solr
+cd /opt/solr
+bin/solr create -c recipe
+bin/solr config -c recipe -p 8983 -action set-user-property -property update.autoCreateFields -value false
+```
+
 # Install silver plate
 
 0. prepare nginx
@@ -44,9 +52,10 @@ sudo apt install nginx
 1. download the source
 ```shell
 mkdir -p /opt/silver_plate
-cd /opt/silver_plate
 wget https://github.com/john-hu/untitled/archive/refs/heads/main.zip
 unzip untitled-main.zip
+cp untitled-main/recipe/* /opt/silver_plate
+cd /opt/silver_plate
 ```
 Since the repo is private repo, we may not be able to download it from the server.
 We can configure the deployment key at GitHub or download it from browser and use scp to copy it.
@@ -58,39 +67,48 @@ the silver_plate account.
 ```shell
 sudo apt install python3.9
 wget https://bootstrap.pypa.io/get-pip.py
-python3.9 get-pip.py
-# put ~/.local/bin to PATH
-export PATH=$PATH:~/.local/bin/
+sudo python3.9 get-pip.py
 ```
 
 3. prepare env
 ```shell
 pip install virtualenv
-python3.9 -m virtual env
+python3.9 -m virtualenv env
 source env/bin/activate
 pip install -r requirement.txt
 ```
 
-4. prepare account
+4. update solr schema
 ```shell
-useradd -d /opt/silver_plate silver_plate
-chown -R silver_plate:silver_plate /opt/silver_plate
+sudo cp ~/untitled-main/doc/cutting_board/recipeEnum.xml /var/solr/data/recipe
+sudo chown solr:solr /var/solr/data/recipe/recipeEnum.xml
+python manage.py runscript create_schema --script-args http://localhost:8983/ recipe
+python manage.py migrate
+python manage.py collectstatic
 ```
 
-5. start the server
+5. prepare account
+```shell
+sudo useradd -d /opt/silver_plate silver_plate
+sudo chown -R silver_plate:silver_plate /opt/silver_plate
+```
+
+6. start the server
 
 To have the silver_plate service, we have to copy the service and socket file to `systemd` folders.
 ```shell
-cp /opt/silver_plate/server_settings/image/silver_plate.service /etc/systemd/system/
-cp /opt/silver_plate/server_settings/image/silver_plate.socket /etc/systemd/system/
+sudo cp /opt/silver_plate/server_settings/image/silver_plate.service /etc/systemd/system/
+sudo cp /opt/silver_plate/server_settings/image/silver_plate.socket /etc/systemd/system/
 ```
 
 Before starting the service, we need to modify the nginx to load the site from silver plate:
 ```shell
-cp /opt/silver_plate/server_settings/image/nginx.conf /etc/nginx/sites-available/default
+sudo cp /opt/silver_plate/server_settings/image/nginx.conf /etc/nginx/sites-available/default
 ```
 
 After that, we can start the service
 ```shell
-systemctl start silver_plate.service
+sudo systemctl reload nginx
+sudo systemctl enable silver_plate.service
+sudo systemctl start silver_plate.service
 ```
