@@ -1,14 +1,13 @@
 import logging
 import re
-from scrapy import Request, Spider
-from scrapy.http import Response
 
-from bs4 import BeautifulSoup
 import requests
+from bs4 import BeautifulSoup
+from scrapy import Spider
+from scrapy.http import Response
 
 from ...scrapy_utils.items import RecipeURLItem
 from ...utils.storage import Storage
-
 
 logger = logging.getLogger(__name__)
 BASE_URL = 'https://www.allrecipes.com/sitemap'

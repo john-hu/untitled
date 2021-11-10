@@ -1,14 +1,12 @@
+import logging
 import re
 import unicodedata
-import logging
-from datetime import datetime, timezone
 
 from scrapy import Request, Spider
 from scrapy.http import Response
 
 from ...scrapy_utils.items import RecipeItem
 from ...utils.storage import Storage
-
 
 logger = logging.getLogger(__name__)
 
