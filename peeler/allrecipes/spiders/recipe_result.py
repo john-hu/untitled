@@ -26,7 +26,7 @@ def regex(rule, response):
 def convert_number(message):
     if message is None:
         return 0
-    elif message == "":
+    elif message == '':
         return 0
     else:
         try:
@@ -35,19 +35,13 @@ def convert_number(message):
             return int(message)
 
 
-def reformat_datetime(value: str):
-    # since we don't know the timezone settings of Foodista, we just assume the datetime is UTC.
-    return datetime.strptime(value, '%A, %B %d, %Y - %I:%M%p').replace(tzinfo=timezone.utc).isoformat()
-
-
 class RecipeResultSpider(Spider):
     name = 'recipe_result'
     allowed_domains = ['allrecipes.com']
 
     @staticmethod
     def retrieve_recipe_info(message):
-        path = f"//div[@class='recipe-meta-item-header'][contains(text(), " \
-               f"'{message}')]/following-sibling::div[1]/text()"
+        path = f'//div[@class="recipe-meta-item-header"][contains(text(), {message})]/following-sibling::div[1]/text()'
         return path
 
     @staticmethod
@@ -55,11 +49,11 @@ class RecipeResultSpider(Spider):
         info_aggs = []
         for ingredient_info in response.css('.ingredients-item'):
             info_agg = {
-                "name": ingredient_info.css('.checkbox-list-input').xpath('@data-ingredient').get(),
-                "size": {
-                    "number": convert_number(
+                'name': ingredient_info.css('.checkbox-list-input').xpath('@data-ingredient').get(),
+                'size': {
+                    'number': convert_number(
                         ingredient_info.css('.checkbox-list-input').xpath('@data-quantity').get()),
-                    "unit": ingredient_info.css('.checkbox-list-input').xpath('@data-unit').get()
+                    'unit': ingredient_info.css('.checkbox-list-input').xpath('@data-unit').get()
                 }
             }
             info_aggs.append(info_agg)
@@ -70,10 +64,10 @@ class RecipeResultSpider(Spider):
         info_aggs = []
         for step_info in response.css('.subcontainer.instructions-section-item'):
             info_agg = {
-                "id": regex(r'\d', step_info.css('.checkbox-list-text::text').get()),
-                "equipments": [],
-                "language": response.css('html').xpath('@lang').get(),
-                "text": step_info.css('p::text').get()
+                'id': regex(r'\d', step_info.css('.checkbox-list-text::text').get()),
+                'equipments': [],
+                'language': response.css('html').xpath('@lang').get(),
+                'text': step_info.css('p::text').get()
             }
             info_aggs.append(info_agg)
         return info_aggs
@@ -91,22 +85,23 @@ class RecipeResultSpider(Spider):
 
     def parse(self, response: Response, **kwargs):
         storage = Storage(self.settings['storage'])
+        print(f'this is url: {response.url}')
         try:
             item = RecipeItem(
-                authors=[response.css('.username::text').get().strip()],
+                authors=[response.css('.author-name-title .linkHoverStyle::text').getall()],
                 categories=response.css('.breadcrumbs__title::text')[2].get(),
                 cookTime=convert_number(
-                    regex(r'\d+', response.xpath(self.retrieve_recipe_info("cook:")).extract_first())),
-                description=response.xpath("//meta[@name='description']/@content").extract_first(),
-                id=response.xpath("//link[@rel='canonical']/@href").extract_first(),
+                    regex(r'\d+', response.xpath(self.retrieve_recipe_info('cook:')).extract_first())),
+                description=response.xpath('//meta[@name="description"]/@content').extract_first(),
+                id=response.xpath('//link[@rel="canonical"]/@href').extract_first(),
                 images=[response.css('.recipe-review-image-wrapper noscript img').xpath('@src').get(0)],
                 ingredients=self.retrieve_ingredient_info(response),
                 instructions=self.retrieve_step_info(response),
-                keywords=[response.xpath("//h1/text()").get()],
+                keywords=[response.xpath('//h1/text()').get()],
                 language=response.css('html').xpath('@lang').get(),
-                mainLink=response.xpath("//link[@rel='canonical']/@href").extract_first(),
-                sourceSite=response.xpath("//meta[@property='og:site_name']/@content").extract_first(),
-                title=response.xpath("//h1/text()").get()
+                mainLink=response.xpath('//link[@rel="canonical"]/@href').extract_first(),
+                sourceSite=response.xpath('//meta[@property="og:site_name"]/@content').extract_first(),
+                title=response.xpath('//h1/text()').get()
             )
             logger.info(f'{response.url} is parsed successfully')
             yield item
