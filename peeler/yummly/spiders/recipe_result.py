@@ -30,7 +30,7 @@ class RecipeResultSpider(BaseResultSpider):
             if ingredient.css('.remainder::text'):
                 ingredient_item['name'] += f' ({ingredient.css(".remainder::text").get().strip()})'
             if ingredient.css('.amount span::text'):
-                ingredient_item['size'] = {'number': int(ingredient.css('.amount span::text').get().strip())}
+                ingredient_item['size'] = {'number': float(ingredient.css('.amount span::text').get().strip())}
                 # may we see an unit element without amount? I don't think so.
                 if ingredient.css('.unit::text'):
                     ingredient_item['size']['unit'] = ingredient.css('.unit::text').get().strip()
@@ -78,7 +78,7 @@ class RecipeResultSpider(BaseResultSpider):
         )
         item.cookingMethods = recipe.get('cookingMethod', None)
         item.cookTime = parse_duration(recipe.get('cookTime'))
-        item.cuisines = split(recipe.get('recipeCuisine', None))
+        item.cuisines = recipe.get('recipeCuisine', None)
         item.dateCreated = isodate_2_isodatetime(recipe.get('dateCreated', None))
         item.dateModified = isodate_2_isodatetime(recipe.get('dateModified', None))
         item.description = recipe.get('description', None)

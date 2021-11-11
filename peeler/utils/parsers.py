@@ -29,6 +29,8 @@ def parse_yield(yield_number: str) -> Optional[dict]:
 
 
 def split(text: str, splitter: str = ', ') -> List[str]:
+    if isinstance(text, list):
+        return text
     return [] if not text else text.split(splitter)
 
 
