@@ -22,7 +22,9 @@ class RecipeItem:
     authors: List[str] = None
     categories: Optional[List[str]] = None
     cookTime: int = None
+    cuisines: List[str] = None
     dateCreated: str = None
+    dateModified: str = None
     description: str = None
     images: List[str] = None
     ingredients: Optional[List[dict]] = None

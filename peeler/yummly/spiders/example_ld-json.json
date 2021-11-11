@@ -1,0 +1,157 @@
+{
+  "@context": "https://schema.org/",
+  "@type": "Recipe",
+  "description": "Ginger spice is a common spice Holiday favorite for most households. It warms the heart on the cold winter nights. This season, make this gingersnap, crunchy and smooth tiramisu as your Holiday time dessert. Sweet mascarpone cheese contrasts the bitter white chocolate flavors. Crunchy biting gingersnap crumbles rest atop a light layered dessert of sweet and spicy exception.",
+  "image": [
+    "https://lh3.googleusercontent.com/iz6rnAimWLW2xASyJIg-bOnFTy0xueLq7hVknbNA8psLJAA9pP09IK6sksvVQdsYrlq1kT0y_N2Hj0TEb0vt=w1280-h1280-c-rj-v1-e365",
+    "https://lh3.googleusercontent.com/iz6rnAimWLW2xASyJIg-bOnFTy0xueLq7hVknbNA8psLJAA9pP09IK6sksvVQdsYrlq1kT0y_N2Hj0TEb0vt=w1280-h960-c-rj-v1-e365",
+    "https://lh3.googleusercontent.com/iz6rnAimWLW2xASyJIg-bOnFTy0xueLq7hVknbNA8psLJAA9pP09IK6sksvVQdsYrlq1kT0y_N2Hj0TEb0vt=w1280-h720-c-rj-v1-e365"
+  ],
+  "mainEntity": true,
+  "name": "White Chocolate and Gingersnap Tiramisu",
+  "author": {
+    "@type": "Person",
+    "name": "Lolibox"
+  },
+  "totalTime": "PT40M",
+  "recipeYield": 4,
+  "recipeCategory": [
+    "Desserts"
+  ],
+  "cookingMethod": [
+    "Microwaving"
+  ],
+  "keywords": "Desserts, Tiramisu, Microwaving",
+  "recipeIngredient": [
+    "3 eggs ",
+    "4 tablespoons sugar ",
+    "1 15/16 cups mascarpone ",
+    "7 1/2 tablespoons white chocolate ",
+    "1 tablespoon water ",
+    "gingersnaps ",
+    "milk ",
+    "gingersnaps crumbled"
+  ],
+  "recipeInstructions": [
+    {
+      "@type": "HowToStep",
+      "text": "1. Separate the egg whites from the yolks.",
+      "name": "Step 1: 1. Separate the egg…",
+      "url": "https://www.yummly.co.uk/recipe/White-Chocolate-and-Gingersnap-Tiramisu-2046604",
+      "image": "https://lh3.googleusercontent.com/iz6rnAimWLW2xASyJIg-bOnFTy0xueLq7hVknbNA8psLJAA9pP09IK6sksvVQdsYrlq1kT0y_N2Hj0TEb0vt=w1200-h630-pp-rj-v1-e365",
+      "position": 1,
+      "author": "Lolibox",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Yummly",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://x.yummlystatic.com/web/yummly.svg"
+        }
+      }
+    },
+    {
+      "@type": "HowToStep",
+      "text": "2. Whisk the yolks with the sugar until it becomes pale. Add the mascarpone and whisk thoroughly.",
+      "name": "Step 2: 2. Whisk the yolks…",
+      "url": "https://www.yummly.co.uk/recipe/White-Chocolate-and-Gingersnap-Tiramisu-2046604",
+      "image": "https://lh3.googleusercontent.com/iz6rnAimWLW2xASyJIg-bOnFTy0xueLq7hVknbNA8psLJAA9pP09IK6sksvVQdsYrlq1kT0y_N2Hj0TEb0vt=w1200-h630-pp-rj-v1-e365",
+      "position": 2,
+      "author": "Lolibox",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Yummly",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://x.yummlystatic.com/web/yummly.svg"
+        }
+      }
+    },
+    {
+      "@type": "HowToStep",
+      "text": "3. Melt the white chocolate in the microwave with the water. When it is melted, add it to the previous mixture and mix well.",
+      "name": "Step 3: 3. Melt the white c…",
+      "url": "https://www.yummly.co.uk/recipe/White-Chocolate-and-Gingersnap-Tiramisu-2046604",
+      "image": "https://lh3.googleusercontent.com/iz6rnAimWLW2xASyJIg-bOnFTy0xueLq7hVknbNA8psLJAA9pP09IK6sksvVQdsYrlq1kT0y_N2Hj0TEb0vt=w1200-h630-pp-rj-v1-e365",
+      "position": 3,
+      "author": "Lolibox",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Yummly",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://x.yummlystatic.com/web/yummly.svg"
+        }
+      }
+    },
+    {
+      "@type": "HowToStep",
+      "text": "4. Beat the egg whites until stiff. Fold them carefully into the mascarpone mixture.",
+      "name": "Step 4: 4. Beat the egg whi…",
+      "url": "https://www.yummly.co.uk/recipe/White-Chocolate-and-Gingersnap-Tiramisu-2046604",
+      "image": "https://lh3.googleusercontent.com/iz6rnAimWLW2xASyJIg-bOnFTy0xueLq7hVknbNA8psLJAA9pP09IK6sksvVQdsYrlq1kT0y_N2Hj0TEb0vt=w1200-h630-pp-rj-v1-e365",
+      "position": 4,
+      "author": "Lolibox",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Yummly",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://x.yummlystatic.com/web/yummly.svg"
+        }
+      }
+    },
+    {
+      "@type": "HowToStep",
+      "text": "5. Soak some gingersnaps in milk. Place alternate layers of moistened gingersnaps, crumbled gingersnaps, and the white chocolate mascarpone mixture in some ramekins.",
+      "name": "Step 5: 5. Soak some ginger…",
+      "url": "https://www.yummly.co.uk/recipe/White-Chocolate-and-Gingersnap-Tiramisu-2046604",
+      "image": "https://lh3.googleusercontent.com/iz6rnAimWLW2xASyJIg-bOnFTy0xueLq7hVknbNA8psLJAA9pP09IK6sksvVQdsYrlq1kT0y_N2Hj0TEb0vt=w1200-h630-pp-rj-v1-e365",
+      "position": 5,
+      "author": "Lolibox",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Yummly",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://x.yummlystatic.com/web/yummly.svg"
+        }
+      }
+    },
+    {
+      "@type": "HowToStep",
+      "text": "6. Refrigerate the ramekins for several hours.",
+      "name": "Step 6: 6. Refrigerate the…",
+      "url": "https://www.yummly.co.uk/recipe/White-Chocolate-and-Gingersnap-Tiramisu-2046604",
+      "image": "https://lh3.googleusercontent.com/iz6rnAimWLW2xASyJIg-bOnFTy0xueLq7hVknbNA8psLJAA9pP09IK6sksvVQdsYrlq1kT0y_N2Hj0TEb0vt=w1200-h630-pp-rj-v1-e365",
+      "position": 6,
+      "author": "Lolibox",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Yummly",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://x.yummlystatic.com/web/yummly.svg"
+        }
+      }
+    },
+    {
+      "@type": "HowToStep",
+      "text": "7. Top with some crushed gingersnaps and serve.",
+      "name": "Step 7: 7. Top with some cr…",
+      "url": "https://www.yummly.co.uk/recipe/White-Chocolate-and-Gingersnap-Tiramisu-2046604",
+      "image": "https://lh3.googleusercontent.com/iz6rnAimWLW2xASyJIg-bOnFTy0xueLq7hVknbNA8psLJAA9pP09IK6sksvVQdsYrlq1kT0y_N2Hj0TEb0vt=w1200-h630-pp-rj-v1-e365",
+      "position": 7,
+      "author": "Lolibox",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Yummly",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://x.yummlystatic.com/web/yummly.svg"
+        }
+      }
+    }
+  ],
+  "dateModified": "2021-11-06"
+}

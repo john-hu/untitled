@@ -1,0 +1,1624 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- global variable for GTM to pass info to GA -->
+    <script>
+      window.userLoggedIn = "False";
+      window.isHistorySynced = "False";
+      window.loadGTM = "true";
+      window.dataLayer = window.dataLayer || [];
+      window.loadFlickerScript = "false" === "true";
+    </script>
+
+    <!-- optimizely tag -->
+    <script src="https://cdn.optimizely.com/js/20287127416.js" />
+
+    <!-- Anti-flicker snippet for Google Optimize -->
+    <style>
+      .async-hide {
+        opacity: 0 !important;
+      }
+    </style>
+    <script>
+      (function (a, s, y, n, c, h, i, d, e) {
+        s.className += " " + y;
+        h.start = 1 * new Date();
+        h.end = i = function () {
+          s.className = s.className.replace(RegExp(" ?" + y), "");
+        };
+        (a[n] = a[n] || []).hide = h;
+        setTimeout(function () {
+          i();
+          h.end = null;
+        }, c);
+        h.timeout = c;
+      })(window, document.documentElement, "async-hide", "dataLayer", 4000, {
+        "GTM-WJH26T": true,
+      });
+    </script>
+
+    <!-- Google Tag Manager -->
+    <noscript
+      ><iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-WJH26T"
+        height="0"
+        width="0"
+        style="display: none; visibility: hidden"
+      ></iframe
+    ></noscript>
+    <script>
+      (function (w, d, s, l, i) {
+        if (!w.loadGTM) {
+          return;
+        }
+        w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != "dataLayer" ? "&l=" + l : "";
+        j.async = true;
+        j.src = "//www.googletagmanager.com/gtm.js?id=" + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, "script", "dataLayer", "GTM-WJH26T");
+    </script>
+
+    <!-- Google One Tap Client Library -->
+    <script src="https://accounts.google.com/gsi/client" defer></script>
+
+    <!-- begin Floodlight ga tag -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=DC-8147271"
+    ></script>
+    <script>
+      function gtag() {
+        window.dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "DC-8147271");
+    </script>
+    <!-- end Floodlight ga tag -->
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://adservice.google.com" />
+    <link rel="preconnect" href="https://googleads.g.doubleclick.net" />
+    <link rel="preconnect" href="https://www.google-analytics.com" />
+    <link rel="preconnect" href="https://www.googleadservice.com" />
+    <link rel="preconnect" href="https://www.google.com" />
+    <link rel="preconnect" href="https://cdn.branch.io" crossorigin />
+    <link rel="preconnect" href="https://cdn.polyfill.io" crossorigin />
+    <link rel="preconnect" href="https://mapi.yummly.com" crossorigin />
+    <link
+      rel="preconnect"
+      href="https://optanon.blob.core.windows.net"
+      crossorigin
+    />
+    <link
+      rel="preconnect"
+      href="https://production-bq-lambda-stack.production.yummly.com"
+      crossorigin
+    />
+    <link rel="preconnect" href="https://s.pinimg.com" crossorigin />
+    <link rel="preconnect" href="https://storage.googleapis.com" crossorigin />
+    <link
+      rel="preconnect"
+      href="https://www.googletagmanager.com"
+      crossorigin
+    />
+    <meta name="theme-color" content="#F5F5F5" />
+    <meta name="p:domain_verify" content="00726d6956914553b7d3b6975ec71e27" />
+    <meta
+      name="ahrefs-site-verification"
+      content="55fa4160b79eb196889e7e2ef0285ad8ac0b3576410f10b43c41e820cd18c4e9"
+    />
+    <meta
+      name="google-site-verification"
+      content="34QHxliwGxZ65grgIFc5cpD2N6lH0uoDX044fmviusA"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Yummly" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <link rel="shortcut icon" href="/favicon.ico" sizes="16x16 32x32 64x64" />
+    <link
+      rel="icon"
+      href="https://x.yummlystatic.com/s/ffe9b9dd8/icons/favicon-32.png"
+      sizes="32x32"
+    />
+    <link
+      rel="icon"
+      href="https://x.yummlystatic.com/s/ffe9b9dd8/icons/favicon-64.png"
+      sizes="64x64"
+    />
+    <link
+      rel="icon"
+      href="https://x.yummlystatic.com/s/ffe9b9dd8/icons/favicon-152.png"
+      sizes="152x152"
+    />
+    <link
+      rel="icon"
+      href="https://x.yummlystatic.com/s/ffe9b9dd8/icons/favicon-180.png"
+      sizes="180x180"
+    />
+    <link
+      rel="apple-touch-icon"
+      href="https://x.yummlystatic.com/s/ffe9b9dd8/icons/apple-touch-icon.png"
+    />
+    <link
+      href="https://x.yummlystatic.com/s/ffe9b9dd8/icons/splash/iphone5_splash.png"
+      media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)"
+      rel="apple-touch-startup-image"
+    />
+    <link
+      href="https://x.yummlystatic.com/s/ffe9b9dd8/icons/splash/iphone6_splash.png"
+      media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)"
+      rel="apple-touch-startup-image"
+    />
+    <link
+      href="https://x.yummlystatic.com/s/ffe9b9dd8/icons/splash/iphoneplus_splash.png"
+      media="(device-width: 621px) and (device-height: 1104px) and (-webkit-device-pixel-ratio: 3)"
+      rel="apple-touch-startup-image"
+    />
+    <link
+      href="https://x.yummlystatic.com/s/ffe9b9dd8/icons/splash/iphonex_splash.png"
+      media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)"
+      rel="apple-touch-startup-image"
+    />
+    <link
+      href="https://x.yummlystatic.com/s/ffe9b9dd8/icons/splash/iphonexr_splash.png"
+      media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)"
+      rel="apple-touch-startup-image"
+    />
+    <link
+      href="https://x.yummlystatic.com/s/ffe9b9dd8/icons/splash/iphonexsmax_splash.png"
+      media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)"
+      rel="apple-touch-startup-image"
+    />
+    <link
+      href="https://x.yummlystatic.com/s/ffe9b9dd8/icons/splash/ipad_splash.png"
+      media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2)"
+      rel="apple-touch-startup-image"
+    />
+    <link
+      href="https://x.yummlystatic.com/s/ffe9b9dd8/icons/splash/ipadpro1_splash.png"
+      media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2)"
+      rel="apple-touch-startup-image"
+    />
+    <link
+      href="https://x.yummlystatic.com/s/ffe9b9dd8/icons/splash/ipadpro3_splash.png"
+      media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2)"
+      rel="apple-touch-startup-image"
+    />
+    <link
+      href="https://x.yummlystatic.com/s/ffe9b9dd8/icons/splash/ipadpro2_splash.png"
+      media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)"
+      rel="apple-touch-startup-image"
+    />
+
+    <title data-react-helmet="true">
+      White Chocolate and Gingersnap Tiramisu Recipe | Yummly
+    </title>
+    <meta data-react-helmet="true" name="application-name" content="Yummly" />
+    <meta
+      data-react-helmet="true"
+      name="msapplication-config"
+      content="/ieconfig.xml"
+    />
+    <meta
+      data-react-helmet="true"
+      name="msvalidate.01"
+      content="866FA6AB4AFE5EAF5BC730DE4CEC1DC0"
+    />
+    <meta
+      data-react-helmet="true"
+      name="description"
+      content="Ginger spice is a common spice Holiday favorite for most households. It warms the heart on the cold winter nights. This season, make this gingersnap, crunchy and smooth tiramisu as your Holiday time dessert. Sweet mascarpone cheese contrasts the bitter white chocolate flavors. Crunchy biting gingers"
+    />
+    <meta
+      data-react-helmet="true"
+      property="og:title"
+      content="White Chocolate and Gingersnap Tiramisu Recipe | Yummly"
+    />
+    <meta
+      data-react-helmet="true"
+      property="og:description"
+      content="Ginger spice is a common spice Holiday favorite for most households. It warms the heart on the cold winter nights. This season, make this gingersnap, crunchy and smooth tiramisu as your Holiday time dessert. Sweet mascarpone cheese contrasts the bitter white chocolate flavors. Crunchy biting gingers"
+    />
+    <meta
+      data-react-helmet="true"
+      property="og:url"
+      content="https://www.yummly.co.uk/recipe/White-Chocolate-and-Gingersnap-Tiramisu-2046604"
+    />
+    <meta
+      data-react-helmet="true"
+      property="og:image"
+      content="https://www.yummly.co.uk/images/White-Chocolate-and-Gingersnap-Tiramisu-recipe-2046604"
+    />
+    <meta data-react-helmet="true" name="robots" content="index, follow" />
+    <link
+      data-react-helmet="true"
+      rel="canonical"
+      href="https://www.yummly.co.uk/recipe/White-Chocolate-and-Gingersnap-Tiramisu-2046604"
+    />
+    <link
+      data-react-helmet="true"
+      rel="alternate"
+      hreflang="en"
+      href="https://www.yummly.com/recipe/White-Chocolate-and-Gingersnap-Tiramisu-2046604"
+    />
+    <link
+      data-react-helmet="true"
+      rel="alternate"
+      hreflang="en-GB"
+      href="https://www.yummly.co.uk/recipe/White-Chocolate-and-Gingersnap-Tiramisu-2046604"
+    />
+    <link
+      data-react-helmet="true"
+      rel="amphtml"
+      href="https://www.yummly.co.uk/amp/recipe/White-Chocolate-and-Gingersnap-Tiramisu-2046604"
+    />
+    <link
+      href="https://x.yummlystatic.com/s/public/css/app.b87d70216ddbc7124f2e.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="">
+    <!-- Parents of AMP Main Navigation MUST be body -->
+
+    <div id="mainApp">
+      <div
+        class="
+          App
+          no-animation-during-load
+          logged-out
+          set-once
+          show-cookbook-details
+          app-recipe
+          platform-mobile
+          hide-top-nav
+        "
+      >
+        <div class="cover-da-content"></div>
+        <div class="main-navigation p3-text">
+          <section class="logo-wrap nav-section">
+            <a
+              class="logo"
+              id="main-nav-yummly-logo"
+              title="Home"
+              aria-label="Home"
+              href="/"
+              ><img
+                class="logo-image"
+                src="https://x.yummlystatic.com/web/1x1.png"
+            /></a>
+            <div class="separator p2-text"></div>
+          </section>
+          <section class="main-nav-scrollable">
+            <section class="profile-thumbnail-section">
+              <a
+                class="btn-primary signin-button"
+                id="nav-desktop-signin-button"
+                title="Sign Up / Log in"
+                aria-label="Sign Up / Log in"
+                href="/login#signup"
+                >Sign Up / Log In</a
+              >
+            </section>
+            <section class="features-navigation-section nav-section micro-text">
+              <a
+                class="tab p3-text features-title"
+                title="My Feed"
+                aria-label="My Feed"
+                href="/"
+                >My Feed</a
+              ><a
+                class="tab p3-text articles-title"
+                title="Articles"
+                aria-label="Articles"
+                href="/dish"
+                >Articles</a
+              ><a class="tab p3-text meal-planning-title" href="/meal-planning"
+                ><span>Meal Planner</span
+                ><span class="new-banner micro-text font-bold">New</span></a
+              ><a class="tab p3-text pantry-search-title" href="/pantry-search"
+                ><span>Pantry-Ready Recipes</span
+                ><span class="new-banner micro-text font-bold">New</span></a
+              ><a
+                class="tab p3-text browse-title"
+                title="Browse"
+                aria-label="Browse"
+                href="/browse"
+                >Browse</a
+              ><a
+                class="tab p3-text guided-title"
+                title="Guided Recipes"
+                aria-label="Guided Recipes"
+                href="/guided-video-recipes"
+                >Guided Recipes</a
+              ><a
+                class="
+                  tab
+                  p3-text
+                  therm-title
+                  font-bold
+                  micro-caps-special
+                  primary-dark
+                "
+                title="Smart Thermometer"
+                aria-label="Smart Thermometer"
+                href="/thermometer"
+                >Smart Thermometer</a
+              >
+            </section>
+            <div class="navigation-collections">
+              <a
+                class="title font-bold micro-caps-special primary-dark"
+                title="Profile Page"
+                aria-label="Profile Page"
+                href="/profile"
+                >Saved Recipes</a
+              >
+              <div role="button" aria-label="Log in to access your collections">
+                <div class="new-collection-wrapper checkbox">
+                  <div class="create-collection">
+                    <span class="y-icon new-plus" data-icon="➕"></span
+                    ><span class="static-new-collection-title"
+                      >New Collection</span
+                    >
+                  </div>
+                </div>
+                <div class="collection-tab greyscale-2">
+                  <span
+                    class="y-icon collection-folder greyscale-4"
+                    data-icon=""
+                  ></span
+                  >All Yums
+                </div>
+                <div class="collection-tab greyscale-2">
+                  <span
+                    class="y-icon collection-folder greyscale-4"
+                    data-icon=""
+                  ></span
+                  >Breakfasts
+                </div>
+                <div class="collection-tab greyscale-2">
+                  <span
+                    class="y-icon collection-folder greyscale-4"
+                    data-icon=""
+                  ></span
+                  >Desserts
+                </div>
+                <div class="collection-tab greyscale-2">
+                  <span
+                    class="y-icon collection-folder greyscale-4"
+                    data-icon=""
+                  ></span
+                  >Dinners
+                </div>
+                <div class="collection-tab greyscale-2">
+                  <span
+                    class="y-icon collection-folder greyscale-4"
+                    data-icon=""
+                  ></span
+                  >Drinks
+                </div>
+                <div class="collection-tab greyscale-2">
+                  <span
+                    class="y-icon collection-folder greyscale-4"
+                    data-icon=""
+                  ></span
+                  >Sides
+                </div>
+              </div>
+            </div>
+          </section>
+          <section class="main-nav-footer">
+            <button
+              id="qa-nav-toggle"
+              title="Open Additional Navigation Options"
+              aria-label="Open Additional Navigation Options"
+              class="button additional-links-toggler"
+            >
+              <div class="dots">...</div>
+              <div class="text micro-caps">More</div>
+            </button>
+            <div class="legal-links">
+              <a
+                id="qa-menu-privacy"
+                title="Privacy"
+                aria-label="Privacy"
+                href="/privacy"
+                >Privacy</a
+              ><a
+                id="qa-menu-terms"
+                title="Terms"
+                aria-label="Terms"
+                href="/terms"
+                >Terms</a
+              ><a
+                id="qa-menu-interest-based-ads"
+                title="Interest-Based Ads"
+                aria-label="Interest-Based Ads"
+                href="/privacy#advertising"
+                >Interest-Based Ads</a
+              ><a
+                id="qa-menu-copyright"
+                title="Copyright"
+                aria-label="Copyright"
+                href="/copyright"
+                >Copyright</a
+              ><a
+                id="qa-menu-ccpa"
+                title="Do Not Sell My Personal Information"
+                aria-label="Do Not Sell My Personal Information"
+                href="/do-not-sell-my-info"
+                >Do Not Sell My Personal Information</a
+              ><a
+                id="qa-menu-sitemap"
+                href="/sitemap-en-GB-1.html"
+                title="Sitemap"
+                aria-label="Sitemap"
+                >Sitemap</a
+              >
+            </div>
+          </section>
+        </div>
+        <div class="secondary-nav">
+          <span
+            class="y-icon close-nav"
+            role="button"
+            aria-label="Close Navigation"
+            data-icon=""
+          ></span>
+          <div class="first-flex-expander"></div>
+          <section class="secondary-nav-section">
+            <a
+              id="qa-secondary-menu-about-desktop"
+              class="secondary-nav-link"
+              title="About"
+              aria-label="About"
+              href="/about"
+              >About</a
+            ><a
+              id="qa-secondary-menu-careers-desktop"
+              class="secondary-nav-link"
+              title="Careers"
+              aria-label="Careers"
+              href="/careers"
+              >Careers</a
+            ><a
+              id="qa-secondary-menu-contact-desktop"
+              class="secondary-nav-link"
+              title="Contact Us"
+              aria-label="Contact Us"
+              href="/about#contact"
+              >Contact Us</a
+            ><a
+              id="qa-secondary-menu-faqs-desktop"
+              class="secondary-nav-link"
+              title="FAQs"
+              aria-label="FAQs"
+              href="/recipe/https://help.yummly.com/hc/en-us"
+              >FAQs</a
+            >
+          </section>
+          <section class="secondary-nav-section">
+            <a
+              id="qa-secondary-menu-api-desktop"
+              class="secondary-nav-link"
+              href="/recipe/https://developer.yummly.com"
+            ></a
+            ><a
+              id="qa-secondary-menu-bookmarklet-desktop"
+              class="secondary-nav-link"
+              title="Bookmarklet"
+              aria-label="Bookmarklet"
+              href="/bookmarklet"
+              >Bookmarklet</a
+            ><a
+              id="qa-secondary-menu-yumbutton-desktop"
+              class="secondary-nav-link"
+              title="Yum Button"
+              aria-label="Yum Button"
+              href="/goodies/yumbutton"
+              >Yum Button</a
+            >
+          </section>
+          <section class="secondary-nav-section">
+            <div class="legal-links">
+              <a id="" title="Privacy" aria-label="Privacy" href="/privacy"
+                >Privacy</a
+              ><a id="" title="Terms" aria-label="Terms" href="/terms">Terms</a
+              ><a
+                id=""
+                title="Interest-Based Ads"
+                aria-label="Interest-Based Ads"
+                href="/privacy#advertising"
+                >Interest-Based Ads</a
+              ><a
+                id=""
+                title="Copyright"
+                aria-label="Copyright"
+                href="/copyright"
+                >Copyright</a
+              ><a
+                id=""
+                title="Do Not Sell My Personal Information"
+                aria-label="Do Not Sell My Personal Information"
+                href="/do-not-sell-my-info"
+                >Do Not Sell My Personal Information</a
+              ><a
+                id=""
+                href="/sitemap-en-GB-1.html"
+                title="Sitemap"
+                aria-label="Sitemap"
+                >Sitemap</a
+              >
+            </div>
+          </section>
+          <div class="flex-expander"></div>
+          <section class="secondary-nav-section main-nav-footer">
+            <div class="app-store-links">
+              <ul class="app-promo-section">
+                <li class="nav-menu-list-item ios-store">
+                  <a
+                    class="app-promo ios-promo"
+                    id="qa-menu-app-ios"
+                    data-label="Download on the App Store"
+                    href="/recipe/http://t.ym.ly/m/c/kwcliP"
+                    ><img src="https://x.yummlystatic.com/web/1x1.png"
+                  /></a>
+                </li>
+                <li class="nav-menu-list-item android-store">
+                  <a
+                    class="app-promo android-promo"
+                    id="qa-menu-app-android"
+                    data-label="Get it on Google Play"
+                    href="/recipe/http://t.ym.ly/m/c/kwcliA"
+                    ><img src="https://x.yummlystatic.com/web/1x1.png"
+                  /></a>
+                </li>
+              </ul>
+            </div>
+            <div class="social-media-links">
+              <a
+                id="qa-social-facebook"
+                href="https://facebook.com/yummly"
+                title="Yummly on Facebook"
+                aria-label="Yummly on Facebook"
+                target="_blank"
+                rel="noopener nofollow"
+                ><span class="y-icon social-link-icon" data-icon="f"></span
+                ><span class="screen-reader-text">Yummly on Facebook</span></a
+              ><a
+                id="qa-social-pinterest"
+                href="https://pinterest.com/yummly/"
+                title="Yummly on Pinterest"
+                aria-label="Yummly on Pinterest"
+                target="_blank"
+                rel="noopener nofollow"
+                ><span class="y-icon social-link-icon" data-icon="p"></span
+                ><span class="screen-reader-text">Yummly on Pinterest</span></a
+              ><a
+                id="qa-social-instagram"
+                href="https://instagram.com/yummly"
+                title="Yummly on Instagram"
+                aria-label="Yummly on Instagram"
+                target="_blank"
+                rel="noopener nofollow"
+                ><span class="y-icon social-link-icon" data-icon="i"></span
+                ><span class="screen-reader-text">Yummly on Instagram</span></a
+              ><a
+                id="qa-social-youtube"
+                href="https://www.youtube.com/yummly1/"
+                title="Yummly on YouTube"
+                aria-label="Yummly on YouTube"
+                target="_blank"
+                rel="noopener nofollow"
+                ><span class="y-icon social-link-icon" data-icon="u"></span
+                ><span class="screen-reader-text">Yummly on YouTube</span></a
+              >
+            </div>
+            <div class="copyright-footer nano-text greyscale-2">
+              <p>
+                <span class="p1-text footer-text">®</span>/<span
+                  class="trademark"
+                  >™</span
+                ><span>©2021 Yummly. All rights reserved.</span
+                ><span class="ccpa p1-line-height"
+                  >Part of the Whirlpool Corp. family of brands</span
+                >
+              </p>
+              <p class="merchant font-regular">
+                <span class="greyscale-2"
+                  >This online merchant is located in the United States at 883
+                  E. San Carlos Ave. San Carlos, CA 94070.</span
+                >
+              </p>
+              <p class="merchant font-regular">
+                <span class="greyscale-2"
+                  >MSRP is the Manufacturer&#x27;s Suggested Retail Price, which
+                  may differ from actual selling prices in your area.</span
+                >
+              </p>
+            </div>
+          </section>
+        </div>
+        <div class="app-content">
+          <header class="top-header">
+            <nav class="navigation">
+              <div class="top-nav">
+                <section class="menu-section nav-section">
+                  <a
+                    href="#"
+                    data-icon=""
+                    class="nav-toggle y-icon"
+                    id="nav-menu-expander"
+                    title="Menu"
+                    aria-label="Menu"
+                  ></a>
+                </section>
+                <section class="logo-wrap nav-section">
+                  <a class="logo" id="top-nav-yummly-logo" href="/"
+                    ><img src="https://x.yummlystatic.com/web/1x1.png"
+                  /></a>
+                </section>
+                <div class="flex-expander"></div>
+                <span
+                  class="y-icon top-nav-shopping-list nav-icon"
+                  role="button"
+                  aria-label="Open Shopping List"
+                  data-icon=""
+                ></span
+                ><span
+                  class="y-icon spyglass nav-icon"
+                  id="nav-search-toggle"
+                  data-icon=""
+                  role="button"
+                  aria-label="Open Search Modal"
+                ></span>
+              </div>
+            </nav>
+          </header>
+          <div class="recipe p3-text background-light">
+            <div class="breadcrumbs-wrapper wrapper"></div>
+            <div class="recipe-summary wrapper">
+              <div class="recipe-details">
+                <div class="primary-info-text">
+                  <div class="primary-info-left-wrapper">
+                    <h1 class="recipe-title font-bold h2-text primary-dark">
+                      White Chocolate and Gingersnap Tiramisu
+                    </h1>
+                    <span class="attribution"
+                      ><a
+                        class="source-link font-bold micro-text greyscale-3"
+                        title="LOLIBOX"
+                        aria-label="LOLIBOX"
+                        href="/page/lolibox"
+                        >LOLIBOX</a
+                      ></span
+                    >
+                  </div>
+                </div>
+                <div class="summary-item-wrapper">
+                  <div class="recipe-summary-item h2-text">
+                    <span class="value font-light h2-text">8</span
+                    ><span class="unit font-normal p3-text">Ingredients</span>
+                  </div>
+                  <div class="recipe-summary-item unit h2-text">
+                    <span class="value font-light h2-text">40</span
+                    ><span class="unit font-normal p3-text">Minutes</span>
+                  </div>
+                </div>
+                <div class="recipe-interactions-wrapper">
+                  <a
+                    class="
+                      read-dir-btn
+                      btn-primary
+                      wrapper
+                      recipe-summary-full-directions
+                      p1-text
+                    "
+                    href="#recipeDirections"
+                    title="Read Directions"
+                    aria-label="Read Directions"
+                    ><span class="p3-text">Read Directions</span></a
+                  >
+                  <div
+                    class="recipe-details-yum-button yum-button-wrapper"
+                  ></div>
+                  <div
+                    class="add-to-mp primary-dark p3-text cursor-pointer"
+                    role="button"
+                    title="Add recipe to meal plan"
+                  >
+                    <span class="paywall-action-text"
+                      ><span
+                        class="icon locked primary-teal y-icon"
+                        data-icon=""
+                      ></span
+                      ><span class="text font-bold"
+                        >Add to Meal Planner</span
+                      ></span
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="recipe-details-image">
+                <img
+                  class="recipe-image"
+                  src="https://x.yummlystatic.com/web/1x1.png"
+                />
+              </div>
+            </div>
+            <div class="recipe-horizontal-rule greyscale-4"><hr /></div>
+            <div class="mobile-social-wrapper">
+              <div class="recipe-details-yum-button yum-button-wrapper"></div>
+              <div class="share-button">
+                <a
+                  href="https://pinterest.com/pin/create/link/?url=https%3A%2F%2Fwww.yummly.co.uk%2Frecipe%2FWhite-Chocolate-and-Gingersnap-Tiramisu-2046604&amp;media=https%3A%2F%2Flh3.googleusercontent.com%2Fiz6rnAimWLW2xASyJIg-bOnFTy0xueLq7hVknbNA8psLJAA9pP09IK6sksvVQdsYrlq1kT0y_N2Hj0TEb0vt&amp;description=White%20Chocolate%20and%20Gingersnap%20Tiramisu"
+                  target="popup"
+                  class="sharing-options"
+                  data-link="pinterest"
+                  title="Share on Pinterest"
+                  aria-label="Share on Pinterest"
+                  ><span class="y-icon pinterest" data-icon="p"></span></a
+                ><a
+                  href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.yummly.co.uk%2Frecipe%2FWhite-Chocolate-and-Gingersnap-Tiramisu-2046604"
+                  target="popup"
+                  class="sharing-options"
+                  data-link="facebook"
+                  title="Share on Facebook"
+                  aria-label="Share on Facebook"
+                  ><span class="y-icon facebook" data-icon="f"></span></a
+                ><a
+                  href="https://twitter.com/intent/tweet?source=webclient&amp;text=White%20Chocolate%20and%20Gingersnap%20Tiramisu https%3A%2F%2Fwww.yummly.co.uk%2Frecipe%2FWhite-Chocolate-and-Gingersnap-Tiramisu-2046604"
+                  target="popup"
+                  class="sharing-options"
+                  data-link="twitter"
+                  title="Share on Twitter"
+                  aria-label="Share on Twitter"
+                  ><span class="y-icon twitter" data-icon="t"></span
+                ></a>
+              </div>
+            </div>
+            <div class="mobile-mp-wrapper">
+              <div
+                class="add-to-mp primary-dark p3-text cursor-pointer"
+                role="button"
+                title="Add recipe to meal plan"
+              >
+                <span class="paywall-action-text"
+                  ><span
+                    class="icon locked primary-teal y-icon"
+                    data-icon=""
+                  ></span
+                  ><span class="text font-bold">Add to Meal Planner</span></span
+                >
+              </div>
+            </div>
+            <div class="floating-box background-light hidden">
+              <img src="https://x.yummlystatic.com/web/1x1.png" />
+              <div class="direction-info micro-text greyscale-2">
+                <p class="direction-name p1-text font-bold primary-dark">
+                  White Chocolate and Gingersnap Tiramisu
+                </p>
+                <p class="direction-source font-bold greyscale-3">Lolibox</p>
+              </div>
+              <div class="floating-button">
+                <a
+                  class="read-dir-btn recipe-show-full btn-primary floating"
+                  href="#recipeDirections"
+                  title="Read Directions"
+                  aria-label="Read Directions"
+                  ><span class="p3-text">Read Directions</span></a
+                >
+              </div>
+            </div>
+            <div class="recipe-wrapper wrapper">
+              <div class="social-wrapper hidden">
+                <div class="recipe-details-yum-button yum-button-wrapper"></div>
+                <div class="share-button">
+                  <a
+                    href="https://pinterest.com/pin/create/link/?url=https%3A%2F%2Fwww.yummly.co.uk%2Frecipe%2FWhite-Chocolate-and-Gingersnap-Tiramisu-2046604&amp;media=https%3A%2F%2Flh3.googleusercontent.com%2Fiz6rnAimWLW2xASyJIg-bOnFTy0xueLq7hVknbNA8psLJAA9pP09IK6sksvVQdsYrlq1kT0y_N2Hj0TEb0vt&amp;description=White%20Chocolate%20and%20Gingersnap%20Tiramisu"
+                    target="popup"
+                    class="sharing-options"
+                    data-link="pinterest"
+                    title="Share on Pinterest"
+                    aria-label="Share on Pinterest"
+                    ><span class="y-icon pinterest" data-icon="p"></span></a
+                  ><a
+                    href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.yummly.co.uk%2Frecipe%2FWhite-Chocolate-and-Gingersnap-Tiramisu-2046604"
+                    target="popup"
+                    class="sharing-options"
+                    data-link="facebook"
+                    title="Share on Facebook"
+                    aria-label="Share on Facebook"
+                    ><span class="y-icon facebook" data-icon="f"></span></a
+                  ><a
+                    href="https://twitter.com/intent/tweet?source=webclient&amp;text=White%20Chocolate%20and%20Gingersnap%20Tiramisu https%3A%2F%2Fwww.yummly.co.uk%2Frecipe%2FWhite-Chocolate-and-Gingersnap-Tiramisu-2046604"
+                    target="popup"
+                    class="sharing-options"
+                    data-link="twitter"
+                    title="Share on Twitter"
+                    aria-label="Share on Twitter"
+                    ><span class="y-icon twitter" data-icon="t"></span
+                  ></a>
+                </div>
+              </div>
+              <div class="recipe-info wrapper">
+                <h3 class="title h4-text primary-dark">Description</h3>
+                <div class="wrapper recipe-description">
+                  <div class="veil contains-markdown">
+                    <span id="veil-root">
+                      <p>
+                        Ginger spice is a common spice Holiday favorite for most
+                        households. It warms the heart on the cold winter
+                        nights. This season, make this gingersnap, crunchy and
+                        smooth tiramisu as your Holiday time dessert. Sweet
+                        mascarpone cheese contrasts the bitter white chocolate
+                        flavors. Crunchy biting gingersnap crumbles rest atop a
+                        light layered dessert of sweet and spicy exception.
+                      </p> </span
+                    ><span class="veiled-text"></span>
+                  </div>
+                </div>
+                <div class="recipe-ingredients wrapper">
+                  <div class="ingredients-header exp-default" id="ingredients">
+                    <h3 class="ingrs-header-title title h4-text primary-dark">
+                      Ingredients
+                    </h3>
+                    <div class="flex-expander"></div>
+                    <div class="unit-serving-wrapper">
+                      <div class="units units-metric">
+                        <span
+                          class="first font-bold micro-caps"
+                          data-units="IMPERIAL"
+                          >US</span
+                        ><span class="separator micro-caps greyscale-3">|</span
+                        ><span
+                          class="last font-bold micro-caps"
+                          data-units="METRIC"
+                          >METRIC</span
+                        >
+                      </div>
+                      <div class="flex-expander"></div>
+                      <div class="servings micro-caps font-bold">
+                        <span class="greyscale-1">4 SERVINGS</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="shopping-list-ingredients">
+                    <div class="add-ingredient show-add">
+                      <div class="card-action no-padding type-add">
+                        <span
+                          class="icon action-item primary-teal add-item y-icon"
+                          title="Add this ingredient to your shopping list"
+                          data-icon=""
+                        ></span
+                        ><span
+                          class="
+                            icon
+                            action-item
+                            primary-teal
+                            remove-item
+                            y-icon
+                          "
+                          title="Add this ingredient to your shopping list"
+                          data-icon="➖"
+                        ></span>
+                      </div>
+                      <li class="IngredientLine">
+                        <span class="amount"
+                          ><span data-singular="false">3</span> </span
+                        ><span class="ingredient">eggs<!-- --> </span>
+                      </li>
+                    </div>
+                    <div class="add-ingredient show-add">
+                      <div class="card-action no-padding type-add">
+                        <span
+                          class="icon action-item primary-teal add-item y-icon"
+                          title="Add this ingredient to your shopping list"
+                          data-icon=""
+                        ></span
+                        ><span
+                          class="
+                            icon
+                            action-item
+                            primary-teal
+                            remove-item
+                            y-icon
+                          "
+                          title="Add this ingredient to your shopping list"
+                          data-icon="➖"
+                        ></span>
+                      </div>
+                      <li class="IngredientLine">
+                        <span class="amount"
+                          ><span data-singular="false">50</span> </span
+                        ><span class="unit">grams<!-- --> </span
+                        ><span class="ingredient">sugar<!-- --> </span>
+                      </li>
+                    </div>
+                    <div class="add-ingredient show-add">
+                      <div class="card-action no-padding type-add">
+                        <span
+                          class="icon action-item primary-teal add-item y-icon"
+                          title="Add this ingredient to your shopping list"
+                          data-icon=""
+                        ></span
+                        ><span
+                          class="
+                            icon
+                            action-item
+                            primary-teal
+                            remove-item
+                            y-icon
+                          "
+                          title="Add this ingredient to your shopping list"
+                          data-icon="➖"
+                        ></span>
+                      </div>
+                      <li class="IngredientLine">
+                        <span class="amount"
+                          ><span data-singular="false">250</span> </span
+                        ><span class="unit">grams<!-- --> </span
+                        ><span class="ingredient">mascarpone<!-- --> </span>
+                      </li>
+                    </div>
+                    <div class="add-ingredient show-add">
+                      <div class="card-action no-padding type-add">
+                        <span
+                          class="icon action-item primary-teal add-item y-icon"
+                          title="Add this ingredient to your shopping list"
+                          data-icon=""
+                        ></span
+                        ><span
+                          class="
+                            icon
+                            action-item
+                            primary-teal
+                            remove-item
+                            y-icon
+                          "
+                          title="Add this ingredient to your shopping list"
+                          data-icon="➖"
+                        ></span>
+                      </div>
+                      <li class="IngredientLine">
+                        <span class="amount"
+                          ><span data-singular="false">80</span> </span
+                        ><span class="unit">grams<!-- --> </span
+                        ><span class="ingredient"
+                          >white chocolate<!-- -->
+                        </span>
+                      </li>
+                    </div>
+                    <div class="add-ingredient show-add">
+                      <div class="card-action no-padding type-add">
+                        <span
+                          class="icon action-item primary-teal add-item y-icon"
+                          title="Add this ingredient to your shopping list"
+                          data-icon=""
+                        ></span
+                        ><span
+                          class="
+                            icon
+                            action-item
+                            primary-teal
+                            remove-item
+                            y-icon
+                          "
+                          title="Add this ingredient to your shopping list"
+                          data-icon="➖"
+                        ></span>
+                      </div>
+                      <li class="IngredientLine">
+                        <span class="amount"
+                          ><span data-singular="true">1</span> </span
+                        ><span class="unit">tablespoon<!-- --> </span
+                        ><span class="ingredient">water<!-- --> </span>
+                      </li>
+                    </div>
+                    <div class="add-ingredient show-add">
+                      <div class="card-action no-padding type-add">
+                        <span
+                          class="icon action-item primary-teal add-item y-icon"
+                          title="Add this ingredient to your shopping list"
+                          data-icon=""
+                        ></span
+                        ><span
+                          class="
+                            icon
+                            action-item
+                            primary-teal
+                            remove-item
+                            y-icon
+                          "
+                          title="Add this ingredient to your shopping list"
+                          data-icon="➖"
+                        ></span>
+                      </div>
+                      <li class="IngredientLine">
+                        <span class="ingredient">gingersnaps<!-- --> </span>
+                      </li>
+                    </div>
+                    <div class="add-ingredient show-add">
+                      <div class="card-action no-padding type-add">
+                        <span
+                          class="icon action-item primary-teal add-item y-icon"
+                          title="Add this ingredient to your shopping list"
+                          data-icon=""
+                        ></span
+                        ><span
+                          class="
+                            icon
+                            action-item
+                            primary-teal
+                            remove-item
+                            y-icon
+                          "
+                          title="Add this ingredient to your shopping list"
+                          data-icon="➖"
+                        ></span>
+                      </div>
+                      <li class="IngredientLine">
+                        <span class="ingredient">milk<!-- --> </span>
+                      </li>
+                    </div>
+                    <div class="add-ingredient show-add">
+                      <div class="card-action no-padding type-add">
+                        <span
+                          class="icon action-item primary-teal add-item y-icon"
+                          title="Add this ingredient to your shopping list"
+                          data-icon=""
+                        ></span
+                        ><span
+                          class="
+                            icon
+                            action-item
+                            primary-teal
+                            remove-item
+                            y-icon
+                          "
+                          title="Add this ingredient to your shopping list"
+                          data-icon="➖"
+                        ></span>
+                      </div>
+                      <li class="IngredientLine">
+                        <span class="ingredient">gingersnaps<!-- --> </span
+                        ><span class="remainder">(crumbled)</span>
+                      </li>
+                    </div>
+                    <div
+                      class="basketful-btn basketful-pricing-default"
+                      data-basketful-hide-selectors='["div.global-search","div.cookbook-details.details-page","div.recipe","a.download-promo-banner","div.inline-iframe",".floating-button-tray"]'
+                      data-basketful-site-selector=".app-content"
+                      data-basketful-recipe-url="false"
+                    >
+                      <div class="basketful"></div>
+                    </div>
+                    <div
+                      class="
+                        made-it-button
+                        h5-text
+                        primary-dark
+                        cursor-pointer
+                        made-it-block
+                      "
+                    >
+                      <span class="add-item-text font-bold p3-text"
+                        >Did you make this?</span
+                      ><span
+                        class="icon y-icon made-it-checkmark y-icon"
+                        data-icon=""
+                      ></span>
+                    </div>
+                    <div class="recipe-manage-section">
+                      <div
+                        class="
+                          add-all-ingrs
+                          primary-dark
+                          p3-text
+                          cursor-pointer
+                        "
+                        role="button"
+                        title="Add all ingredients to shopping list"
+                      >
+                        <span
+                          class="icon add-item-icon primary-teal y-icon"
+                          data-icon=""
+                        ></span
+                        ><span class="add-item-text font-bold"
+                          >Add All to Shopping List</span
+                        >
+                      </div>
+                      <div
+                        class="add-to-mp primary-dark p3-text cursor-pointer"
+                        role="button"
+                        title="Add recipe to meal plan"
+                      >
+                        <span class="paywall-action-text"
+                          ><span
+                            class="icon locked primary-teal y-icon"
+                            data-icon=""
+                          ></span
+                          ><span class="text font-bold"
+                            >Add to Meal Planner</span
+                          ></span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="wrapper directions-wrapper">
+                  <h3 id="recipeDirections" class="title h4-text primary-dark">
+                    Directions
+                  </h3>
+                  <ol class="List">
+                    <li class="prep-step font-normal p2-text greyscale-2">
+                      <span class="step"
+                        >1. Separate the egg whites from the yolks.</span
+                      >
+                    </li>
+                    <li class="prep-step font-normal p2-text greyscale-2">
+                      <span class="step"
+                        >2. Whisk the yolks with the sugar until it becomes
+                        pale. Add the mascarpone and whisk thoroughly.</span
+                      >
+                    </li>
+                    <li class="prep-step font-normal p2-text greyscale-2">
+                      <span class="step"
+                        >3. Melt the white chocolate in the microwave with the
+                        water. When it is melted, add it to the previous mixture
+                        and mix well.</span
+                      >
+                    </li>
+                  </ol>
+                  <a
+                    class="view-more-steps font-bold p3-text primary-teal"
+                    href="#"
+                    ><span
+                      class="y-icon right-to-down-arrow"
+                      data-icon=""
+                    ></span
+                    >View 4 More Steps</a
+                  ><a
+                    href="https://lolibox.fr?utm_campaign=yummly&amp;utm_medium=yummly&amp;utm_source=yummly"
+                    class="discover-more font-bold p3-text primary-teal"
+                    target="_blank"
+                    rel="noopener"
+                    >Discover more recipes from Lolibox</a
+                  >
+                </div>
+                <div class="wrapper tags-wrapper">
+                  <h3 class="title h4-text primary-dark">Recipe Tags</h3>
+                  <ul class="recipe-tags">
+                    <li
+                      class="recipe-tag micro-text font-bold"
+                      title="Course: Desserts"
+                    >
+                      <a
+                        class="tag-link primary-teal"
+                        title="Desserts"
+                        aria-label="Desserts"
+                        href="/recipes?q=Desserts&amp;taste-pref-appended=true"
+                        >Desserts</a
+                      >
+                    </li>
+                    <li
+                      class="recipe-tag micro-text font-bold"
+                      title="Dish: Tiramisu"
+                    >
+                      <a
+                        class="tag-link primary-teal"
+                        title="Tiramisu"
+                        aria-label="Tiramisu"
+                        href="/recipes?q=Tiramisu&amp;taste-pref-appended=true"
+                        >Tiramisu</a
+                      >
+                    </li>
+                    <li
+                      class="recipe-tag micro-text font-bold"
+                      title="Technique: Microwaving"
+                    >
+                      <a
+                        class="tag-link primary-teal"
+                        title="Microwaving"
+                        aria-label="Microwaving"
+                        href="/recipes?q=Microwaving&amp;taste-pref-appended=true"
+                        >Microwaving</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+                <div class="reviews wrapper" id="reviews">
+                  <h3 class="h4-text">Reviews</h3>
+                  <div class="rating-average"></div>
+                  <div class="review media new-review">
+                    <img src="https://x.yummlystatic.com/web/1x1.png" />
+                    <div class="review-content">
+                      <a class="review-text font-normal p2-text" href="#"
+                        ><strong>Connect to Yummly</strong>
+                        <!-- -->to review this recipe</a
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="qa-related" class="related-carousel basic-cards wrapper">
+              <div class="title-wrapper">
+                <h3 class="title h4-text greyscale-2">Related</h3>
+              </div>
+              <div class="card-grid">
+                <div
+                  class="
+                    placeholder-card
+                    recipe-card
+                    basic-card
+                    visible
+                    background-greyscale-5
+                  "
+                >
+                  <h1></h1>
+                  <h3></h3>
+                </div>
+                <div
+                  class="
+                    placeholder-card
+                    recipe-card
+                    basic-card
+                    visible
+                    background-greyscale-5
+                  "
+                >
+                  <h1></h1>
+                  <h3></h3>
+                </div>
+                <div
+                  class="
+                    placeholder-card
+                    recipe-card
+                    basic-card
+                    visible
+                    background-greyscale-5
+                  "
+                >
+                  <h1></h1>
+                  <h3></h3>
+                </div>
+                <div
+                  class="
+                    placeholder-card
+                    recipe-card
+                    basic-card
+                    visible
+                    background-greyscale-5
+                  "
+                >
+                  <h1></h1>
+                  <h3></h3>
+                </div>
+              </div>
+              <button
+                aria-label="Previous"
+                type="left"
+                class="button arrow-button arrow-left"
+              >
+                <div class="y-icon tag-arrow" data-icon=""></div></button
+              ><button
+                aria-label="Next"
+                type="right"
+                class="button arrow-button arrow-right"
+              >
+                <div class="y-icon tag-arrow" data-icon=""></div>
+              </button>
+            </div>
+            <div
+              id="qa-mascarpone-desserts-simple"
+              class="related-carousel basic-cards wrapper"
+            >
+              <div class="title-wrapper">
+                <h3 class="title h4-text greyscale-2 primary-dark">
+                  Mascarpone Desserts Simple
+                </h3>
+              </div>
+              <div class="card-grid">
+                <div
+                  class="
+                    placeholder-card
+                    recipe-card
+                    basic-card
+                    visible
+                    background-greyscale-5
+                  "
+                >
+                  <h1></h1>
+                  <h3></h3>
+                </div>
+                <div
+                  class="
+                    placeholder-card
+                    recipe-card
+                    basic-card
+                    visible
+                    background-greyscale-5
+                  "
+                >
+                  <h1></h1>
+                  <h3></h3>
+                </div>
+                <div
+                  class="
+                    placeholder-card
+                    recipe-card
+                    basic-card
+                    visible
+                    background-greyscale-5
+                  "
+                >
+                  <h1></h1>
+                  <h3></h3>
+                </div>
+                <div
+                  class="
+                    placeholder-card
+                    recipe-card
+                    basic-card
+                    visible
+                    background-greyscale-5
+                  "
+                >
+                  <h1></h1>
+                  <h3></h3>
+                </div>
+              </div>
+              <button
+                aria-label="Previous"
+                type="left"
+                class="button arrow-button arrow-left"
+              >
+                <div class="y-icon tag-arrow" data-icon=""></div></button
+              ><button
+                aria-label="Next"
+                type="right"
+                class="button arrow-button arrow-right"
+              >
+                <div class="y-icon tag-arrow" data-icon=""></div>
+              </button>
+            </div>
+            <div
+              id="qa-white-chocolate"
+              class="related-carousel basic-cards wrapper"
+            >
+              <div class="title-wrapper">
+                <h3 class="title h4-text greyscale-2 primary-dark">
+                  White Chocolate
+                </h3>
+              </div>
+              <div class="card-grid">
+                <div
+                  class="
+                    placeholder-card
+                    recipe-card
+                    basic-card
+                    visible
+                    background-greyscale-5
+                  "
+                >
+                  <h1></h1>
+                  <h3></h3>
+                </div>
+                <div
+                  class="
+                    placeholder-card
+                    recipe-card
+                    basic-card
+                    visible
+                    background-greyscale-5
+                  "
+                >
+                  <h1></h1>
+                  <h3></h3>
+                </div>
+                <div
+                  class="
+                    placeholder-card
+                    recipe-card
+                    basic-card
+                    visible
+                    background-greyscale-5
+                  "
+                >
+                  <h1></h1>
+                  <h3></h3>
+                </div>
+                <div
+                  class="
+                    placeholder-card
+                    recipe-card
+                    basic-card
+                    visible
+                    background-greyscale-5
+                  "
+                >
+                  <h1></h1>
+                  <h3></h3>
+                </div>
+              </div>
+              <button
+                aria-label="Previous"
+                type="left"
+                class="button arrow-button arrow-left"
+              >
+                <div class="y-icon tag-arrow" data-icon=""></div></button
+              ><button
+                aria-label="Next"
+                type="right"
+                class="button arrow-button arrow-right"
+              >
+                <div class="y-icon tag-arrow" data-icon=""></div>
+              </button>
+            </div>
+            <div class="structured-data-info">
+              <script type="application/ld+json">
+                {
+                  "@context": "https://schema.org/",
+                  "@type": "Recipe",
+                  "description": "Ginger spice is a common spice Holiday favorite for most households. It warms the heart on the cold winter nights. This season, make this gingersnap, crunchy and smooth tiramisu as your Holiday time dessert. Sweet mascarpone cheese contrasts the bitter white chocolate flavors. Crunchy biting gingersnap crumbles rest atop a light layered dessert of sweet and spicy exception.",
+                  "image": [
+                    "https://lh3.googleusercontent.com/iz6rnAimWLW2xASyJIg-bOnFTy0xueLq7hVknbNA8psLJAA9pP09IK6sksvVQdsYrlq1kT0y_N2Hj0TEb0vt=w1280-h1280-c-rj-v1-e365",
+                    "https://lh3.googleusercontent.com/iz6rnAimWLW2xASyJIg-bOnFTy0xueLq7hVknbNA8psLJAA9pP09IK6sksvVQdsYrlq1kT0y_N2Hj0TEb0vt=w1280-h960-c-rj-v1-e365",
+                    "https://lh3.googleusercontent.com/iz6rnAimWLW2xASyJIg-bOnFTy0xueLq7hVknbNA8psLJAA9pP09IK6sksvVQdsYrlq1kT0y_N2Hj0TEb0vt=w1280-h720-c-rj-v1-e365"
+                  ],
+                  "mainEntity": true,
+                  "name": "White Chocolate and Gingersnap Tiramisu",
+                  "author": { "@type": "Person", "name": "Lolibox" },
+                  "totalTime": "PT40M",
+                  "recipeYield": 4,
+                  "recipeCategory": ["Desserts"],
+                  "cookingMethod": ["Microwaving"],
+                  "keywords": "Desserts, Tiramisu, Microwaving",
+                  "recipeIngredient": [
+                    "3 eggs ",
+                    "4 tablespoons sugar ",
+                    "1 15/16 cups mascarpone ",
+                    "7 1/2 tablespoons white chocolate ",
+                    "1 tablespoon water ",
+                    "gingersnaps ",
+                    "milk ",
+                    "gingersnaps crumbled"
+                  ],
+                  "recipeInstructions": [
+                    {
+                      "@type": "HowToStep",
+                      "text": "1. Separate the egg whites from the yolks.",
+                      "name": "Step 1: 1. Separate the egg…",
+                      "url": "https://www.yummly.co.uk/recipe/White-Chocolate-and-Gingersnap-Tiramisu-2046604",
+                      "image": "https://lh3.googleusercontent.com/iz6rnAimWLW2xASyJIg-bOnFTy0xueLq7hVknbNA8psLJAA9pP09IK6sksvVQdsYrlq1kT0y_N2Hj0TEb0vt=w1200-h630-pp-rj-v1-e365",
+                      "position": 1,
+                      "author": "Lolibox",
+                      "publisher": {
+                        "@type": "Organization",
+                        "name": "Yummly",
+                        "logo": {
+                          "@type": "ImageObject",
+                          "url": "https://x.yummlystatic.com/web/yummly.svg"
+                        }
+                      }
+                    },
+                    {
+                      "@type": "HowToStep",
+                      "text": "2. Whisk the yolks with the sugar until it becomes pale. Add the mascarpone and whisk thoroughly.",
+                      "name": "Step 2: 2. Whisk the yolks…",
+                      "url": "https://www.yummly.co.uk/recipe/White-Chocolate-and-Gingersnap-Tiramisu-2046604",
+                      "image": "https://lh3.googleusercontent.com/iz6rnAimWLW2xASyJIg-bOnFTy0xueLq7hVknbNA8psLJAA9pP09IK6sksvVQdsYrlq1kT0y_N2Hj0TEb0vt=w1200-h630-pp-rj-v1-e365",
+                      "position": 2,
+                      "author": "Lolibox",
+                      "publisher": {
+                        "@type": "Organization",
+                        "name": "Yummly",
+                        "logo": {
+                          "@type": "ImageObject",
+                          "url": "https://x.yummlystatic.com/web/yummly.svg"
+                        }
+                      }
+                    },
+                    {
+                      "@type": "HowToStep",
+                      "text": "3. Melt the white chocolate in the microwave with the water. When it is melted, add it to the previous mixture and mix well.",
+                      "name": "Step 3: 3. Melt the white c…",
+                      "url": "https://www.yummly.co.uk/recipe/White-Chocolate-and-Gingersnap-Tiramisu-2046604",
+                      "image": "https://lh3.googleusercontent.com/iz6rnAimWLW2xASyJIg-bOnFTy0xueLq7hVknbNA8psLJAA9pP09IK6sksvVQdsYrlq1kT0y_N2Hj0TEb0vt=w1200-h630-pp-rj-v1-e365",
+                      "position": 3,
+                      "author": "Lolibox",
+                      "publisher": {
+                        "@type": "Organization",
+                        "name": "Yummly",
+                        "logo": {
+                          "@type": "ImageObject",
+                          "url": "https://x.yummlystatic.com/web/yummly.svg"
+                        }
+                      }
+                    },
+                    {
+                      "@type": "HowToStep",
+                      "text": "4. Beat the egg whites until stiff. Fold them carefully into the mascarpone mixture.",
+                      "name": "Step 4: 4. Beat the egg whi…",
+                      "url": "https://www.yummly.co.uk/recipe/White-Chocolate-and-Gingersnap-Tiramisu-2046604",
+                      "image": "https://lh3.googleusercontent.com/iz6rnAimWLW2xASyJIg-bOnFTy0xueLq7hVknbNA8psLJAA9pP09IK6sksvVQdsYrlq1kT0y_N2Hj0TEb0vt=w1200-h630-pp-rj-v1-e365",
+                      "position": 4,
+                      "author": "Lolibox",
+                      "publisher": {
+                        "@type": "Organization",
+                        "name": "Yummly",
+                        "logo": {
+                          "@type": "ImageObject",
+                          "url": "https://x.yummlystatic.com/web/yummly.svg"
+                        }
+                      }
+                    },
+                    {
+                      "@type": "HowToStep",
+                      "text": "5. Soak some gingersnaps in milk. Place alternate layers of moistened gingersnaps, crumbled gingersnaps, and the white chocolate mascarpone mixture in some ramekins.",
+                      "name": "Step 5: 5. Soak some ginger…",
+                      "url": "https://www.yummly.co.uk/recipe/White-Chocolate-and-Gingersnap-Tiramisu-2046604",
+                      "image": "https://lh3.googleusercontent.com/iz6rnAimWLW2xASyJIg-bOnFTy0xueLq7hVknbNA8psLJAA9pP09IK6sksvVQdsYrlq1kT0y_N2Hj0TEb0vt=w1200-h630-pp-rj-v1-e365",
+                      "position": 5,
+                      "author": "Lolibox",
+                      "publisher": {
+                        "@type": "Organization",
+                        "name": "Yummly",
+                        "logo": {
+                          "@type": "ImageObject",
+                          "url": "https://x.yummlystatic.com/web/yummly.svg"
+                        }
+                      }
+                    },
+                    {
+                      "@type": "HowToStep",
+                      "text": "6. Refrigerate the ramekins for several hours.",
+                      "name": "Step 6: 6. Refrigerate the…",
+                      "url": "https://www.yummly.co.uk/recipe/White-Chocolate-and-Gingersnap-Tiramisu-2046604",
+                      "image": "https://lh3.googleusercontent.com/iz6rnAimWLW2xASyJIg-bOnFTy0xueLq7hVknbNA8psLJAA9pP09IK6sksvVQdsYrlq1kT0y_N2Hj0TEb0vt=w1200-h630-pp-rj-v1-e365",
+                      "position": 6,
+                      "author": "Lolibox",
+                      "publisher": {
+                        "@type": "Organization",
+                        "name": "Yummly",
+                        "logo": {
+                          "@type": "ImageObject",
+                          "url": "https://x.yummlystatic.com/web/yummly.svg"
+                        }
+                      }
+                    },
+                    {
+                      "@type": "HowToStep",
+                      "text": "7. Top with some crushed gingersnaps and serve.",
+                      "name": "Step 7: 7. Top with some cr…",
+                      "url": "https://www.yummly.co.uk/recipe/White-Chocolate-and-Gingersnap-Tiramisu-2046604",
+                      "image": "https://lh3.googleusercontent.com/iz6rnAimWLW2xASyJIg-bOnFTy0xueLq7hVknbNA8psLJAA9pP09IK6sksvVQdsYrlq1kT0y_N2Hj0TEb0vt=w1200-h630-pp-rj-v1-e365",
+                      "position": 7,
+                      "author": "Lolibox",
+                      "publisher": {
+                        "@type": "Organization",
+                        "name": "Yummly",
+                        "logo": {
+                          "@type": "ImageObject",
+                          "url": "https://x.yummlystatic.com/web/yummly.svg"
+                        }
+                      }
+                    }
+                  ],
+                  "dateModified": "2021-11-07"
+                }
+              </script>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+      <div id="modal-root"></div>
+    </div>
+  </body>
+</html>

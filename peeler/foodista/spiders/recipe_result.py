@@ -1,14 +1,11 @@
 import logging
 from datetime import datetime, timezone
 
-from scrapy import Request, Spider
 from scrapy.http import Response
 
+from ...scrapy_utils.base_spiders import BaseResultSpider
 from ...scrapy_utils.items import RecipeItem
-from ...utils.storage import Storage
-from ...utils.parsers import fill_recipe_presets, parse_yield, tags_to_diet
-from ...utils.validator import validate
-
+from ...utils.parsers import parse_yield, tags_to_diet
 
 logger = logging.getLogger(__name__)
 DIET_TAG_MAP = {
@@ -22,49 +19,28 @@ def reformat_datetime(value: str):
     return datetime.strptime(value, '%A, %B %d, %Y - %I:%M%p').replace(tzinfo=timezone.utc).isoformat()
 
 
-class RecipeResultSpider(Spider):
-    name = 'recipe_result'
+class RecipeResultSpider(BaseResultSpider):
     allowed_domains = ['foodista.com']
 
-    def start_requests(self):
-        storage = Storage(self.settings['storage'])
-        urls = storage.lock_recipe_urls(self.settings['peel_count'])
-        for url in urls:
-            yield Request(url=url, callback=self.parse, errback=self.handle_error)
-
-    def handle_error(self, failure):
-        logger.error(repr(failure))
-        storage = Storage(self.settings['storage'])
-        storage.unlock_recipe_url(failure.request.url)
-
-    def parse(self, response: Response, **kwargs):
-        storage = Storage(self.settings['storage'])
-        try:
-            item = RecipeItem(
-                authors=[response.css('.username::text').get().strip()],
-                dateCreated=reformat_datetime(response.css('.pane-node-created .pane-content::text').get().strip()),
-                description='\n'.join(response.css('.field-name-body p::text').getall()),
-                id=response.request.url,
-                images=[response.css('[itemprop=image]').attrib['src']],
-                ingredientsRaw=response.css('[itemprop=ingredients]::text').getall(),
-                instructionsRaw=response.css('[itemprop=recipeInstructions]::text').getall(),
-                language=response.css('html').attrib['xml:lang'],
-                mainLink=response.url,
-                sourceSite='Foodista',
-                title=response.css('[itemprop=name]::text').get().strip(),
-                yield_data=parse_yield(response.css('[itemprop=recipeYield]::text').get())
-            )
-            if response.css('.field-name-field-tags .field-item a::text'):
-                item.keywords = response.css('.field-name-field-tags .field-item a::text').getall()
-                item.categories = item.keywords
-            else:
-                fill_recipe_presets(item)
-            item.suitableForDiet = tags_to_diet(item.keywords, DIET_TAG_MAP)
-            logger.info(f'{response.url} is parsed successfully')
-            validate(item.to_dict())
-            yield item
-            storage.mark_finished(response.request.url)
-        except Exception as ex:
-            logger.error(f'translate url, {response.url}, error: {repr(ex)}')
-            storage.unlock_recipe_url(response.request.url)
-            raise ex
+    def parse_response(self, response: Response) -> RecipeItem:
+        item = RecipeItem(
+            authors=[response.css('.username::text').get().strip()],
+            dateCreated=reformat_datetime(response.css('.pane-node-created .pane-content::text').get().strip()),
+            description='\n'.join(response.css('.field-name-body p::text').getall()),
+            id=response.request.url,
+            images=[response.css('[itemprop=image]').attrib['src']],
+            ingredientsRaw=response.css('[itemprop=ingredients]::text').getall(),
+            instructionsRaw=response.css('[itemprop=recipeInstructions]::text').getall(),
+            language=response.css('html').attrib['xml:lang'],
+            mainLink=response.url,
+            sourceSite='Foodista',
+            title=response.css('[itemprop=name]::text').get().strip(),
+            yield_data=parse_yield(response.css('[itemprop=recipeYield]::text').get())
+        )
+        if response.css('.field-name-field-tags .field-item a::text'):
+            item.keywords = response.css('.field-name-field-tags .field-item a::text').getall()
+            item.categories = item.keywords
+        else:
+            BaseResultSpider.fill_recipe_presets(item)
+        item.suitableForDiet = tags_to_diet(item.keywords, DIET_TAG_MAP)
+        return item
