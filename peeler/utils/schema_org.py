@@ -16,8 +16,10 @@ DIET_MAP = {'https://schema.org/DiabeticDiet': 'DiabeticDiet',
             'https://schema.org/VegetarianDiet': 'VegetarianDiet'}
 
 
-def parse_nutrition_info(nutrition: dict) -> Optional[dict]:
-    if nutrition['@type'] != 'NutritionInformation':
+def parse_nutrition_info(nutrition: Optional[dict]) -> Optional[dict]:
+    if not nutrition:
+        return None
+    elif nutrition['@type'] != 'NutritionInformation':
         return None
     ret: dict = {
         "calories": None,
