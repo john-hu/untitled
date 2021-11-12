@@ -1,4 +1,3 @@
-import json
 import re
 from datetime import datetime
 from typing import Dict, List, Optional, Union
@@ -23,8 +22,14 @@ def parse_duration(text) -> int:
     return isodate.parse_duration(text).seconds if text else None
 
 
-def parse_yield(yield_number: str) -> Optional[dict]:
+def parse_yield(yield_number: Optional[Union[str, int, float]]) -> Optional[dict]:
     if not yield_number:
+        return None
+    elif isinstance(yield_number, int):
+        return {'number': int(yield_number), 'unit': 'people'}
+    elif isinstance(yield_number, float):
+        return {'number': yield_number, 'unit': 'people'}
+    elif not isinstance(yield_number, str):
         return None
     # try regex
     match = MASS_REGEX_PARSER.match(yield_number)
@@ -51,7 +56,7 @@ def as_array(text: Optional[Union[List[str], str]]) -> Optional[List[str]]:
     elif isinstance(text, str):
         return [text]
     else:
-        None
+        return None
 
 
 def tags_to_diet(tags: List[str], diet_map: Dict[str, str]) -> Optional[List[str]]:
