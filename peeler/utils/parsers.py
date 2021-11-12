@@ -1,7 +1,11 @@
+import json
+import re
 from datetime import datetime
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Union
 
 import isodate
+
+MASS_REGEX_PARSER = re.compile(r'(\d+)[^\S\n\r]+(\w+)')
 
 
 def get_attribute(element, attribute, default_value: str = None) -> str:
@@ -22,6 +26,11 @@ def parse_duration(text) -> int:
 def parse_yield(yield_number: str) -> Optional[dict]:
     if not yield_number:
         return None
+    # try regex
+    match = MASS_REGEX_PARSER.match(yield_number)
+    if match:
+        return {'number': int(match.groups()[0]), 'unit': match.groups()[1]}
+    # try convert to int directly
     try:
         return {'number': int(yield_number), 'unit': 'people'}
     except ValueError:
@@ -32,6 +41,17 @@ def split(text: str, splitter: str = ', ') -> List[str]:
     if isinstance(text, list):
         return text
     return [] if not text else text.split(splitter)
+
+
+def as_array(text: Optional[Union[List[str], str]]) -> Optional[List[str]]:
+    if not text:
+        return None
+    elif isinstance(text, list):
+        return text
+    elif isinstance(text, str):
+        return [text]
+    else:
+        None
 
 
 def tags_to_diet(tags: List[str], diet_map: Dict[str, str]) -> Optional[List[str]]:

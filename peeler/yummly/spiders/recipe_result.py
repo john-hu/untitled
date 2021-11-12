@@ -6,7 +6,8 @@ from scrapy.http import Response
 
 from ...scrapy_utils.base_spiders import BaseResultSpider, InvalidResponseData
 from ...scrapy_utils.items import RecipeItem
-from ...utils.parsers import isodate_2_isodatetime, parse_duration, parse_yield, split
+from ...utils.parsers import as_array, isodate_2_isodatetime, parse_duration, parse_yield, split
+from ...utils.schema_org import parse_authors, parse_nutrition_info, parse_suitable_for_diet
 
 logger = logging.getLogger(__name__)
 
@@ -67,8 +68,8 @@ class RecipeResultSpider(BaseResultSpider):
         InvalidResponseData.check_and_raise(recipe, 'recipeInstructions')
         recipe_language = BaseResultSpider.parse_html_language(response)
         item = RecipeItem(
-            authors=[recipe.get('author', {}).get('name', 'Yummly')],
-            categories=recipe.get('recipeCategory', None),
+            authors=parse_authors(recipe.get('author', 'Yummly')),
+            categories=as_array(recipe.get('recipeCategory', None)),
             id=response.request.url,
             keywords=split(recipe.get('keywords', None)),
             language=recipe_language,
@@ -77,15 +78,17 @@ class RecipeResultSpider(BaseResultSpider):
             mainLink=response.url,
             version='parsed'
         )
-        item.cookingMethods = recipe.get('cookingMethod', None)
+        item.cookingMethods = as_array(recipe.get('cookingMethod', None))
         item.cookTime = parse_duration(recipe.get('cookTime'))
-        item.cuisines = recipe.get('recipeCuisine', None)
+        item.cuisines = as_array(recipe.get('recipeCuisine', None))
         item.dateCreated = isodate_2_isodatetime(recipe.get('dateCreated', None))
         item.dateModified = isodate_2_isodatetime(recipe.get('dateModified', None))
         item.description = recipe.get('description', None)
-        item.images = recipe.get('image', None)
+        item.images = as_array(recipe.get('image', None))
         item.ingredients = self.parse_ingredient(response)
         item.instructions = self.parse_instructions(recipe, recipe_language)
+        item.nutrition = parse_nutrition_info(recipe.get('nutrition', None))
+        item.suitableForDiet = parse_suitable_for_diet(recipe.get('suitableForDiet', None))
         if recipe.get('recipeYield', None):
             item.yield_data = parse_yield(recipe['recipeYield'])
         # Some data containing nutrition. It's hard to parse it now. Just skip it at this version.

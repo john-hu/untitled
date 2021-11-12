@@ -1,0 +1,142 @@
+{
+  "@context": "http://schema.org",
+  "@type": "Recipe",
+  "datePublished": "2017-04-26T19:46:36",
+  "description": "This simplified version of the Indian classic combines chicken, tomato sauce, and a slew of aromatic spices all in one pot to make a flavorful dinner that’s just as good as the version you’ll get at restaurants — only way easier to make.  Serve it over rice with a bit of cilantro to balance the heat and dinner is done.\n",
+  "image": "https://img.buzzfeed.com/video-api-prod/assets/6e6a56c27c68410991ce7d4e4acc7dee/BFV8692_Easy_Butter_Chicken_Thumb.jpg",
+  "name": "Easy Butter Chicken Recipe by Tasty",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Tasty",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://tasty.co/favicon.ico"
+    }
+  },
+  "isPartOf": {
+    "@type": "WebPage",
+    "url": "https://tasty.co/recipe/easy-butter-chicken",
+    "name": "Easy Butter Chicken Recipe by Tasty",
+    "description": "This simplified version of the Indian classic combines chicken, tomato sauce, and a slew of aromatic spices all in one pot to make a flavorful dinner that’s just as good as the version you’ll get at restaurants — only way easier to make.  Serve it over rice with a bit of cilantro to balance the heat and dinner is done.\n",
+    "isPartOf": {
+      "@type": "WebSite",
+      "url": "https://tasty.co",
+      "name": "Tasty",
+      "description": "The official home of all things Tasty, the world’s largest food network. Search, watch, and cook every single Tasty recipe and video ever - all in one place!",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://tasty.co/search?q={search_term}"
+        },
+        "query-input": {
+          "@type": "PropertyValueSpecification",
+          "valueRequired": "http://schema.org/True",
+          "valueName": "search_term"
+        }
+      }
+    }
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "Tasty"
+  },
+  "nutrition": {
+    "@type": "NutritionInformation",
+    "calories": "799 calories",
+    "carbohydrateContent": "15 grams",
+    "fatContent": "52 grams",
+    "fiberContent": "3 grams",
+    "proteinContent": "74 grams",
+    "sugarContent": "8 grams"
+  },
+  "recipeIngredient": [
+    "2 lb boneless, skinless chicken breast, cubed",
+    "salt, to taste",
+    "pepper, to taste",
+    "2 teaspoons chili powder, divided",
+    "½ teaspoon turmeric",
+    "6 tablespoons butter, divided ",
+    "1 ½ cups yellow onion, diced",
+    "3 teaspoons garam masala",
+    "1 teaspoon cumin",
+    "1 teaspoon cayenne pepper",
+    "1 tablespoon ginger, grated",
+    "3 cloves garlic, minced",
+    "1 cinnamon, 3 inch (8 cm) stick",
+    "14 oz tomato sauce",
+    "1 cup water",
+    "1 cup heavy cream",
+    "rice, for serving",
+    "fresh cilantro, chopped for garnish"
+  ],
+  "recipeYield": "4 servings",
+  "recipeInstructions": [
+    {
+      "@type": "HowToStep",
+      "text": "In a large bowl, season the chicken breast with salt, pepper, 1 teaspoon of chili powder, and the teaspoon of turmeric. Let sit for 15 minutes to marinate."
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Melt 2 tablespoons of butter in a large pot over medium heat. Brown the chicken, then remove from the pot."
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Melt another 2 tablespoons of butter in the pot, then add the onion, garam masala, remaining teaspoon of chili powder, the cumin, ginger, garlic, cayenne, cinnamon, salt and pepper. Cook until fragrant."
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Add the tomato sauce and bring to a simmer."
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Add the water and cream and return to a simmer."
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Return the chicken to the pot, cover, and simmer for another 10-15 minutes."
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Stir in the last 2 tablespoons of butter and season with more salt and pepper to taste."
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Serve the chicken over rice and garnish with cilantro."
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Enjoy!"
+    }
+  ],
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "98",
+    "ratingCount": "4114",
+    "bestRating": "100",
+    "worstRating": "0"
+  },
+  "recipeCategory": "Dinner",
+  "recipeCuisine": "Indian",
+  "tool": "Liquid Measuring Cup",
+  "cookTime": "PT25M",
+  "prepTime": "PT10M",
+  "totalTime": "PT50M",
+  "video": {
+    "@type": "VideoObject",
+    "contentUrl": "https://vid.tasty.co/output/31956/mp4_640x640/1495124950",
+    "duration": "PT57S",
+    "description": "This simplified version of the Indian classic combines chicken, tomato sauce, and a slew of aromatic spices all in one pot to make a flavorful dinner that’s just as good as the version you’ll get at restaurants — only way easier to make.  Serve it over rice with a bit of cilantro to balance the heat and dinner is done.\n",
+    "name": "Easy Butter Chicken Recipe by Tasty",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Tasty",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://tasty.co/favicon.ico"
+      }
+    },
+    "thumbnailUrl": "https://img.buzzfeed.com/video-api-prod/assets/6e6a56c27c68410991ce7d4e4acc7dee/BFV8692_Easy_Butter_Chicken_Thumb.jpg",
+    "uploadDate": "2017-04-26T19:46:36"
+  }
+}
