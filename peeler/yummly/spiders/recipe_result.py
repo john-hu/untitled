@@ -74,7 +74,8 @@ class RecipeResultSpider(BaseResultSpider):
             language=recipe_language,
             sourceSite='Yummly',
             title=recipe['name'],
-            mainLink=response.url
+            mainLink=response.url,
+            version='parsed'
         )
         item.cookingMethods = recipe.get('cookingMethod', None)
         item.cookTime = parse_duration(recipe.get('cookTime'))
