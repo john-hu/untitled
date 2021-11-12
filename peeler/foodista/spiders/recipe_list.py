@@ -6,7 +6,6 @@ from scrapy.http import Response
 from ...scrapy_utils.items import RecipeURLItem
 from ...utils.storage import Storage
 
-
 logger = logging.getLogger(__name__)
 STOP_REQUESTING_COUNT = 10
 
@@ -23,8 +22,8 @@ class RecipeListSpider(Spider):
         yield Request(url='https://www.foodista.com/community-recipes/', callback=self.parse)
 
     def parse(self, response: Response, **kwargs):
-        all_hrefs = response.css('.view-display-id-community_recipes_page .views-row .views-field-title a')\
-                            .xpath('@href').getall()
+        all_hrefs = response.css('.view-display-id-community_recipes_page .views-row .views-field-title a') \
+            .xpath('@href').getall()
         storage = Storage(self.settings['storage'])
         yield_count = 0
         for href in all_hrefs:
@@ -39,7 +38,6 @@ class RecipeListSpider(Spider):
             self.__empty_counter = 0
         else:
             self.__empty_counter += 1
-
         # stop the process when the connecting empty request exceeds the maximum value.
         if self.__empty_counter > STOP_REQUESTING_COUNT:
             return

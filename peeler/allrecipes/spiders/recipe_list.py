@@ -36,9 +36,6 @@ class RecipeListSpider(Spider):
     sitemap = BASE_URL + '.xml'
     start_urls = parse_sitemap(sitemap)
 
-    def __init__(self, name=None, **kwargs):
-        super().__init__(name, **kwargs)
-
     def parse(self, response: Response, **kwargs):
         storage = Storage(self.settings['storage'])
 

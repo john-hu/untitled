@@ -12,25 +12,21 @@ logger = logging.getLogger(__name__)
 
 
 def regex(rule, response):
-    if isinstance(response, str):
-        m = re.search(rule, response)
-        if m:
-            return m.group(0)
-        else:
-            return response
-    return response
+    if not isinstance(response, str):
+        return response
+    m = re.search(rule, response)
+    return m.group(0) if m else ''
 
 
 def convert_number(message):
-    if message is None:
-        return 0
-    elif message == '':
+    if not message:
         return 0
     else:
-        try:
-            return float(unicodedata.numeric(message))
-        except TypeError:
-            return int(message)
+        fraction_message = regex(r'([\u00BC~\u00BE]+|[\u2150~\u215F]+)', message)
+        fraction_message = 0 if not fraction_message else float(unicodedata.numeric(fraction_message))
+        num_message = regex(r'\d+', message)
+        num_message = 0 if not num_message else int(num_message)
+        return fraction_message + num_message if fraction_message != num_message else fraction_message
 
 
 class RecipeResultSpider(Spider):
@@ -39,7 +35,7 @@ class RecipeResultSpider(Spider):
 
     @staticmethod
     def retrieve_recipe_info(message):
-        path = f'//div[@class="recipe-meta-item-header"][contains(text(), {message})]/following-sibling::div[1]/text()'
+        path = f'//div[@class="recipe-meta-item-header"][contains(text(),"{message}")]/following-sibling::div[1]/text()'
         return path
 
     @staticmethod
@@ -83,7 +79,6 @@ class RecipeResultSpider(Spider):
 
     def parse(self, response: Response, **kwargs):
         storage = Storage(self.settings['storage'])
-        print(f'this is url: {response.url}')
         try:
             item = RecipeItem(
                 authors=[response.css('.author-name-title .linkHoverStyle::text').getall()],
