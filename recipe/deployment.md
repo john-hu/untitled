@@ -54,7 +54,8 @@ sudo apt install nginx
 mkdir -p /opt/silver_plate
 wget https://github.com/john-hu/untitled/archive/refs/heads/main.zip
 unzip untitled-main.zip
-cp untitled-main/recipe/* /opt/silver_plate
+cp untitled-main/recipe/* /opt/silver_plate_{version}
+ln -s /opt/silver_plate_{version} /opt/silver_plate
 cd /opt/silver_plate
 ```
 Since the repo is private repo, we may not be able to download it from the server.
