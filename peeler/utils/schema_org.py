@@ -77,5 +77,9 @@ def parse_suitable_for_diet(data: str) -> Optional[List[str]]:
 def find_json_by_schema_org_type(json_texts: List[str], schema_type: str) -> dict:
     for json_text in json_texts:
         data = json.loads(json_text)
+        if isinstance(data, list):
+            for d in data:
+                if d['@context'] == 'http://schema.org' and d['@type'] == schema_type:
+                    return d
         if data['@context'] == 'http://schema.org' and data['@type'] == schema_type:
             return data
