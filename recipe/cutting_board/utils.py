@@ -12,11 +12,11 @@ def convert_solr_doc(recipe: dict):
         'categories': recipe['categories'],
         'title': recipe['title'],
         'sourceSite': recipe['sourceSite'],
-        'audios': len(recipe.get('audios', [])) > 0,
-        'images': len(recipe.get('images', [])) > 0,
-        'videos': len(recipe.get('videos', [])) > 0,
-        'examples': len(recipe.get('examples', [])) > 0,
-        'nutrition': 'nutrition' in recipe,
+        'audios': len(recipe.get('audios')) > 0 if recipe.get('audios') else False,
+        'images': len(recipe.get('images')) > 0 if recipe.get('images') else False,
+        'videos': len(recipe.get('videos')) > 0 if recipe.get('videos') else False,
+        'examples': len(recipe.get('examples')) > 0 if recipe.get('examples') else False,
+        'nutrition': True if recipe.get('nutrition') else False,
         '_rawJSON_': json.dumps(recipe)
     }
     # conditional 14 fields
@@ -39,13 +39,13 @@ def convert_solr_doc(recipe: dict):
     if 'totalTile' in recipe:
         solr_doc['totalTile'] = recipe['totalTile']
     # parsed or raw
-    if 'ingredients' in recipe:
+    if recipe.get('ingredients'):
         solr_doc['ingredients'] = [ingredient['name'] for ingredient in recipe['ingredients']]
         solr_doc['ingredientsCount'] = len(recipe['ingredients'])
     else:
         solr_doc['ingredients'] = recipe['ingredientsRaw']
         solr_doc['ingredientsCount'] = len(recipe['ingredientsRaw'])
-    if 'instructions' in recipe:
+    if recipe.get('instructions'):
         solr_doc['instructions'] = [instruction['text'] for instruction in recipe['instructions']]
         solr_doc['instructionsCount'] = len(recipe['instructions'])
     else:

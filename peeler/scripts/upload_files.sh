@@ -16,4 +16,5 @@ echo "username=$USER"
 for file in peeler_output/${PEELER}/*.json; do
   echo "$(date) - upload the whole file ${file} to ${ENDPOINT}"
   python -m peeler.utils.uploader --endpoint ${ENDPOINT} --username ${USER} --password ${PASSWD} --mode push_all $file
+  sleep 2
 done
