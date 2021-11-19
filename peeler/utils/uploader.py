@@ -13,15 +13,13 @@ class Uploader:
         get_endpoint = f'{self.__endpoint}{recipe["id"]}'
         print(get_endpoint)
         old_data = requests.get(get_endpoint, auth=self.__auth)
-        if old_data.status_code == 200:
+        if old_data.status_code == 200 and len(old_data.json()['docs']) > 0:
             final_data = old_data.json()['docs'][0]
             final_data.update(recipe)
             print('POST merged to server')
-        elif old_data.status_code == 404:
+        else:
             final_data = recipe
             print('POST new data to server')
-        else:
-            assert False, f'error: {old_data.status_code}\n{old_data.text}'
         result = requests.post(self.__endpoint, data=json.dumps([final_data]), auth=self.__auth)
         print(f'result: {result.status_code}, {result.text} for {recipe["id"]}')
 
