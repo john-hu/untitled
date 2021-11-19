@@ -16,6 +16,17 @@ We named our peelers as `RecipeSearchCrawler`. It should run with the following 
 RecipeSearchCrawler (version: {version})
 ```
 
+### Auto uploading while peeling
+We already support the auto uploader at the base peeler. While emitting a RecipeItem, the
+`RecipeResultPipeline` calls uploader for auto uploading. To enable that, please set the
+following environment variables:
+```shell
+AUTO_UPLOADER_ENABLED=yes
+AUTO_UPLOADER_ENDPOINT=https://wiseipes.com
+AUTO_UPLOADER_USERNAME=peeler
+AUTO_UPLOADER_PASSWORD=<peeler password>
+```
+
 ## Upload peeled result to silver plate
 
 ```shell
