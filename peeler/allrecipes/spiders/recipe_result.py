@@ -5,7 +5,7 @@ from scrapy.http import Response
 from ...scrapy_utils.base_spiders import BaseResultSpider
 from ...scrapy_utils.items import RecipeItem
 from ...utils.parsers import parse_duration, parse_yield
-from ...utils.schema_org import find_json_by_schema_org_type
+from ...utils.schema_org import find_json_by_schema_org_type, parse_authors
 
 logger = logging.getLogger(__name__)
 
@@ -17,7 +17,7 @@ class RecipeResultSpider(BaseResultSpider):
     def parse_response(self, response: Response) -> RecipeItem:
         recipe = find_json_by_schema_org_type(response.css(self.json_css_path).getall(), 'Recipe')
         item = RecipeItem(
-            authors=[x.get("name", None) for x in recipe["author"]],
+            authors=parse_authors(recipe.get('author', 'Allrecipes')),
             categories=recipe.get("recipeCategory", None),
             cookTime=parse_duration(recipe.get("cookTime", None)),
             cuisines=recipe.get("recipeCuisine", None),
