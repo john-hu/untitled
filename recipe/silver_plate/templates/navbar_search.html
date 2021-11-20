@@ -4,7 +4,11 @@
         <form class="search-form" method="get" action="search">
             <div class="row">
                 <div class="col-auto">
-                    <span class="navbar-brand">Wiseipes</span>
+                    <span class="navbar-brand">
+                        <a href="/" style="color:inherit; text-decoration: none;">
+                            Wiseipes
+                        </a>
+                    </span>
                 </div>
                 <div class="col">
                     <input class="query-text form-control form-control-sm" type="text" placeholder="Keywords" name="q"
@@ -12,6 +16,11 @@
                 </div>
                 <div class="col-auto">
                     <button class="btn btn-primary btn-sm" type="submit">Submit</button>
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-primary btn-sm" type="submit" name="easy_prepare" value="true">
+                        Easy prepare
+                    </button>
                 </div>
             </div>
         </form>

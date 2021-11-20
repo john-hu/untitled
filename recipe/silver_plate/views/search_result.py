@@ -15,15 +15,17 @@ class SearchResultView(TemplateView):
         # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
         # get parameters
-        query = self.request.GET.get('q', None)
+        user_query = self.request.GET.get('q', None)
         page_index = int(self.request.GET.get('p', 0))
-        if not query:
+        easy_prepare = self.request.GET.get("easy_prepare", None) == "true"
+        raw_query = f"+ingredientsCount:[* TO 5]+{user_query}" if easy_prepare else user_query
+        if not user_query:
             return context
-        search_result = Client(settings.CUTTING_BOARD_URL).search_recipe(query, page_index, PAGE_SIZE)
+        search_result = Client(settings.CUTTING_BOARD_URL).search_recipe(raw_query, page_index, PAGE_SIZE)
         # total search pages
         pages = math.ceil(search_result['hits'] / PAGE_SIZE)
         # prepare data
-        context['query'] = query
+        context['query'] = user_query
         context['total_hits'] = search_result['hits']
         context['page_index'] = page_index
         context['search_result'] = search_result
