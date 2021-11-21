@@ -1,8 +1,6 @@
 import base64
 
 from django.http import HttpResponse
-from django.contrib.auth import authenticate
-from django.conf import settings
 
 
 def basic_auth(username: str, password: str, realm: str):
