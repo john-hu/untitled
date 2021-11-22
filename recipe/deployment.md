@@ -1,3 +1,28 @@
+# Auto deployment
+
+## Auto deployment
+The auto deployment uses GitHub deploy key to fetch the code and deploy silver plate.
+The flow is:
+1. fetch the repo
+2. use `git rev-parse origin/production` to know the production hash
+3. check local, a file at `/opt/silver_plate/version` and remote branch hash
+4. if the hash is different, do the followings:
+    1. check out branch `git checkout origin/production`
+    2. copy `recipe` to `/opt/silver_plate_{hash}/
+    3. move `/opt/silver_plate/version` to `/opt/silver_plate_{hash}/old_version`
+    4. create version file `/opt/silver_plate_{hash}/version` with the hash as its content
+    5. run `python manage.py collectstatic` for build static files
+    6. run `python manage.py migrate` for update DB if we need it.
+    7. run `python manage.py runscript create_schema --script-args http://localhost:8983/ recipe` for update cutting board schema
+    8. relink `/opt/silver_plate` to `/opt/silver_plate_{hash}
+    9. remove `/opt/silver_plate_{old_hash}`
+    10. restart the service
+
+## Activate
+1. get the ssh key
+2. `sudo chmod 600 robot_ed25519`
+3. setup cronjob to execute `recipe/scripts/auto_deployment.sh "{key_location}/robot_ed25519"` with root permission.
+
 # Install cutting board
 
 1. check the JRE
