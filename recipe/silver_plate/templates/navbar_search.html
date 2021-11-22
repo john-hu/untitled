@@ -1,7 +1,7 @@
 <!-- nav bar -->
 <nav class="navbar navbar-light bg-light static-top">
     <div class="container">
-        <form class="search-form" method="get" action="search">
+        <form action="search" class="search-form" method="get">
             <div class="row">
                 <div class="col-auto">
                     <span class="navbar-brand">
@@ -11,18 +11,24 @@
                     </span>
                 </div>
                 <div class="col">
-                    <input class="query-text form-control form-control-sm" type="text" placeholder="Keywords" name="q"
+                    <input class="query-text form-control form-control-sm" name="q" placeholder="Keywords" type="text"
                            value="{{ query }}">
                 </div>
                 <div class="col-auto">
-                    <button class="btn btn-primary btn-sm" type="submit">Submit</button>
+                    <div>
+                        <input  name="vegetarian" type="checkbox" value="true"/>
+                        Vegetarian
+                    </div>
+                    <div>
+                        <input name="easy_prepare" type="checkbox" value="true"/>
+                        Easy prepare
+                    </div>
                 </div>
                 <div class="col-auto">
-                    <button class="btn btn-primary btn-sm" type="submit" name="easy_prepare" value="true">
-                        Easy prepare
-                    </button>
+                    <button class="btn btn-primary btn-sm" type="submit">Submit</button>
                 </div>
             </div>
         </form>
     </div>
 </nav>
+

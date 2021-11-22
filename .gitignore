@@ -133,7 +133,6 @@ dmypy.json
 # peeler output
 peeler_output/
 
-# dummy db file
 **/*.sqlite3
 
 # silver plate version file

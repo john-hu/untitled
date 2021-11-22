@@ -6,6 +6,7 @@ from django.views.generic import TemplateView
 from cutting_board.client import Client
 
 PAGE_SIZE = 16
+EASY_PREPARE_COUNTS = 5
 
 
 class SearchResultView(TemplateView):
@@ -18,7 +19,13 @@ class SearchResultView(TemplateView):
         user_query = self.request.GET.get('q', None)
         page_index = int(self.request.GET.get('p', 0))
         easy_prepare = self.request.GET.get("easy_prepare", None) == "true"
-        raw_query = f"+ingredientsCount:[* TO 5]+{user_query}" if easy_prepare else user_query
+        vegetarian = self.request.GET.get("vegetarian", None) == "true"
+
+        raw_query = f"+{user_query}"
+        if vegetarian:
+            raw_query = f"+vegetarian {raw_query}"
+        if easy_prepare:
+            raw_query = f"+ingredientsCount:[* TO {EASY_PREPARE_COUNTS}] {raw_query}"
         if not user_query:
             return context
         search_result = Client(settings.CUTTING_BOARD_URL).search_recipe(raw_query, page_index, PAGE_SIZE)
