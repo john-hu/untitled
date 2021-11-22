@@ -28,33 +28,41 @@ if [ "$remote_version" == "$local_version" ]; then
   exit 0
 fi
 
+prod_folder="/opt/silver_plate"
+new_folder="/opt/silver_plate_${remote_version}"
 echo "$(date) - start to deploy the ${remote_version}"
 # check out production branch
 git checkout origin/production
 # build source code
 echo "$(date) - build source folder ${remote_version}"
-cp -r recipe "/opt/silver_plate_${remote_version}"
-cp -r /opt/silver_plate/env "/opt/silver_plate_${remote_version}/env"
+rm -rf "${new_folder}"
+cp -r recipe "${new_folder}"
+# keep the original python env
+cp -r "${prod_folder}/env" "${new_folder}/env"
 # create version file
-echo "${remote_version}" > "/opt/silver_plate_${remote_version}/version"
-if test -f "/opt/silver_plate/version"; then
-  cp /opt/silver_plate/version "/opt/silver_plate_${remote_version}/old_version"
+echo "${remote_version}" > "${new_folder}/version"
+if test -f "${prod_folder}/version"; then
+  # keep the original version file if found it
+  cp "${prod_folder}/version" "${new_folder}/old_version"
 fi
-cd "/opt/silver_plate_${remote_version}" || exit 1
+cd "${new_folder}" || exit 1
 # shellcheck disable=SC1090
-source "/opt/silver_plate_${remote_version}/env/bin/activate"
+source "${new_folder}/env/bin/activate"
 # dependencies
 echo "$(date) - update dependency"
 pip install -r requirement.txt
+# keep the original settings.py and dummy db
+cp "${prod_folder}/recipe/settings.py" "${new_folder}/recipe/settings.py"
+cp "${prod_folder}/db.sqlite3" "${new_folder}/db.sqlite3"
 # exec scrips
 echo "$(date) - exec scripts"
 python manage.py collectstatic
 python manage.py migrate
 python manage.py runscript create_schema --script-args http://localhost:8983/ recipe
-chown -R silver_plate:silver_plate "/opt/silver_plate_${remote_version}"
+chown -R silver_plate:silver_plate "${new_folder}"
 # rebuild the links
 echo "$(date) - relink"
-ln -sfn "/opt/silver_plate_${remote_version}" /opt/silver_plate
+ln -sfn "${new_folder}" /opt/silver_plate
 # remove the old version
 if test -f "/opt/silver_plate_${local_version}"; then
   echo "$(date) - remove old silver_plate_${local_version}"
