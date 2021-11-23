@@ -11,9 +11,21 @@ body, html {
     margin-right: 0;
 }
 
+.hits-perf-container {
+    padding: 0 2rem;
+}
+
 .perf {
-    text-align: right;
-    padding-right: 2rem;
+    float: right;
+}
+
+.hits-too-much {
+    color: red;
+    font-weight: bold;
+}
+
+.hits-too-much::before {
+    content: "*";
 }
 
 .recipe-container {
