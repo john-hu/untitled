@@ -12,11 +12,12 @@
 {% include 'navbar_search.html' %}
 <div class="container hits-perf-container">
     {% if total_hits > 1000 %}
-        <span class="hits-too-much">Too many recipes found, please add more keywords for better experience</span>
+        <div style="height:1rem;"></div>
+        <div class="alert alert-warning" role="alert">Too many recipes found, please add more keywords for better experience</div>
     {% endif %}
-    <span class="perf">
+    <div class="perf">
         {{ total_hits }} recipes found at {{ search_result.query_time }}ms
-    </span>
+    </div>
 </div>
 {% if total_hits > 0 %}
     {% include 'recipes_search.html' %}

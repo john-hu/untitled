@@ -16,16 +16,7 @@ body, html {
 }
 
 .perf {
-    float: right;
-}
-
-.hits-too-much {
-    color: red;
-    font-weight: bold;
-}
-
-.hits-too-much::before {
-    content: "*";
+    text-align: right;
 }
 
 .recipe-container {
