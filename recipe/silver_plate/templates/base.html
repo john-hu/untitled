@@ -24,6 +24,25 @@
         <link rel="stylesheet" href="{% static 'silver_plate/css/bootstrap.min.css' %}">
         <link rel="stylesheet" href="{% static 'silver_plate/css/themed-bootstrap.min.css' %}">
     </noscript>
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "url": "https://wiseipes.com/",
+            "mainEntityOfPage": "https://wiseipes.com/",
+            "potentialAction": [
+                {
+                    "@type": "SearchAction",
+                    "target": {
+                        "@type": "EntryPoint",
+                        "httpMethod": "GET",
+                        "urlTemplate": "https://wiseipes.com/search?q={search_term_string}"
+                    },
+                    "query-input": "required name=search_term_string"
+                }
+            ]
+        }
+    </script>
     {% block header %}{% endblock %}
 </head>
 <body>

@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://wiseipes.com/sitemap.xml

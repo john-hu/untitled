@@ -10,7 +10,7 @@ EASY_PREPARE_COUNTS = 5
 
 
 class SearchResultView(TemplateView):
-    template_name = "search_result.html"
+    template_name = 'search_result.html'
 
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
@@ -18,14 +18,14 @@ class SearchResultView(TemplateView):
         # get parameters
         user_query = self.request.GET.get('q', None)
         page_index = int(self.request.GET.get('p', 0))
-        easy_prepare = self.request.GET.get("easy_prepare", None) == "true"
-        vegetarian = self.request.GET.get("vegetarian", None) == "true"
+        easy_prepare = self.request.GET.get('easy_prepare', None) == 'true'
+        vegetarian = self.request.GET.get('vegetarian', None) == 'true'
 
-        raw_query = f"+{user_query}"
+        raw_query = f'+{user_query}'
         if vegetarian:
-            raw_query = f"+vegetarian {raw_query}"
+            raw_query = f'+vegetarian {raw_query}'
         if easy_prepare:
-            raw_query = f"+ingredientsCount:[* TO {EASY_PREPARE_COUNTS}] {raw_query}"
+            raw_query = f'+ingredientsCount:[* TO {EASY_PREPARE_COUNTS}] {raw_query}'
         if not user_query:
             return context
         search_result = Client(settings.CUTTING_BOARD_URL).search_recipe(raw_query, page_index, PAGE_SIZE)
