@@ -141,3 +141,6 @@ peeler_output/
 
 # pem file is dangerous. We shouldn't put to git
 **/*.pem
+
+# Mac OS
+.DS_Store
