@@ -133,7 +133,6 @@ dmypy.json
 # peeler output
 peeler_output/
 
-# dummy db file
 **/*.sqlite3
 
 # silver plate version file
@@ -141,3 +140,6 @@ peeler_output/
 
 # pem file is dangerous. We shouldn't put to git
 **/*.pem
+
+# Mac OS
+.DS_Store
