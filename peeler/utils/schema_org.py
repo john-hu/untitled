@@ -15,7 +15,7 @@ DIET_MAP = {'https://schema.org/DiabeticDiet': 'DiabeticDiet',
             'https://schema.org/VeganDiet': 'VeganDiet',
             'https://schema.org/VegetarianDiet': 'VegetarianDiet'}
 
-SCHEMA_ORG_NS = ['https://schema.org', 'https://schema.org/']
+SCHEMA_ORG_NS = ['https://schema.org', 'https://schema.org/', 'http://schema.org', 'http://schema.org/']
 
 
 def parse_nutrition_info(nutrition: Optional[dict]) -> Optional[dict]:
