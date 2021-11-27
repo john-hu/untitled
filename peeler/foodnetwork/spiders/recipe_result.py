@@ -36,7 +36,7 @@ class RecipeResultSpider(BaseResultSpider):
             item.keywords = response.css('meta[itemprop=keywords]').attrib['content'].strip().split(', ')
             item.categories = item.keywords
         else:
-            BaseResultSpider.fill_recipe_presets(item)
+            RecipeItem.fill_recipe_presets(item)
         if not item.instructionsRaw:
             # the second form of instructions @@.
             item.instructionsRaw = response.css('[itemprop=recipeInstructions] li::text').getall()

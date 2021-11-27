@@ -7,7 +7,7 @@ from scrapy.http import Response
 from ...scrapy_utils.base_spiders import BaseResultSpider, InvalidResponseData
 from ...scrapy_utils.items import RecipeItem
 from ...utils.parsers import as_array, isodate_2_isodatetime, parse_duration, parse_yield, split
-from ...utils.schema_org import parse_authors, parse_nutrition_info, parse_suitable_for_diet
+from ...utils.schema_org import find_json_by_schema_org_type
 
 logger = logging.getLogger(__name__)
 
@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 # `#mainApp .App .app-content .recipe .structured-data-info script[type="application/ld+json"]` ;).
 class RecipeResultSpider(BaseResultSpider):
     allowed_domains = ['yummly.co.uk']
-    json_css_path = '.recipe .structured-data-info script[type="application/ld+json"]::text'
+    json_css_path = '.structured-data-info script[type="application/ld+json"]::text'
 
     @staticmethod
     def parse_ingredient(response: Response) -> List[dict]:
@@ -62,36 +62,21 @@ class RecipeResultSpider(BaseResultSpider):
     def parse_response(self, response: Response) -> RecipeItem:
         if len(response.css(self.json_css_path)) == 0:
             raise InvalidResponseData(field='json')
-        # It has two structured-data-info. We should get the first one.
-        recipe = json.loads(response.css(self.json_css_path)[0].get())
+        recipe = find_json_by_schema_org_type(response.css(self.json_css_path).getall(), 'Recipe')
         InvalidResponseData.check_and_raise(recipe, 'name')
         InvalidResponseData.check_and_raise(recipe, 'recipeIngredient')
         InvalidResponseData.check_and_raise(recipe, 'recipeInstructions')
         recipe_language = BaseResultSpider.parse_html_language(response)
-        item = RecipeItem(
-            authors=parse_authors(recipe.get('author', 'Yummly')),
-            categories=as_array(recipe.get('recipeCategory', None)),
-            id=response.request.url,
-            keywords=split(recipe.get('keywords', None)),
-            language=recipe_language,
-            sourceSite='Yummly',
-            title=recipe['name'],
-            mainLink=response.url,
-            version='parsed'
-        )
-        item.cookingMethods = as_array(recipe.get('cookingMethod', None))
-        item.cookTime = parse_duration(recipe.get('cookTime'))
-        item.cuisines = as_array(recipe.get('recipeCuisine', None))
-        item.dateCreated = isodate_2_isodatetime(recipe.get('dateCreated', None))
-        item.dateModified = isodate_2_isodatetime(recipe.get('dateModified', None))
-        item.description = recipe.get('description', None)
-        item.images = as_array(recipe.get('image', None))
+
+        item = RecipeItem.from_schema_org(recipe)
+        if not item:
+            raise InvalidResponseData(field='json schema')
+        item.language = recipe_language
+        item.sourceSite = 'Yummly'
+        if not recipe.get('url', None):
+            item.id = response.request.url
+            item.mainLink = response.request.url
         item.ingredients = self.parse_ingredient(response)
         item.instructions = self.parse_instructions(recipe, recipe_language)
-        item.nutrition = parse_nutrition_info(recipe.get('nutrition', None))
-        item.suitableForDiet = parse_suitable_for_diet(recipe.get('suitableForDiet', None))
-        if recipe.get('recipeYield', None):
-            item.yield_data = parse_yield(recipe['recipeYield'])
-        # Some data containing nutrition. It's hard to parse it now. Just skip it at this version.
-        BaseResultSpider.fill_recipe_presets(item)
+        item.version = 'parsed'
         return item

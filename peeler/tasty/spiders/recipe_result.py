@@ -59,5 +59,5 @@ class RecipeResultSpider(BaseResultSpider):
         if recipe.get('recipeYield', None):
             item.yield_data = parse_yield(recipe['recipeYield'])
         # Some data containing nutrition. It's hard to parse it now. Just skip it at this version.
-        BaseResultSpider.fill_recipe_presets(item)
+        RecipeItem.fill_recipe_presets(item)
         return item

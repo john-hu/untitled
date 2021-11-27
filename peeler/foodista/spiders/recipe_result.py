@@ -41,6 +41,6 @@ class RecipeResultSpider(BaseResultSpider):
             item.keywords = response.css('.field-name-field-tags .field-item a::text').getall()
             item.categories = item.keywords
         else:
-            BaseResultSpider.fill_recipe_presets(item)
+            RecipeItem.fill_recipe_presets(item)
         item.suitableForDiet = tags_to_diet(item.keywords, DIET_TAG_MAP)
         return item

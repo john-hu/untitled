@@ -27,13 +27,6 @@ class BaseResultSpider(Spider, metaclass=ABCMeta):
     name = 'recipe_result'
 
     @staticmethod
-    def fill_recipe_presets(item: RecipeItem):
-        if not item.keywords:
-            item.keywords = [item.title]
-        if not item.categories:
-            item.categories = ['uncategorized']
-
-    @staticmethod
     def parse_html_language(response: Response):
         html = response.css('html')
         if 'xml:lang' in html.attrib:
@@ -70,8 +63,8 @@ class BaseResultSpider(Spider, metaclass=ABCMeta):
             yield item
             logger.info(f'{response.url} is parsed successfully {self.__fetched_count} / {self.__total_count}')
             storage.mark_finished(response.request.url)
-        except InvalidResponseData as _invalid:
-            logger.error(f'URL {response.url} does not have enough data')
+        except InvalidResponseData as invalid:
+            logger.error(f'URL {response.url} does not have enough data: {invalid.field}')
             storage.mark_as(response.request.url, ParseState.WRONG_DATA)
             return
         except Exception as ex:

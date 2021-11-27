@@ -42,9 +42,10 @@ def parse_yield(yield_number: Optional[Union[str, int, float]]) -> Optional[dict
         return None
 
 
-def split(text: str, splitter: str = ', ') -> List[str]:
+def split(text: str, splitter: str = ' ') -> List[str]:
     if isinstance(text, list):
         return text
+    text = text.replace(', ', ' ').replace(',', ' ')
     return [] if not text else text.split(splitter)
 
 

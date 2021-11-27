@@ -36,5 +36,5 @@ class RecipeResultSpider(BaseResultSpider):
             yield_data=parse_yield(recipe.get("recipeYield", None)),
             version="raw"
         )
-        BaseResultSpider.fill_recipe_presets(item)
+        RecipeItem.fill_recipe_presets(item)
         return item
