@@ -4,9 +4,9 @@ from abc import ABCMeta, abstractmethod
 from scrapy import Request, Spider
 from scrapy.http import Response
 
-from .items import RecipeItem
-from ..utils.storage import ParseState, Storage
-from ..utils.validator import validate
+from ..items import RecipeItem
+from ...utils.storage import ParseState, Storage
+from ...utils.validator import validate
 
 logger = logging.getLogger(__name__)
 

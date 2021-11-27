@@ -2,7 +2,7 @@ import logging
 
 from scrapy.http import Response
 
-from ...scrapy_utils.base_spiders import BaseResultSpider
+from ...scrapy_utils.spiders.base import BaseResultSpider
 from ...scrapy_utils.items import RecipeItem
 from ...utils.parsers import parse_duration, parse_yield
 from ...utils.schema_org import find_json_by_schema_org_type, parse_authors

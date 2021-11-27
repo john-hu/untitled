@@ -2,7 +2,7 @@ import logging
 
 from scrapy.http import Response
 
-from ...scrapy_utils.base_spiders import BaseResultSpider, InvalidResponseData
+from ...scrapy_utils.spiders.base import BaseResultSpider, InvalidResponseData
 from ...scrapy_utils.items import RecipeItem
 from ...utils.parsers import get_attribute, parse_duration, parse_yield, tags_to_diet
 

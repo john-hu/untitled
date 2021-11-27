@@ -1,12 +1,10 @@
-import json
 import logging
 from typing import List
 
 from scrapy.http import Response
 
-from ...scrapy_utils.base_spiders import BaseResultSpider, InvalidResponseData
+from ...scrapy_utils.spiders.base import BaseResultSpider, InvalidResponseData
 from ...scrapy_utils.items import RecipeItem
-from ...utils.parsers import as_array, isodate_2_isodatetime, parse_duration, parse_yield, split
 from ...utils.schema_org import find_json_by_schema_org_type
 
 logger = logging.getLogger(__name__)

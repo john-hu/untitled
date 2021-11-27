@@ -3,7 +3,7 @@ from datetime import datetime, timezone
 
 from scrapy.http import Response
 
-from ...scrapy_utils.base_spiders import BaseResultSpider
+from ...scrapy_utils.spiders.base import BaseResultSpider
 from ...scrapy_utils.items import RecipeItem
 from ...utils.parsers import parse_yield, tags_to_diet
 
