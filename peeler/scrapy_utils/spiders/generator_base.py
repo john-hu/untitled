@@ -29,17 +29,17 @@ class GeneratorResultSpider(BaseResultSpider):
         url_yield_count = 0
         try:
             for item in self.yield_results(response):
-                try:
-                    if isinstance(item, RecipeItem):
+                if isinstance(item, RecipeItem):
+                    try:
                         validate(item.to_dict())
                         yield item
                         item_yield_count += 1
-                    elif isinstance(item, RecipeURLItem) and not storage.has_recipe_url(item.url):
-                        # a new url found, yield it as new url item
-                        yield item
-                        url_yield_count += 1
-                except jsonschema.ValidationError as _ex:
-                    pass
+                    except Exception as _ex:
+                        pass
+                elif isinstance(item, RecipeURLItem) and not storage.has_recipe_url(item.url):
+                    # a new url found, yield it as new url item
+                    yield item
+                    url_yield_count += 1
             yield_count = item_yield_count + url_yield_count
             if yield_count == 0:
                 raise InvalidResponseData(field='empty_payload')
