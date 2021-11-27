@@ -16,6 +16,8 @@ class Uploader:
         if old_data.status_code == 200 and len(old_data.json()['docs']) > 0:
             final_data = old_data.json()['docs'][0]
             final_data.update(recipe)
+            if final_data.get('ingredients', []) and final_data.get('instructions', []):
+                final_data['version'] = 'parsed'
             print('POST merged to server')
         else:
             final_data = recipe
