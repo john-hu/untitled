@@ -42,11 +42,13 @@ def parse_yield(yield_number: Optional[Union[str, int, float]]) -> Optional[dict
         return None
 
 
-def split(text: str, splitter: str = ' ') -> List[str]:
-    if isinstance(text, list):
+def split(text: Optional[str], splitter: str = ' ') -> List[str]:
+    if not text:
+        return []
+    elif isinstance(text, list):
         return text
-    text = text.replace(', ', ' ').replace(',', ' ')
-    return [] if not text else text.split(splitter)
+    else:
+        return [] if not text else text.replace(', ', ' ').replace(',', ' ').split(splitter)
 
 
 def as_array(text: Optional[Union[List[str], str]]) -> Optional[List[str]]:

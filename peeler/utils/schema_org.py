@@ -61,13 +61,19 @@ def parse_authors(author: Union[List[dict], dict, str]) -> Optional[List[str]]:
         return None
 
 
-def parse_video_urls(video: Optional[dict]) -> Optional[List[str]]:
+def parse_video_urls(video: Optional[Union[list[dict], list[str], dict]]) -> Optional[List[str]]:
     if not video:
         return None
-    elif video['@type'] != 'VideoObject':
-        return None
-    elif 'contentUrl' in video:
+    elif isinstance(video, dict) and video.get('@type', None) == 'VideoObject' and 'contentUrl' in video:
         return [video['contentUrl']]
+    elif isinstance(video, list):
+        ret = []
+        for item in video:
+            if isinstance(item, str):
+                ret.append(item)
+            elif isinstance(item, dict) and item.get('@type', None) == 'VideoObject' and 'contentUrl' in item:
+                ret.append(item['contentUrl'])
+        return ret
     else:
         return None
 

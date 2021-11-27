@@ -1,18 +1,17 @@
 import logging
-from typing import List
+from typing import Generator, List, Union
 
 from scrapy.http import Response
 
-from ...scrapy_utils.spiders.base import BaseResultSpider, InvalidResponseData
-from ...scrapy_utils.items import RecipeItem
+from ...scrapy_utils.spiders.base import InvalidResponseData
+from ...scrapy_utils.spiders.generator_base import GeneratorResultSpider
+from ...scrapy_utils.items import RecipeItem, RecipeURLItem
 from ...utils.schema_org import find_json_by_schema_org_type
 
 logger = logging.getLogger(__name__)
 
 
-# Yummly support schema.org Recipe format at
-# `#mainApp .App .app-content .recipe .structured-data-info script[type="application/ld+json"]` ;).
-class RecipeResultSpider(BaseResultSpider):
+class RecipeResultSpider(GeneratorResultSpider):
     allowed_domains = ['yummly.co.uk']
     json_css_path = '.structured-data-info script[type="application/ld+json"]::text'
 
@@ -57,24 +56,44 @@ class RecipeResultSpider(BaseResultSpider):
             instructions.append(instruction_item)
         return instructions
 
-    def parse_response(self, response: Response) -> RecipeItem:
-        if len(response.css(self.json_css_path)) == 0:
-            raise InvalidResponseData(field='json')
-        recipe = find_json_by_schema_org_type(response.css(self.json_css_path).getall(), 'Recipe')
-        InvalidResponseData.check_and_raise(recipe, 'name')
-        InvalidResponseData.check_and_raise(recipe, 'recipeIngredient')
-        InvalidResponseData.check_and_raise(recipe, 'recipeInstructions')
-        recipe_language = BaseResultSpider.parse_html_language(response)
-
+    @staticmethod
+    def parse_raw_recipe(recipe: dict, language: str, url: str):
         item = RecipeItem.from_schema_org(recipe)
         if not item:
             raise InvalidResponseData(field='json schema')
-        item.language = recipe_language
+        item.language = language
         item.sourceSite = 'Yummly'
         if not recipe.get('url', None):
-            item.id = response.request.url
-            item.mainLink = response.request.url
+            item.id = url
+            item.mainLink = url
+        return item
+
+    def parse_recipe(self, recipe: dict, language: str, response: Response):
+        InvalidResponseData.check_and_raise(recipe, 'name')
+        InvalidResponseData.check_and_raise(recipe, 'recipeIngredient')
+        InvalidResponseData.check_and_raise(recipe, 'recipeInstructions')
+
+        item = self.parse_raw_recipe(recipe, language, response.request.url)
         item.ingredients = self.parse_ingredient(response)
-        item.instructions = self.parse_instructions(recipe, recipe_language)
+        item.instructions = self.parse_instructions(recipe, language)
         item.version = 'parsed'
         return item
+
+    def yield_results(self, response: Response) -> Generator[Union[RecipeItem, RecipeURLItem], None, None]:
+        if len(response.css(self.json_css_path)) == 0:
+            raise InvalidResponseData(field='json')
+        recipe_language = RecipeResultSpider.parse_html_language(response)
+        # if recipe found, yield it
+        recipe = find_json_by_schema_org_type(response.css(self.json_css_path).getall(), 'Recipe')
+        if recipe:
+            yield self.parse_recipe(recipe, recipe_language, response)
+        # if item list found, yield it
+        item_list = find_json_by_schema_org_type(response.css(self.json_css_path).getall(), 'ItemList')
+        if item_list:
+            for recipe in item_list.get('itemListElement', []):
+                # parse recipe type only
+                if recipe.get('@type') == 'Recipe':
+                    if recipe.get('url', None):
+                        # We should put the url into database for detailed parser.
+                        yield RecipeURLItem(url=recipe.get('url'))
+                    yield self.parse_raw_recipe(recipe, recipe_language, response.request.url)

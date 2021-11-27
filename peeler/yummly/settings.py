@@ -20,7 +20,6 @@ ROBOTSTXT_OBEY = True
 # We have to use a fake user agent because we have to disable the robots.txt rules from uk-api.loma-cms.com
 USER_AGENT = f'RecipeSearchCrawler (version: {version})'
 
-DOWNLOAD_DELAY = 2
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 #SPIDER_MIDDLEWARES = {

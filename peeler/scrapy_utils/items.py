@@ -55,7 +55,6 @@ class RecipeItem:
     # id, language, sourceSite, ingredients, instructions
     @staticmethod
     def from_schema_org(recipe: dict) -> Optional['RecipeItem']:
-        print(recipe)
         if not recipe:
             return None
         elif recipe['@type'] != 'Recipe':
