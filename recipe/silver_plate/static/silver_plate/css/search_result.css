@@ -28,6 +28,10 @@ body, html {
     border-radius: 25px;
 }
 
+.cook-time {
+    padding-top: 1rem;
+}
+
 .recipe-card {
     width: auto;
     margin: 1rem;
