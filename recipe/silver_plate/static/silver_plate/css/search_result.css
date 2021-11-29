@@ -24,9 +24,14 @@ body, html {
     grid-template-columns: auto;
 }
 
+.recipe-img {
+    border-radius: 25px;
+}
+
 .recipe-card {
     width: auto;
     margin: 1rem;
+    border-radius: 25px;
 }
 
 .recipe-description {

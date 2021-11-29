@@ -2,11 +2,13 @@
     {% for doc in search_result.docs %}
     <div class="card recipe-card">
         {% if doc.data.images and doc.data.images|length > 0 %}
-        <img src="{{ doc.data.images.0 }}" class="card-img-top recipe-image" alt="{{ doc.data.title }}">
+        <img class="recipe-img" src="{{ doc.data.images.0 }}" class="card-img-top recipe-image" alt="{{ doc.data.title }}">
         {% endif %}
         <div class="card-body">
             <h5 class="card-title recipe-title">{{ doc.data.title }}</h5>
-            <p class="card-text recipe-description">{{ doc.data.description }}</p>
+            {% if doc.data.description  %}
+                <p class="card-text recipe-description">{{ doc.data.description }}</p>
+            {% endif %}
             <a href="{{doc.data.mainLink}}" class="btn btn-primary">Show recipe</a>
         </div>
     </div>
