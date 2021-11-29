@@ -1,0 +1,41 @@
+<!-- Button trigger modal -->
+<button class="btn btn-primary" data-bs-target="#filterModal" data-bs-toggle="modal" type="button">
+    <span class="bi-funnel filter-icon"></span>
+</button>
+
+<!-- Modal -->
+<div aria-hidden="true" aria-labelledby="filterModalLabel" class="modal fade" id="filterModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="filterModalLabel">Filter search</h5>
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <label>
+                        <input name="vegetarian" type="checkbox" value="true"/>
+                        Vegetarian
+                    </label>
+                </div>
+                <div style="width:1rem; display:inline-block;"></div>
+                <div>
+                    <label>
+                        <input name="easy_prepare" type="checkbox" value="true"/>
+                        Easy prepare (Ingredients count < 5)
+                    </label>
+                </div>
+                <div style="width:1rem; display:inline-block;"></div>
+                <div>
+                    <label>
+                        <input name="easy_prepare" type="checkbox" value="true"/>
+                        Easy cook (Cook time < 10 mins)
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" data-bs-dismiss="modal" type="button">Save</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -2,7 +2,7 @@ import logging
 
 from scrapy.http import Response
 
-from ...scrapy_utils.base_spiders import BaseResultSpider, InvalidResponseData
+from ...scrapy_utils.spiders.base import BaseResultSpider, InvalidResponseData
 from ...scrapy_utils.items import RecipeItem
 from ...utils.parsers import get_attribute, parse_duration, parse_yield, tags_to_diet
 
@@ -36,7 +36,7 @@ class RecipeResultSpider(BaseResultSpider):
             item.keywords = response.css('meta[itemprop=keywords]').attrib['content'].strip().split(', ')
             item.categories = item.keywords
         else:
-            BaseResultSpider.fill_recipe_presets(item)
+            RecipeItem.fill_recipe_presets(item)
         if not item.instructionsRaw:
             # the second form of instructions @@.
             item.instructionsRaw = response.css('[itemprop=recipeInstructions] li::text').getall()

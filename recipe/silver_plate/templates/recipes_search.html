@@ -2,12 +2,20 @@
     {% for doc in search_result.docs %}
     <div class="card recipe-card">
         {% if doc.data.images and doc.data.images|length > 0 %}
-        <img src="{{ doc.data.images.0 }}" class="card-img-top recipe-image" alt="{{ doc.data.title }}">
+        <img alt="{{ doc.data.title }}" class="card-img-top recipe-image" class="recipe-img"
+             src="{{ doc.data.images.0 }}">
         {% endif %}
         <div class="card-body">
             <h5 class="card-title recipe-title">{{ doc.data.title }}</h5>
+            {% if doc.data.cookTime %}
+            <p class="cook-time"><span style="font-weight:bold;">Cook time:</span>
+                <!--Convert seconds to mins-->
+                {% widthratio doc.data.cookTime 60 1 %} mins
+            {% endif %}
+            {% if doc.data.description %}
             <p class="card-text recipe-description">{{ doc.data.description }}</p>
-            <a href="{{doc.data.mainLink}}" class="btn btn-primary">Show recipe</a>
+            {% endif %}
+            <a class="btn btn-primary" href="{{doc.data.mainLink}}">Show recipe</a>
         </div>
     </div>
     {% endfor %}

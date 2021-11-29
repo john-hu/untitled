@@ -3,7 +3,7 @@ from datetime import datetime, timezone
 
 from scrapy.http import Response
 
-from ...scrapy_utils.base_spiders import BaseResultSpider
+from ...scrapy_utils.spiders.base import BaseResultSpider
 from ...scrapy_utils.items import RecipeItem
 from ...utils.parsers import parse_yield, tags_to_diet
 
@@ -41,6 +41,6 @@ class RecipeResultSpider(BaseResultSpider):
             item.keywords = response.css('.field-name-field-tags .field-item a::text').getall()
             item.categories = item.keywords
         else:
-            BaseResultSpider.fill_recipe_presets(item)
+            RecipeItem.fill_recipe_presets(item)
         item.suitableForDiet = tags_to_diet(item.keywords, DIET_TAG_MAP)
         return item

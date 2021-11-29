@@ -3,6 +3,7 @@
 {% block header %}
 {% load static %}
 <link rel="stylesheet" href="{% static 'silver_plate/css/search_result.css' %}">
+<script type="text/javascript" defer src="{% static 'silver_plate/js/bootstrap.bundle.min.js' %}" ></script>
     {% if redirect_page0 %}
 <meta http-equiv="refresh" content="0;url=search?q={{query|urlencode}}" />
     {% endif %}

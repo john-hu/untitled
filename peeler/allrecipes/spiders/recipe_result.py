@@ -2,7 +2,7 @@ import logging
 
 from scrapy.http import Response
 
-from ...scrapy_utils.base_spiders import BaseResultSpider
+from ...scrapy_utils.spiders.base import BaseResultSpider
 from ...scrapy_utils.items import RecipeItem
 from ...utils.parsers import parse_duration, parse_yield
 from ...utils.schema_org import find_json_by_schema_org_type, parse_authors
@@ -36,5 +36,5 @@ class RecipeResultSpider(BaseResultSpider):
             yield_data=parse_yield(recipe.get("recipeYield", None)),
             version="raw"
         )
-        BaseResultSpider.fill_recipe_presets(item)
+        RecipeItem.fill_recipe_presets(item)
         return item
