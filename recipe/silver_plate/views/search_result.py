@@ -7,10 +7,26 @@ from cutting_board.client import Client
 
 PAGE_SIZE = 16
 EASY_PREPARE_COUNTS = 5
+EASY_COOK_TIME = 600
 
 
 class SearchResultView(TemplateView):
     template_name = 'search_result.html'
+
+    def _prepare_query_filter(self) -> list[str]:
+        vegetarian = self.request.GET.get('vegetarian', None) == 'true'
+        easy_prepare = self.request.GET.get('easy_prepare', None) == 'true'
+        easy_cook = self.request.GET.get('easy_cook', None) == 'true'
+
+        filters = []
+        if vegetarian:
+            filters.append('vegetarian')
+        if easy_prepare:
+            filters.append(f'ingredientsCount:[* TO {EASY_PREPARE_COUNTS}]')
+        if easy_cook:
+            filters.append(f'cookTime: [* TO {EASY_COOK_TIME}]')
+
+        return filters
 
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
@@ -18,17 +34,11 @@ class SearchResultView(TemplateView):
         # get parameters
         user_query = self.request.GET.get('q', None)
         page_index = int(self.request.GET.get('p', 0))
-        easy_prepare = self.request.GET.get('easy_prepare', None) == 'true'
-        vegetarian = self.request.GET.get('vegetarian', None) == 'true'
+        filters = self._prepare_query_filter()
 
-        raw_query = f'+{user_query}'
-        if vegetarian:
-            raw_query = f'+vegetarian {raw_query}'
-        if easy_prepare:
-            raw_query = f'+ingredientsCount:[* TO {EASY_PREPARE_COUNTS}] {raw_query}'
         if not user_query:
             return context
-        search_result = Client(settings.CUTTING_BOARD_URL).search_recipe(raw_query, page_index, PAGE_SIZE)
+        search_result = Client(settings.CUTTING_BOARD_URL).search_recipe(user_query, page_index, PAGE_SIZE, filters)
         # total search pages
         pages = math.ceil(search_result['hits'] / PAGE_SIZE)
         # prepare data

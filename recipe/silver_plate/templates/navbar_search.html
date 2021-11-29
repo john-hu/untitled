@@ -15,17 +15,10 @@
                            value="{{ query }}">
                 </div>
                 <div class="col-auto">
-                    <div>
-                        <input  name="vegetarian" type="checkbox" value="true"/>
-                        Vegetarian
-                    </div>
-                    <div>
-                        <input name="easy_prepare" type="checkbox" value="true"/>
-                        Easy prepare
-                    </div>
-                </div>
-                <div class="col-auto">
-                    <button class="btn btn-primary btn-sm" type="submit">Submit</button>
+                    {% include 'filter_modal.html' %}
+                    <button class="btn btn-primary" type="submit">
+                        <span class="bi-search search-icon"></span>
+                    </button>
                 </div>
             </div>
         </form>
