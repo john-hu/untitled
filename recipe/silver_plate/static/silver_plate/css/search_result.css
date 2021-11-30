@@ -25,7 +25,9 @@ body, html {
 }
 
 .recipe-img {
-    border-radius: 25px;
+    height: 20rem;
+    background-size: cover;
+    background-position: center;
 }
 
 .cook-time {
@@ -36,13 +38,16 @@ body, html {
     width: auto;
     margin: 1rem;
     border-radius: 25px;
+    overflow: hidden;
+    position: relative;
+    min-height: 37rem;
 }
 
 .recipe-description {
     display: -webkit-box;
-    -webkit-line-clamp: 6;
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
-    line-clamp: 6;
+    line-clamp: 3;
     box-orient: vertical;
     overflow: hidden;
 }
