@@ -14,6 +14,10 @@ logger = logging.getLogger(__name__)
 
 
 class GeneratorResultSpider(BaseResultSpider):
+    def __init__(self, name=None, **kwargs):
+        super().__init__(name, **kwargs)
+        self.ignore_validation_error = False
+
     def parse_response(self, response: Response) -> RecipeItem:
         # dummy override it and expose a new one
         pass
@@ -34,8 +38,13 @@ class GeneratorResultSpider(BaseResultSpider):
                         validate(item.to_dict())
                         yield item
                         item_yield_count += 1
-                    except Exception as _ex:
-                        pass
+                    except jsonschema.ValidationError as ex:
+                        if self.ignore_validation_error:
+                            # pass the jsonschema validation error because this may be in the suggestion links
+                            pass
+                        else:
+                            # raise error when the validation error is the main link
+                            raise ex
                 elif isinstance(item, RecipeURLItem) and not storage.has_recipe_url(item.url):
                     # a new url found, yield it as new url item
                     yield item

@@ -1,5 +1,5 @@
 import logging
-from typing import Generator, List, Union
+from typing import Generator, List, Optional, Union
 
 from scrapy.http import Response
 
@@ -57,13 +57,13 @@ class RecipeResultSpider(GeneratorResultSpider):
         return instructions
 
     @staticmethod
-    def parse_raw_recipe(recipe: dict, language: str, url: str):
+    def parse_raw_recipe(recipe: dict, language: str, url: Optional[str]):
         item = RecipeItem.from_schema_org(recipe)
         if not item:
             raise InvalidResponseData(field='json schema')
         item.language = language
         item.sourceSite = 'Yummly'
-        if not recipe.get('url', None):
+        if not recipe.get('url', None) and url:
             item.id = url
             item.mainLink = url
         return item
@@ -85,15 +85,16 @@ class RecipeResultSpider(GeneratorResultSpider):
         recipe_language = RecipeResultSpider.parse_html_language(response)
         # if recipe found, yield it
         recipe = find_json_by_schema_org_type(response.css(self.json_css_path).getall(), 'Recipe')
+        self.ignore_validation_error = False
         if recipe:
             yield self.parse_recipe(recipe, recipe_language, response)
         # if item list found, yield it
         item_list = find_json_by_schema_org_type(response.css(self.json_css_path).getall(), 'ItemList')
         if item_list:
+            self.ignore_validation_error = True
             for recipe in item_list.get('itemListElement', []):
                 # parse recipe type only
-                if recipe.get('@type') == 'Recipe':
-                    if recipe.get('url', None):
-                        # We should put the url into database for detailed parser.
-                        yield RecipeURLItem(url=recipe.get('url'))
-                    yield self.parse_raw_recipe(recipe, recipe_language, response.request.url)
+                if recipe.get('@type') == 'Recipe' and recipe.get('url', None):
+                    # We should put the url into database for detailed parser.
+                    yield RecipeURLItem(url=recipe.get('url'))
+                    yield self.parse_raw_recipe(recipe, recipe_language, None)
