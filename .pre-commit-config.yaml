@@ -7,3 +7,10 @@ repos:
         language: system
         entry: autopep8
         args: ["--in-place", "--exit-code", "--aggressive", "--recursive"]
+    # Cause recipe using django, we need to separate these two folders
+      - id: mypy
+        name: mypy
+        types: [python]
+        language: system
+        entry: bash -c 'cd recipe && python -m mypy --config-file=./mypy.ini  ./'
+    # TODO add mypy for peeler
