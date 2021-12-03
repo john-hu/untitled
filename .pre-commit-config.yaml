@@ -1,0 +1,9 @@
+repos:
+  - repo: local
+    hooks:
+      - id: autopep8
+        name: autopep8
+        types: [python]
+        language: system
+        entry: autopep8
+        args: ["--in-place", "--exit-code", "--aggressive", "--recursive"]

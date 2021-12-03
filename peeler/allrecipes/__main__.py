@@ -8,10 +8,25 @@ from . import version
 
 def main():
     parser = argparse.ArgumentParser(f'Allrecipe Website peeler, {version}')
-    parser.add_argument('--storage', type=str, default=os.path.join('peeler_output', 'allrecipes'))
-    parser.add_argument('--count', type=int, default='2', help='number of requests')
+    parser.add_argument(
+        '--storage',
+        type=str,
+        default=os.path.join(
+            'peeler_output',
+            'allrecipes'))
+    parser.add_argument(
+        '--count',
+        type=int,
+        default='2',
+        help='number of requests')
     parser.add_argument('--log-file', type=str, help='the log output file')
-    parser.add_argument('mode', type=str, default='list', choices=['list', 'result'])
+    parser.add_argument(
+        'mode',
+        type=str,
+        default='list',
+        choices=[
+            'list',
+            'result'])
     args = parser.parse_args()
 
     os.environ['SCRAPY_SETTINGS_MODULE'] = 'peeler.allrecipes.settings'
@@ -22,7 +37,9 @@ def main():
         scrapy_settings['LOG_FILE'] = args.log_file
     os.makedirs(args.storage, exist_ok=True)
     process = CrawlerProcess(scrapy_settings)
-    process.crawl('recipe_list' if args.mode == 'list' else 'recipe_result', domain='allrecipes.com')
+    process.crawl(
+        'recipe_list' if args.mode == 'list' else 'recipe_result',
+        domain='allrecipes.com')
     process.start()
 
 

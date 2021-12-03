@@ -23,7 +23,8 @@ class GeneratorResultSpider(BaseResultSpider):
         pass
 
     @abstractmethod
-    def yield_results(self, response: Response) -> Generator[Union[RecipeItem, RecipeURLItem], None, None]:
+    def yield_results(
+            self, response: Response) -> Generator[Union[RecipeItem, RecipeURLItem], None, None]:
         pass
 
     def parse(self, response: Response, **kwargs):
@@ -40,10 +41,12 @@ class GeneratorResultSpider(BaseResultSpider):
                         item_yield_count += 1
                     except jsonschema.ValidationError as ex:
                         if self.ignore_validation_error:
-                            # pass the jsonschema validation error because this may be in the suggestion links
+                            # pass the jsonschema validation error because this
+                            # may be in the suggestion links
                             pass
                         else:
-                            # raise error when the validation error is the main link
+                            # raise error when the validation error is the main
+                            # link
                             raise ex
                 elif isinstance(item, RecipeURLItem) and not storage.has_recipe_url(item.url):
                     # a new url found, yield it as new url item
@@ -52,10 +55,12 @@ class GeneratorResultSpider(BaseResultSpider):
             yield_count = item_yield_count + url_yield_count
             if yield_count == 0:
                 raise InvalidResponseData(field='empty_payload')
-            logger.info(f'{response.url} yields {yield_count} - {self.fetched_count} / {self.total_count}')
+            logger.info(
+                f'{response.url} yields {yield_count} - {self.fetched_count} / {self.total_count}')
             storage.mark_finished(response.request.url)
         except InvalidResponseData as invalid:
-            logger.error(f'URL {response.url} does not have enough data: {invalid.field}')
+            logger.error(
+                f'URL {response.url} does not have enough data: {invalid.field}')
             storage.mark_as(response.request.url, ParseState.WRONG_DATA)
             return
         except Exception as ex:

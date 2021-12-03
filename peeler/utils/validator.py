@@ -19,7 +19,8 @@ def validate(recipe: dict):
         jsonschema.validate(recipe, recipe_schema)
     except jsonschema.ValidationError as ex:
         logger.error(json.dumps(recipe, indent=4))
-        logger.error(f'validation error at {ex.path} / {ex.json_path} of {ex.schema_path}')
+        logger.error(
+            f'validation error at {ex.path} / {ex.json_path} of {ex.schema_path}')
         raise ex
 
 

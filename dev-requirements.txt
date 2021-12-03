@@ -1,2 +1,3 @@
 -r peeler/requirement.txt
 -r recipe/requirement.txt
+pre-commit==2.15.0

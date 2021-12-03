@@ -40,13 +40,15 @@ def convert_solr_doc(recipe: dict):
         solr_doc['totalTile'] = recipe['totalTile']
     # parsed or raw
     if recipe.get('ingredients'):
-        solr_doc['ingredients'] = [ingredient['name'] for ingredient in recipe['ingredients']]
+        solr_doc['ingredients'] = [ingredient['name']
+                                   for ingredient in recipe['ingredients']]
         solr_doc['ingredientsCount'] = len(recipe['ingredients'])
     else:
         solr_doc['ingredients'] = recipe['ingredientsRaw']
         solr_doc['ingredientsCount'] = len(recipe['ingredientsRaw'])
     if recipe.get('instructions'):
-        solr_doc['instructions'] = [instruction['text'] for instruction in recipe['instructions']]
+        solr_doc['instructions'] = [instruction['text']
+                                    for instruction in recipe['instructions']]
         solr_doc['instructionsCount'] = len(recipe['instructions'])
     else:
         solr_doc['instructions'] = recipe['instructionsRaw']

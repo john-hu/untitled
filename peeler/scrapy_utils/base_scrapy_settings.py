@@ -67,6 +67,8 @@ ITEM_PIPELINES = {
 }
 
 AUTO_UPLOADER_ENABLED = os.getenv('AUTO_UPLOADER_ENABLED', 'yes') == 'yes'
-AUTO_UPLOADER_ENDPOINT = os.getenv('AUTO_UPLOADER_ENDPOINT', 'https://wiseipes.com')
+AUTO_UPLOADER_ENDPOINT = os.getenv(
+    'AUTO_UPLOADER_ENDPOINT',
+    'https://wiseipes.com')
 AUTO_UPLOADER_USERNAME = os.getenv('AUTO_UPLOADER_USERNAME', 'peeler')
 AUTO_UPLOADER_PASSWORD = os.getenv('AUTO_UPLOADER_PASSWORD', '')

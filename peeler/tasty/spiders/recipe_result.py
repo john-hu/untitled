@@ -23,7 +23,8 @@ class RecipeResultSpider(BaseResultSpider):
     def parse_response(self, response: Response) -> RecipeItem:
         if len(response.css(self.json_css_path)) == 0:
             raise InvalidResponseData(field='json')
-        recipe = find_json_by_schema_org_type(response.css(self.json_css_path).getall(), 'Recipe')
+        recipe = find_json_by_schema_org_type(
+            response.css(self.json_css_path).getall(), 'Recipe')
         InvalidResponseData.check_and_raise(recipe, 'name')
         InvalidResponseData.check_and_raise(recipe, 'recipeIngredient')
         InvalidResponseData.check_and_raise(recipe, 'recipeInstructions')
@@ -50,14 +51,18 @@ class RecipeResultSpider(BaseResultSpider):
         item.description = recipe.get('description', None)
         item.images = as_array(recipe.get('image', None))
         item.ingredientsRaw = recipe.get('recipeIngredient', None)
-        item.instructionsRaw = [instruction['text'] for instruction in recipe.get('recipeInstructions', [])]
+        item.instructionsRaw = [
+            instruction['text'] for instruction in recipe.get(
+                'recipeInstructions', [])]
         item.nutrition = parse_nutrition_info(recipe.get('nutrition', None))
         item.videos = parse_video_urls(recipe.get('video', None))
-        item.suitableForDiet = parse_suitable_for_diet(recipe.get('suitableForDiet', None))
+        item.suitableForDiet = parse_suitable_for_diet(
+            recipe.get('suitableForDiet', None))
         if not item.suitableForDiet:
             item.suitableForDiet = tags_to_diet(item.keywords, DIET_TAG_MAP)
         if recipe.get('recipeYield', None):
             item.yield_data = parse_yield(recipe['recipeYield'])
-        # Some data containing nutrition. It's hard to parse it now. Just skip it at this version.
+        # Some data containing nutrition. It's hard to parse it now. Just skip
+        # it at this version.
         RecipeItem.fill_recipe_presets(item)
         return item

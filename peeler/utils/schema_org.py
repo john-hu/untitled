@@ -15,7 +15,11 @@ DIET_MAP = {'https://schema.org/DiabeticDiet': 'DiabeticDiet',
             'https://schema.org/VeganDiet': 'VeganDiet',
             'https://schema.org/VegetarianDiet': 'VegetarianDiet'}
 
-SCHEMA_ORG_NS = ['https://schema.org', 'https://schema.org/', 'http://schema.org', 'http://schema.org/']
+SCHEMA_ORG_NS = [
+    'https://schema.org',
+    'https://schema.org/',
+    'http://schema.org',
+    'http://schema.org/']
 
 
 def parse_nutrition_info(nutrition: Optional[dict]) -> Optional[dict]:
@@ -43,7 +47,10 @@ def parse_nutrition_info(nutrition: Optional[dict]) -> Optional[dict]:
         match = MASS_REGEX_PARSER.match(nutrition[key])
         if not match:
             continue
-        ret[key] = {'number': float(match.groups()[0]), 'unit': match.groups()[1]}
+        ret[key] = {
+            'number': float(
+                match.groups()[0]),
+            'unit': match.groups()[1]}
 
     return ret
 
@@ -61,7 +68,8 @@ def parse_authors(author: Union[List[dict], dict, str]) -> Optional[List[str]]:
         return None
 
 
-def parse_video_urls(video: Optional[Union[List[dict], List[str], dict]]) -> Optional[List[str]]:
+def parse_video_urls(
+        video: Optional[Union[List[dict], List[str], dict]]) -> Optional[List[str]]:
     if not video:
         return None
     elif isinstance(video, dict) and video.get('@type', None) == 'VideoObject' and 'contentUrl' in video:
@@ -78,7 +86,8 @@ def parse_video_urls(video: Optional[Union[List[dict], List[str], dict]]) -> Opt
         return None
 
 
-def parse_image_urls(image: Optional[Union[List[str], dict, str]]) -> Optional[List[str]]:
+def parse_image_urls(
+        image: Optional[Union[List[str], dict, str]]) -> Optional[List[str]]:
     if not image:
         return None
     elif isinstance(image, list):
@@ -95,7 +104,8 @@ def parse_suitable_for_diet(data: str) -> Optional[List[str]]:
     return [DIET_MAP[data]] if data in DIET_MAP else None
 
 
-def parse_raw_ingredients(data: Optional[Union[List[str], str]]) -> Optional[List[str]]:
+def parse_raw_ingredients(
+        data: Optional[Union[List[str], str]]) -> Optional[List[str]]:
     if not data:
         return None
     elif isinstance(data, list):
@@ -104,7 +114,8 @@ def parse_raw_ingredients(data: Optional[Union[List[str], str]]) -> Optional[Lis
         return data.split('\n')
 
 
-def expand_how_to_sections(section: dict, callback: Callable[[dict, int], None])  -> None:
+def expand_how_to_sections(
+        section: dict, callback: Callable[[dict, int], None]) -> None:
     if section.get('@type') != 'HowToSection':
         return
     total_items = len(section.get('itemListElement'))
@@ -115,7 +126,8 @@ def expand_how_to_sections(section: dict, callback: Callable[[dict, int], None])
             callback(item, total_items)
 
 
-def parse_raw_instructions(data: Optional[Union[List[str], List[dict]]]) -> Optional[List[str]]:
+def parse_raw_instructions(
+        data: Optional[Union[List[str], List[dict]]]) -> Optional[List[str]]:
     if not data:
         return None
 
@@ -140,7 +152,8 @@ def parse_raw_instructions(data: Optional[Union[List[str], List[dict]]]) -> Opti
     return ret
 
 
-def find_json_by_schema_org_type(json_texts: List[str], schema_type: str) -> Optional[dict]:
+def find_json_by_schema_org_type(
+        json_texts: List[str], schema_type: str) -> Optional[dict]:
     for json_text in json_texts:
         data = json.loads(json_text)
         if isinstance(data, list):
