@@ -281,7 +281,8 @@ def ensure_all_fields(all_fields, update_url):
         elif should_replace(field, missing_fields[field['name']]):
             print(f'replace {field["name"]}')
             payload = {'replace-field': missing_fields[field['name']]}
-            replace_result = requests.post(update_url, data=json.dumps(payload))
+            replace_result = requests.post(
+                update_url, data=json.dumps(payload))
             assert replace_result.status_code == 200, f'replace field {field["name"]} failed: {replace_result.text}'
             del missing_fields[field['name']]
         else:
@@ -300,19 +301,23 @@ def ensure_all_copies(all_copies, update_url):
     missing_copies = list(COPY_FIELDS)
     delete_list = []
     for copy_field in all_copies:
-        # in our cases, we only copy fields to _text_ field for full-text search
+        # in our cases, we only copy fields to _text_ field for full-text
+        # search
         if copy_field['dest'] != '_text_':
             print(f'delete copy field to {copy_field["dest"]}')
-            delete_list.append({'source': copy_field['source'], 'dest': copy_field['dest']})
+            delete_list.append(
+                {'source': copy_field['source'], 'dest': copy_field['dest']})
         elif copy_field['source'] in missing_copies:
             # the field is already in missing_copies, pop it out.
             print(f'keep copy field {copy_field["source"]}')
             missing_copies.remove(copy_field['source'])
         else:
             print(f'delete copy field from {copy_field["source"]}')
-            delete_list.append({'source': copy_field['source'], 'dest': copy_field['dest']})
+            delete_list.append(
+                {'source': copy_field['source'], 'dest': copy_field['dest']})
     print('add missing copy fields')
-    create_list = [{'source': source, 'dest': '_text_'} for source in missing_copies]
+    create_list = [{'source': source, 'dest': '_text_'}
+                   for source in missing_copies]
     payload = {
         'delete-copy-field': delete_list,
         'add-copy-field': create_list

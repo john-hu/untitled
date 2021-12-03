@@ -21,7 +21,10 @@ class RecipeItem:
     mainLink: str
     title: str
     # `yield` is a reserved word. We use field to convert them.
-    yield_data: Optional[dict] = field(metadata=config(field_name='yield'), default=None)
+    yield_data: Optional[dict] = field(
+        metadata=config(
+            field_name='yield'),
+        default=None)
     language: str = None
     sourceSite: str = None
     authors: List[str] = None
@@ -72,18 +75,24 @@ class RecipeItem:
         item.cookTime = parse_duration(recipe.get('cookTime', None))
         item.cookingMethods = as_array(recipe.get('cookingMethod', None))
         item.cuisines = as_array(recipe.get('recipeCuisine', None))
-        item.dateCreated = isodate_2_isodatetime(recipe.get('dateCreated', None))
-        item.dateModified = isodate_2_isodatetime(recipe.get('dateModified', None))
+        item.dateCreated = isodate_2_isodatetime(
+            recipe.get('dateCreated', None))
+        item.dateModified = isodate_2_isodatetime(
+            recipe.get('dateModified', None))
         item.description = recipe.get('description', None)
         item.images = as_array(recipe.get('image', None))
-        item.ingredientsRaw = parse_raw_ingredients(recipe.get('recipeIngredient', None))
-        item.instructionsRaw = parse_raw_instructions(recipe.get('recipeInstructions', None))
+        item.ingredientsRaw = parse_raw_ingredients(
+            recipe.get('recipeIngredient', None))
+        item.instructionsRaw = parse_raw_instructions(
+            recipe.get('recipeInstructions', None))
         item.nutrition = parse_nutrition_info(recipe.get('nutrition', None))
-        item.suitableForDiet = parse_suitable_for_diet(recipe.get('suitableForDiet', None))
+        item.suitableForDiet = parse_suitable_for_diet(
+            recipe.get('suitableForDiet', None))
         item.prepTime = parse_duration((recipe.get('prepTime', None)))
         item.yield_data = parse_yield(recipe.get('recipeYield', None))
         item.videos = parse_video_urls(recipe.get('video', None))
         item.images = parse_image_urls(recipe.get('image', None))
-        # Some data containing nutrition. It's hard to parse it now. Just skip it at this version.
+        # Some data containing nutrition. It's hard to parse it now. Just skip
+        # it at this version.
         RecipeItem.fill_recipe_presets(item)
         return item

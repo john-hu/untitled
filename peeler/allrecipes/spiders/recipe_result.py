@@ -15,7 +15,8 @@ class RecipeResultSpider(BaseResultSpider):
     json_css_path = 'head script[type="application/ld+json"]::text'
 
     def parse_response(self, response: Response) -> RecipeItem:
-        recipe = find_json_by_schema_org_type(response.css(self.json_css_path).getall(), 'Recipe')
+        recipe = find_json_by_schema_org_type(
+            response.css(self.json_css_path).getall(), 'Recipe')
         item = RecipeItem(
             authors=parse_authors(recipe.get('author', 'Allrecipes')),
             categories=recipe.get("recipeCategory", None),
@@ -24,14 +25,18 @@ class RecipeResultSpider(BaseResultSpider):
             dateCreated=recipe.get("datePublished", None),
             prepTime=parse_duration(recipe.get("prepTime", None)),
             description=recipe.get("description", None),
-            id=response.xpath('//link[@rel="canonical"]/@href').extract_first(),
+            id=response.xpath(
+                '//link[@rel="canonical"]/@href').extract_first(),
             images=[recipe["image"].get("url", None)],
             ingredientsRaw=recipe.get("recipeIngredient", None),
-            instructionsRaw=[x.get("text", None) for x in recipe["recipeInstructions"]],
+            instructionsRaw=[x.get("text", None)
+                             for x in recipe["recipeInstructions"]],
             keywords=[response.xpath('//h1/text()').get()],
             language=response.css('html').xpath('@lang').get(),
-            mainLink=response.xpath('//link[@rel="canonical"]/@href').extract_first(),
-            sourceSite=response.xpath('//meta[@property="og:site_name"]/@content').extract_first(),
+            mainLink=response.xpath(
+                '//link[@rel="canonical"]/@href').extract_first(),
+            sourceSite=response.xpath(
+                '//meta[@property="og:site_name"]/@content').extract_first(),
             title=response.xpath('//h1/text()').get(),
             yield_data=parse_yield(recipe.get("recipeYield", None)),
             version="raw"

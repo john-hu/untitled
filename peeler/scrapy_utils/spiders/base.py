@@ -61,10 +61,12 @@ class BaseResultSpider(Spider, metaclass=ABCMeta):
             item = self.parse_response(response)
             validate(item.to_dict())
             yield item
-            logger.info(f'{response.url} is parsed successfully {self.fetched_count} / {self.total_count}')
+            logger.info(
+                f'{response.url} is parsed successfully {self.fetched_count} / {self.total_count}')
             storage.mark_finished(response.request.url)
         except InvalidResponseData as invalid:
-            logger.error(f'URL {response.url} does not have enough data: {invalid.field}')
+            logger.error(
+                f'URL {response.url} does not have enough data: {invalid.field}')
             storage.mark_as(response.request.url, ParseState.WRONG_DATA)
             return
         except Exception as ex:

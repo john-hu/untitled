@@ -15,23 +15,24 @@ SPIDER_MODULES = ['peeler.allrecipes.spiders']
 NEWSPIDER_MODULE = 'peeler.allrecipes.spiders'
 
 
-# Crawl responsibly by identifying yourself (and your website) on the user-agent
+# Crawl responsibly by identifying yourself (and your website) on the
+# user-agent
 USER_AGENT = f'RecipeSearchCrawler (version: {version})'
 
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
-#SPIDER_MIDDLEWARES = {
+# SPIDER_MIDDLEWARES = {
 #    'allrecipes.middlewares.AllrecipesSpiderMiddleware': 543,
-#}
+# }
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
+# DOWNLOADER_MIDDLEWARES = {
 #    'allrecipes.middlewares.AllrecipesDownloaderMiddleware': 543,
-#}
+# }
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
-#EXTENSIONS = {
+# EXTENSIONS = {
 #    'scrapy_utils.extensions.telnet.TelnetConsole': None,
-#}
+# }
