@@ -82,11 +82,18 @@ def parse_image_urls(image: Optional[Union[List[str], dict, str]]) -> Optional[L
     if not image:
         return None
     elif isinstance(image, list):
-        return image
+        ret = []
+        for img in image:
+            if isinstance(img, str):
+                ret.append(img)
+            elif isinstance(img, dict):
+                if is_type(img, 'ImageObject', False) and ('contentUrl' in img or 'url' in img):
+                    ret.append(img['contentUrl'] if 'contentUrl' in img else img['url'])
+        return ret
     elif isinstance(image, str):
         return [image]
-    elif isinstance(image, dict) and image.get('@type') == 'ImageObject' and 'contentUrl' in image:
-        return [image['contentUrl']]
+    elif isinstance(image, dict) and is_type(image, 'ImageObject', False) and ('contentUrl' in image or 'url' in image):
+        return [image['contentUrl'] if 'contentUrl' in image else image['url']]
     else:
         return None
 
@@ -140,13 +147,19 @@ def parse_raw_instructions(data: Optional[Union[List[str], List[dict]]]) -> Opti
     return ret
 
 
+def is_type(data: dict, schema_type: str, with_context: bool = True) -> bool:
+    if with_context and data['@context'] not in SCHEMA_ORG_NS:
+        return False
+    return data.get('@type', None) == schema_type or schema_type in data.get('@type', [])
+
+
 def find_json_by_schema_org_type(json_texts: List[str], schema_type: str) -> Optional[dict]:
     for json_text in json_texts:
-        data = json.loads(json_text)
+        data = json.loads(json_text.replace('\n', ' '))
         if isinstance(data, list):
             for d in data:
-                if d['@context'] in SCHEMA_ORG_NS and d['@type'] == schema_type:
+                if is_type(d, schema_type):
                     return d
-        elif data['@context'] in SCHEMA_ORG_NS and data['@type'] == schema_type:
+        elif is_type(data, schema_type):
             return data
     return None

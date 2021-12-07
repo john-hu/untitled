@@ -12,6 +12,7 @@ logger = logging.getLogger(__name__)
 
 
 class RecipeResultSpider(GeneratorResultSpider):
+    name = 'recipe_result'
     allowed_domains = ['yummly.co.uk']
     json_css_path = '.structured-data-info script[type="application/ld+json"]::text'
 

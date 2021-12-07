@@ -1,5 +1,6 @@
 import logging
 from abc import ABCMeta, abstractmethod
+from urllib.parse import urlparse
 
 from scrapy import Request, Spider
 from scrapy.http import Response
@@ -35,6 +36,13 @@ class BaseResultSpider(Spider, metaclass=ABCMeta):
             return html.attrib['lang']
         else:
             return None
+
+    @staticmethod
+    def parse_site_name(response: Response) -> str:
+        site_name = response.css('meta[property="og:site_name"]').attrib.get('content', None)
+        if not site_name:
+            site_name = urlparse(response.url).hostname
+        return site_name
 
     def __init__(self, name=None, **kwargs):
         super().__init__(name, **kwargs)

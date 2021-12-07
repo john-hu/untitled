@@ -5,7 +5,7 @@ from dataclasses_json import config, dataclass_json
 
 from ..utils.parsers import as_array, isodate_2_isodatetime, parse_duration, parse_yield, split
 from ..utils.schema_org import parse_authors, parse_nutrition_info, parse_suitable_for_diet, parse_video_urls, \
-    parse_raw_ingredients, parse_raw_instructions, parse_image_urls
+    parse_raw_ingredients, parse_raw_instructions, parse_image_urls, is_type
 
 
 @dataclass
@@ -57,7 +57,7 @@ class RecipeItem:
     def from_schema_org(recipe: dict) -> Optional['RecipeItem']:
         if not recipe:
             return None
-        elif recipe['@type'] != 'Recipe':
+        elif not is_type(recipe, 'Recipe'):
             return None
 
         item = RecipeItem(
@@ -75,7 +75,6 @@ class RecipeItem:
         item.dateCreated = isodate_2_isodatetime(recipe.get('dateCreated', None))
         item.dateModified = isodate_2_isodatetime(recipe.get('dateModified', None))
         item.description = recipe.get('description', None)
-        item.images = as_array(recipe.get('image', None))
         item.ingredientsRaw = parse_raw_ingredients(recipe.get('recipeIngredient', None))
         item.instructionsRaw = parse_raw_instructions(recipe.get('recipeInstructions', None))
         item.nutrition = parse_nutrition_info(recipe.get('nutrition', None))
