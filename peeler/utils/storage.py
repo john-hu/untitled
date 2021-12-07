@@ -19,8 +19,7 @@ class ParseState(Enum):
 class Storage:
     def __init__(self, storage):
         self.__storage = storage
-        # the sqlite3 may be shared among two processes. We should close it
-        # asap.
+        # the sqlite3 may be shared among two processes. We should close it asap.
         self.__db_file = os.path.join(self.__storage, 'recipes.db')
         self.__ensure_db()
 
@@ -45,9 +44,7 @@ class Storage:
     def add_recipe_url(self, url: str) -> None:
         conn = sqlite3.connect(self.__db_file)
         cursor = conn.cursor()
-        cursor.execute(
-            'INSERT OR IGNORE INTO RECIPES_LIST(url) VALUES(:url);', {
-                'url': url})
+        cursor.execute('INSERT OR IGNORE INTO RECIPES_LIST(url) VALUES(:url);', {'url': url})
         cursor.close()
         conn.commit()
         conn.close()
@@ -56,8 +53,7 @@ class Storage:
         conn = sqlite3.connect(self.__db_file)
         cursor = conn.cursor()
         try:
-            cursor.execute(
-                'SELECT COUNT(*) FROM RECIPES_LIST WHERE url = :url;', {'url': url})
+            cursor.execute('SELECT COUNT(*) FROM RECIPES_LIST WHERE url = :url;', {'url': url})
             return cursor.fetchone()[0]
         finally:
             cursor.close()
@@ -67,13 +63,9 @@ class Storage:
         conn = sqlite3.connect(self.__db_file)
         cursor = conn.cursor()
         try:
-            cursor.execute(
-                'SELECT url FROM RECIPES_LIST WHERE parse_state = 0 LIMIT :count', {
-                    'count': count})
+            cursor.execute('SELECT url FROM RECIPES_LIST WHERE parse_state = 0 LIMIT :count', {'count': count})
             all_urls = cursor.fetchall()
-            cursor.executemany(
-                'UPDATE RECIPES_LIST SET parse_state = 1 WHERE url = ?',
-                all_urls)
+            cursor.executemany('UPDATE RECIPES_LIST SET parse_state = 1 WHERE url = ?', all_urls)
             conn.commit()
             return [url[0] for url in all_urls]
         finally:
@@ -84,9 +76,7 @@ class Storage:
         conn = sqlite3.connect(self.__db_file)
         cursor = conn.cursor()
         try:
-            cursor.execute(
-                'UPDATE RECIPES_LIST SET parse_state = 0 WHERE parse_state = 1 AND url = :url', {
-                    'url': url})
+            cursor.execute('UPDATE RECIPES_LIST SET parse_state = 0 WHERE parse_state = 1 AND url = :url', {'url': url})
             conn.commit()
         finally:
             cursor.close()

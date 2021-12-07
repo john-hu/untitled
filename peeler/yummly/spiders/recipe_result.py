@@ -18,30 +18,25 @@ class RecipeResultSpider(GeneratorResultSpider):
     @staticmethod
     def parse_ingredient(response: Response) -> List[dict]:
         ingredients = []
-        # ingredient data in recipe is text data. But we can find the
-        # structured data at the HTML.
+        # ingredient data in recipe is text data. But we can find the structured data at the HTML.
         for ingredient in response.css('.IngredientLine'):
             ingredient_item = {
                 'name': ingredient.css('.ingredient::text').get().strip(),
                 'size': None
             }
-            # if remainder has text, we should view it as the name (the same as
-            # the text in structured-data-info).
+            # if remainder has text, we should view it as the name (the same as the text in structured-data-info).
             if ingredient.css('.remainder::text'):
                 ingredient_item['name'] += f' ({ingredient.css(".remainder::text").get().strip()})'
             if ingredient.css('.amount span::text'):
-                number_text = ingredient.css(
-                    '.amount span::text').get().strip().replace(',', '')
+                number_text = ingredient.css('.amount span::text').get().strip().replace(',', '')
                 ingredient_item['size'] = {'number': float(number_text)}
                 # may we see an unit element without amount? I don't think so.
                 if ingredient.css('.unit::text'):
-                    ingredient_item['size']['unit'] = ingredient.css(
-                        '.unit::text').get().strip()
+                    ingredient_item['size']['unit'] = ingredient.css('.unit::text').get().strip()
                 else:
                     ingredient_item['size']['unit'] = None
             if ingredient_item in ingredients:
-                logger.warning(
-                    f'duplicated ingredient found {ingredient_item}')
+                logger.warning(f'duplicated ingredient found {ingredient_item}')
             else:
                 ingredients.append(ingredient_item)
         return ingredients
@@ -84,20 +79,17 @@ class RecipeResultSpider(GeneratorResultSpider):
         item.version = 'parsed'
         return item
 
-    def yield_results(
-            self, response: Response) -> Generator[Union[RecipeItem, RecipeURLItem], None, None]:
+    def yield_results(self, response: Response) -> Generator[Union[RecipeItem, RecipeURLItem], None, None]:
         if len(response.css(self.json_css_path)) == 0:
             raise InvalidResponseData(field='json')
         recipe_language = RecipeResultSpider.parse_html_language(response)
         # if recipe found, yield it
-        recipe = find_json_by_schema_org_type(
-            response.css(self.json_css_path).getall(), 'Recipe')
+        recipe = find_json_by_schema_org_type(response.css(self.json_css_path).getall(), 'Recipe')
         self.ignore_validation_error = False
         if recipe:
             yield self.parse_recipe(recipe, recipe_language, response)
         # if item list found, yield it
-        item_list = find_json_by_schema_org_type(
-            response.css(self.json_css_path).getall(), 'ItemList')
+        item_list = find_json_by_schema_org_type(response.css(self.json_css_path).getall(), 'ItemList')
         if item_list:
             self.ignore_validation_error = True
             for recipe in item_list.get('itemListElement', []):

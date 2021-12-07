@@ -50,21 +50,15 @@ class RecipeListSpider(Spider):
                 continue
             parent_slug = item.get('parentSlug', '')
             slug = item['slug']
-            url = urljoin(
-                'https://foodnetwork.co.uk/',
-                urljoin(
-                    f'{parent_slug}/',
-                    f'{slug}/'))
+            url = urljoin('https://foodnetwork.co.uk/', urljoin(f'{parent_slug}/', f'{slug}/'))
             # check the existence to know if we need to stop requesting
             if not storage.has_recipe_url(url):
                 yield_count += 1
                 yield RecipeURLItem(url=url)
-        logger.info(
-            f'total: {len(data)}, yields: {yield_count}, duplicated: {len(data) - yield_count}')
+        logger.info(f'total: {len(data)}, yields: {yield_count}, duplicated: {len(data) - yield_count}')
         # find the next page url
         next_page = search_result.get('meta', {}).get('nextPage', None)
         if next_page:
-            # change the referer to make uk-api.loma-cms.com feel we are from
-            # foodnetwork search page
+            # change the referer to make uk-api.loma-cms.com feel we are from foodnetwork search page
             headers = {'referer': ADVANCED_SEARCH_PAGE}
             yield Request(url=next_page, callback=self.parse, headers=headers)

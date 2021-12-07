@@ -43,8 +43,7 @@ class SpoonacularPeeler:
         os.makedirs(storage, exist_ok=True)
 
     def convert_diet(self, source, dest):
-        for _index, (source_key, dest_value) in enumerate(
-                self.DIET_MAP.items()):
+        for _index, (source_key, dest_value) in enumerate(self.DIET_MAP.items()):
             if source.get(source_key, False):
                 append_diet(dest, dest_value)
 
@@ -97,10 +96,8 @@ class SpoonacularPeeler:
             dest['cuisines'] = source.get('cuisines')
         assert 'sourceUrl' in source
         source_url = source.get('sourceUrl')
-        if source_url[0:len('http://www.foodista.com')
-                      ] == 'http://www.foodista.com':
-            source_url = 'https://www.foodista.com' + \
-                source_url[len('http://www.foodista.com'):]
+        if source_url[0:len('http://www.foodista.com')] == 'http://www.foodista.com':
+            source_url = 'https://www.foodista.com' + source_url[len('http://www.foodista.com'):]
         dest['id'] = source_url
         dest['mainLink'] = source_url
         if source.get('image', None):
@@ -135,8 +132,7 @@ class SpoonacularPeeler:
         today_utc = datetime.utcnow().strftime('%Y%m%d')
         quota_utc = quota['utc']
         if today_utc != quota_utc:
-            print(
-                f'switch date from {quota_utc} to {today_utc} (utc) reset used')
+            print(f'switch date from {quota_utc} to {today_utc} (utc) reset used')
             quota['utc'] = today_utc
             quota['used'] = 0
         return quota['used'] > USED_MAX_QUOTA, quota['used']
@@ -186,21 +182,13 @@ class SpoonacularPeeler:
 
     def delete_output(self):
         print('remove all output recipes')
-        recipe_files = glob.glob(
-            os.path.join(
-                self.__storage,
-                f'{RECIPE_PREFIX}_*.json'),
-            recursive=True)
+        recipe_files = glob.glob(os.path.join(self.__storage, f'{RECIPE_PREFIX}_*.json'), recursive=True)
         for recipe_file in recipe_files:
             os.remove(recipe_file)
 
     def reconvert(self):
         self.delete_output()
-        raw_files = glob.glob(
-            os.path.join(
-                self.__storage,
-                f'{RAW_PREFIX}_*.json'),
-            recursive=True)
+        raw_files = glob.glob(os.path.join(self.__storage, f'{RAW_PREFIX}_*.json'), recursive=True)
         for raw_file in raw_files:
             print(f'reconvert file: {raw_file}')
             # load the file
@@ -212,6 +200,4 @@ class SpoonacularPeeler:
 
             # since we have 100 quota per day, it won't break 500 limitations.
             for source in sources:
-                self.save_recipe(
-                    self.convert_recipe(source),
-                    today_str=date_str)
+                self.save_recipe(self.convert_recipe(source), today_str=date_str)

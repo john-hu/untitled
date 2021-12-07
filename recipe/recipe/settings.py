@@ -134,9 +134,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 DATA_UPLOAD_MAX_MEMORY_SIZE = 1024 * 1024 * 10
 
 # Silver plate configs
-CUTTING_BOARD_URL = os.environ.get(
-    'CUTTING_BOARD_URL',
-    'http://localhost:8983/solr/recipe')
+CUTTING_BOARD_URL = os.environ.get('CUTTING_BOARD_URL', 'http://localhost:8983/solr/recipe')
 
 # Peeler endpoint configs
 PEELER_BASIC_AUTH_USERNAME = os.environ.get('PEELER_USERNAME', 'peeler')

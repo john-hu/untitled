@@ -15,8 +15,7 @@ SPIDER_MODULES = ['peeler.allrecipes.spiders']
 NEWSPIDER_MODULE = 'peeler.allrecipes.spiders'
 
 
-# Crawl responsibly by identifying yourself (and your website) on the
-# user-agent
+# Crawl responsibly by identifying yourself (and your website) on the user-agent
 USER_AGENT = f'RecipeSearchCrawler (version: {version})'
 
 # Enable or disable spider middlewares

@@ -64,40 +64,27 @@ class PerfInspector:
         self.__db.commit()
         cursor.close()
 
-    def log(self, perf_type: PerfType, date_str: str,
-            data_id: str = None) -> None:
+    def log(self, perf_type: PerfType, date_str: str, data_id: str = None) -> None:
         cursor = self.__db.cursor()
         daily_pref_upsert = SQL_STATEMENTS['DAILY_PERF']['UPSERT']
         fetched_cache = SQL_STATEMENTS['FETCHED_ID']['UPSERT']
         exist_check = SQL_STATEMENTS['FETCHED_ID']['EXIST']
         if perf_type == PerfType.FETCH:
-            cursor.execute(
-                daily_pref_upsert('fetch_count'), {
-                    'date_str': date_str})
+            cursor.execute(daily_pref_upsert('fetch_count'), {'date_str': date_str})
         elif perf_type == PerfType.FETCH_ERROR:
-            cursor.execute(
-                daily_pref_upsert('fetch_error'), {
-                    'date_str': date_str})
+            cursor.execute(daily_pref_upsert('fetch_error'), {'date_str': date_str})
         elif perf_type == PerfType.PARSE:
-            cursor.execute(
-                daily_pref_upsert('parse_count'), {
-                    'date_str': date_str})
+            cursor.execute(daily_pref_upsert('parse_count'), {'date_str': date_str})
         elif perf_type == PerfType.PARSE_ERROR:
-            cursor.execute(
-                daily_pref_upsert('parse_error'), {
-                    'date_str': date_str})
+            cursor.execute(daily_pref_upsert('parse_error'), {'date_str': date_str})
         elif perf_type == PerfType.SUCCESSFUL:
             # try to query the cache row
             cursor.execute(exist_check, {'id': data_id})
             if cursor.fetchone():
                 # an existing row means duplication.
-                cursor.execute(
-                    daily_pref_upsert('duplicated_count'), {
-                        'date_str': date_str})
+                cursor.execute(daily_pref_upsert('duplicated_count'), {'date_str': date_str})
             # record rest.
-            cursor.execute(
-                daily_pref_upsert('success_count'), {
-                    'date_str': date_str})
+            cursor.execute(daily_pref_upsert('success_count'), {'date_str': date_str})
             cursor.execute(fetched_cache, {'id': data_id})
         self.__db.commit()
         cursor.close()

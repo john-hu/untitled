@@ -17,8 +17,7 @@ NEWSPIDER_MODULE = 'peeler.tasty.spiders'
 
 ROBOTSTXT_OBEY = True
 
-# We have to use a fake user agent because we have to disable the
-# robots.txt rules from uk-api.loma-cms.com
+# We have to use a fake user agent because we have to disable the robots.txt rules from uk-api.loma-cms.com
 USER_AGENT = f'RecipeSearchCrawler (version: {version})'
 
 # Enable or disable spider middlewares

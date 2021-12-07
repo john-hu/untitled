@@ -51,8 +51,7 @@ class RecipeResultPipeline:
                     and spider.settings.get('AUTO_UPLOADER_PASSWORD'):
                 logger.info(f'upload item to {item.id} to silver plate')
                 uploader = Uploader(spider.settings.get('AUTO_UPLOADER_ENDPOINT'),
-                                    spider.settings.get(
-                                        'AUTO_UPLOADER_USERNAME'),
+                                    spider.settings.get('AUTO_UPLOADER_USERNAME'),
                                     spider.settings.get('AUTO_UPLOADER_PASSWORD'))
                 uploader.pull_and_merge(item.to_dict())
         return item

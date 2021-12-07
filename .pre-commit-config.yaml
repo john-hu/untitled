@@ -6,7 +6,7 @@ repos:
         types: [python]
         language: system
         entry: autopep8
-        args: ["--in-place", "--exit-code", "--aggressive", "--recursive"]
+        args: ["--global-config",".pep8","--in-place", "--exit-code", "--aggressive", "--recursive"]
     # Cause recipe using django, we need to separate these two folders
       - id: mypy
         name: mypy

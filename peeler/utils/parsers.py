@@ -15,16 +15,14 @@ def isodate_2_isodatetime(date: str) -> Optional[str]:
     if not date:
         return date
     parsed_date = isodate.parse_date(date)
-    return datetime.combine(parsed_date, datetime.min.time()
-                            ).isoformat(timespec='seconds')
+    return datetime.combine(parsed_date, datetime.min.time()).isoformat(timespec='seconds')
 
 
 def parse_duration(text) -> int:
     return isodate.parse_duration(text).seconds if text else None
 
 
-def parse_yield(
-        yield_number: Optional[Union[str, int, float]]) -> Optional[dict]:
+def parse_yield(yield_number: Optional[Union[str, int, float]]) -> Optional[dict]:
     if not yield_number:
         return None
     elif isinstance(yield_number, int):
@@ -50,8 +48,7 @@ def split(text: Optional[str], splitter: str = ' ') -> List[str]:
     elif isinstance(text, list):
         return text
     else:
-        return [] if not text else text.replace(
-            ', ', ' ').replace(',', ' ').split(splitter)
+        return [] if not text else text.replace(', ', ' ').replace(',', ' ').split(splitter)
 
 
 def as_array(text: Optional[Union[List[str], str]]) -> Optional[List[str]]:
@@ -65,8 +62,7 @@ def as_array(text: Optional[Union[List[str], str]]) -> Optional[List[str]]:
         return None
 
 
-def tags_to_diet(tags: List[str], diet_map: Dict[str,
-                 str]) -> Optional[List[str]]:
+def tags_to_diet(tags: List[str], diet_map: Dict[str, str]) -> Optional[List[str]]:
     if not tags:
         return None
     tags = [tag.lower() for tag in tags]

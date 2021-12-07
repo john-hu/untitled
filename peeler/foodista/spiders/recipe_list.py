@@ -38,8 +38,7 @@ class RecipeListSpider(Spider):
             self.__empty_counter = 0
         else:
             self.__empty_counter += 1
-        # stop the process when the connecting empty request exceeds the
-        # maximum value.
+        # stop the process when the connecting empty request exceeds the maximum value.
         if self.__empty_counter > STOP_REQUESTING_COUNT:
             return
         # find the next page url

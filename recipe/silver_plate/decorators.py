@@ -13,8 +13,7 @@ def basic_auth(username: str, password: str, realm: str):
                 auth = request.META['HTTP_AUTHORIZATION'].split()
                 if len(auth) == 2:
                     if auth[0].lower() == "basic":
-                        header_username, header_password = base64.b64decode(
-                            auth[1]).decode('utf8').split(':', 1)
+                        header_username, header_password = base64.b64decode(auth[1]).decode('utf8').split(':', 1)
                         if username == header_username and password == header_password:
                             request.user = username
                             return view(request, *args, **kwargs)
