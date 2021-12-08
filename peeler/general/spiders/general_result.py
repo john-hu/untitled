@@ -1,6 +1,6 @@
 import logging
 from typing import Generator, List, Optional, Union
-from urllib.parse import urljoin, urlparse
+from urllib.parse import urldefrag, urljoin, urlparse
 
 from scrapy import Request
 from scrapy.http import Response
@@ -59,12 +59,15 @@ class GeneralResultSpider(GeneratorResultSpider):
 
     @staticmethod
     def parse_anchor(response: Response) -> Generator[RecipeURLItem, None, None]:
+        # We only emit url within the same site and not just hash changed link
         all_hrefs: List[str] = response.css('a::attr(href)').getall()
         current_hostname = urlparse(response.url).hostname
+        current_defrag_url = urldefrag(response.url).url
         for href in all_hrefs:
             resolved_url = urljoin(response.url, href)
             resolved_hostname = urlparse(resolved_url).hostname
-            if resolved_hostname == current_hostname:
+            resolved_defrag_url = urldefrag(resolved_url).url
+            if resolved_hostname == current_hostname and current_defrag_url != resolved_defrag_url:
                 yield RecipeURLItem(url=resolved_url)
 
     def yield_results(self, response: Response) -> Generator[Union[RecipeItem, RecipeURLItem], None, None]:
