@@ -148,18 +148,33 @@ def parse_raw_instructions(data: Optional[Union[List[str], List[dict]]]) -> Opti
 
 
 def is_type(data: dict, schema_type: str, with_context: bool = True) -> bool:
-    if with_context and data['@context'] not in SCHEMA_ORG_NS:
+    if with_context and is_schema_org_context(data):
         return False
     return data.get('@type', None) == schema_type or schema_type in data.get('@type', [])
 
 
+def is_schema_org_context(data: dict):
+    return '@context' in data and data['@context'] not in SCHEMA_ORG_NS
+
+
 def find_json_by_schema_org_type(json_texts: List[str], schema_type: str) -> Optional[dict]:
+    # multiple ld+json case
     for json_text in json_texts:
+        # Some data may contain `\n` at the ld+json. It is not correct JSON. Replace the `\n` to space.
         data = json.loads(json_text.replace('\n', ' '))
         if isinstance(data, list):
+            # Some website will give us a list of schema org data
             for d in data:
                 if is_type(d, schema_type):
                     return d
-        elif is_type(data, schema_type):
-            return data
+        elif isinstance(data, dict) and is_schema_org_context(data):
+            # If we have multiple data in a website, some website uses @graph to group them.
+            if '@graph' in data and isinstance(data['@graph'], list):
+                for item in data['@graph']:
+                    if is_type(item, schema_type, False):
+                        return data
+            elif is_type(data, schema_type):
+                # single data case
+                return data
+
     return None
