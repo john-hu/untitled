@@ -17,11 +17,6 @@ else:
 def validate(recipe: dict):
     try:
         jsonschema.validate(recipe, recipe_schema)
-        # TODO: we found an issue at our recipe schema, check #71. workaround it
-        if not recipe.get('instructions', None) and not recipe.get('instructionsRaw', None):
-            raise Exception('instructions and instructionsRaw are all none')
-        if not recipe.get('ingredients', None) and not recipe.get('ingredientsRaw', None):
-            raise Exception('instructions and instructionsRaw are all none')
     except jsonschema.ValidationError as ex:
         logger.error(json.dumps(recipe, indent=4))
         logger.error(f'validation error at {ex.path} / {ex.json_path} of {ex.schema_path}')

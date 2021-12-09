@@ -4,3 +4,4 @@ isodate==0.6.0
 jsonschema==4.1.2
 requests==2.26.0
 Scrapy==2.5.1
+types-requests==2.26.1

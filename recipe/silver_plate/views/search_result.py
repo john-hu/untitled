@@ -8,6 +8,8 @@ from cutting_board.client import Client
 PAGE_SIZE = 16
 EASY_PREPARE_COUNTS = 5
 EASY_COOK_TIME = 600
+# Looks like we only have these two kinds in our db
+DIET_LABELS = ["GlutenFreeDiet", "VegetarianDiet"]
 
 
 class SearchResultView(TemplateView):
@@ -17,6 +19,7 @@ class SearchResultView(TemplateView):
         vegetarian = self.request.GET.get('vegetarian', None) == 'true'
         easy_prepare = self.request.GET.get('easy_prepare', None) == 'true'
         easy_cook = self.request.GET.get('easy_cook', None) == 'true'
+        diet_search = self.request.GET.get('diet_search', None) == "true"
 
         filters = []
         if vegetarian:
@@ -25,6 +28,8 @@ class SearchResultView(TemplateView):
             filters.append(f'ingredientsCount:[* TO {EASY_PREPARE_COUNTS}]')
         if easy_cook:
             filters.append(f'cookTime: [* TO {EASY_COOK_TIME}]')
+        if diet_search:
+            filters.append(f'suitableForDiet:({" OR ".join(DIET_LABELS)})')
 
         return filters
 

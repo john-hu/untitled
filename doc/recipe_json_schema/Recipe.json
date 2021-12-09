@@ -346,7 +346,61 @@
     "title"
   ],
   "anyOf": [
-    { "required": ["ingredients", "instructions"] },
-    { "required": ["ingredientsRaw", "instructionsRaw"] }
+    {
+      "properties": {
+        "ingredients": { "type": "null" },
+        "ingredientsRaw": { "type": "array" },
+        "instructions": { "type": "null" },
+        "instructionsRaw": { "type": "array" }
+      }
+    },
+    {
+      "properties": {
+        "ingredients": { "type": "array" },
+        "ingredientsRaw": { "type": "null" },
+        "instructions": { "type": "array" },
+        "instructionsRaw": { "type": "null" }
+      }
+    },
+    {
+      "properties": {
+        "ingredients": { "type": "null" },
+        "ingredientsRaw": { "type": "array" },
+        "instructions": { "type": "array" },
+        "instructionsRaw": { "type": "array" }
+      }
+    },
+    {
+      "properties": {
+        "ingredients": { "type": "array" },
+        "ingredientsRaw": { "type": "null" },
+        "instructions": { "type": "array" },
+        "instructionsRaw": { "type": "array" }
+      }
+    },
+    {
+      "properties": {
+        "ingredients": { "type": "array" },
+        "ingredientsRaw": { "type": "array" },
+        "instructions": { "type": "null" },
+        "instructionsRaw": { "type": "array" }
+      }
+    },
+    {
+      "properties": {
+        "ingredients": { "type": "array" },
+        "ingredientsRaw": { "type": "array" },
+        "instructions": { "type": "array" },
+        "instructionsRaw": { "type": "null" }
+      }
+    },
+    {
+      "properties": {
+        "ingredients": { "type": "array" },
+        "ingredientsRaw": { "type": "array" },
+        "instructions": { "type": "array" },
+        "instructionsRaw": { "type": "array" }
+      }
+    }
   ]
 }

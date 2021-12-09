@@ -1,0 +1,16 @@
+repos:
+  - repo: local
+    hooks:
+      - id: autopep8
+        name: autopep8
+        types: [python]
+        language: system
+        entry: autopep8
+        args: ["--global-config", ".pep8", "--in-place", "--exit-code", "--aggressive", "--recursive"]
+    # Cause recipe using django, we need to separate these two folders
+      - id: mypy
+        name: mypy
+        types: [python]
+        language: system
+        entry: bash -c 'cd recipe && python -m mypy --config-file=./mypy.ini  ./'
+    # TODO add mypy for peeler

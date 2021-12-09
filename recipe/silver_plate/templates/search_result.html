@@ -2,27 +2,29 @@
 
 {% block header %}
 {% load static %}
-<link rel="stylesheet" href="{% static 'silver_plate/css/search_result.css' %}">
-<script type="text/javascript" defer src="{% static 'silver_plate/js/bootstrap.bundle.min.js' %}" ></script>
-    {% if redirect_page0 %}
-<meta http-equiv="refresh" content="0;url=search?q={{query|urlencode}}" />
-    {% endif %}
+<link href="{% static 'silver_plate/css/search_result.css' %}" rel="stylesheet">
+<script defer src="{% static 'silver_plate/js/bootstrap.bundle.min.js' %}" type="text/javascript"></script>
+{% if redirect_page0 %}
+<meta content="0;url=search?q={{query|urlencode}}" http-equiv="refresh"/>
+{% endif %}
 {% endblock %}
 
 {% block content %}
 {% include 'navbar_search.html' %}
 <div class="container hits-perf-container">
     {% if total_hits > 1000 %}
-        <div style="height:1rem;"></div>
-        <div class="alert alert-warning" role="alert">Too many recipes found, please add more keywords for better experience</div>
+    <div style="height:1rem;"></div>
+    <div class="alert alert-warning" role="alert">Too many recipes found, please add more keywords or filters for
+        better experience
+    </div>
     {% endif %}
     <div class="perf">
         {{ total_hits }} recipes found at {{ search_result.query_time }}ms
     </div>
 </div>
 {% if total_hits > 0 %}
-    {% include 'recipes_search.html' %}
-    {% include 'pagination_search.html' %}
+{% include 'recipes_search.html' %}
+{% include 'pagination_search.html' %}
 {% else %}
 <div class="container">No data found or syntax error</div>
 {% endif %}
