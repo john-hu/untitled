@@ -18,7 +18,9 @@
             {% endif %}
         </div>
         <div style="padding: 0 0 1rem 1rem;">
-            <a class="btn btn-primary" href="{{doc.data.mainLink}}" target="_blank">Show recipe</a>
+            <a class="btn btn-primary" href="{{doc.data.mainLink}}" target="_blank" onclick="onRecipeClick()">
+                Show recipe
+            </a>
         </div>
     </div>
     {% endfor %}
