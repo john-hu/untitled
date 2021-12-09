@@ -1,4 +1,5 @@
 import json
+from typing import Tuple
 from urllib import parse
 
 import requests
@@ -233,6 +234,15 @@ COPY_FIELDS = [
     'title'
 ]
 
+DYNAMIC_FIELDS = {
+    'random*': {
+        'name': 'random*',
+        'type': 'random',
+        'indexed': True,
+        'stored': False
+    }
+}
+
 
 def ensure_diet_enum(all_types, update_url):
     # ensure diet enum
@@ -311,8 +321,8 @@ def ensure_all_copies(all_copies, update_url):
         else:
             print(f'delete copy field from {copy_field["source"]}')
             delete_list.append({'source': copy_field['source'], 'dest': copy_field['dest']})
-    print('add missing copy fields')
     create_list = [{'source': source, 'dest': '_text_'} for source in missing_copies]
+    print(f'add missing copy fields: {len(create_list)}, delete: {len(delete_list)}')
     payload = {
         'delete-copy-field': delete_list,
         'add-copy-field': create_list
@@ -321,7 +331,26 @@ def ensure_all_copies(all_copies, update_url):
     assert execute_result.status_code == 200, f'update copy fields failed: {execute_result.text}'
 
 
-def print_all_fields(list_url):
+def ensure_all_dynamic_fields(all_dynamics, update_url):
+    # make a shallow clone for finding useless, existing and missing
+    missing_dynamics = dict(DYNAMIC_FIELDS)
+    for dynamic_field in all_dynamics:
+        # in our cases, we only copy fields to _text_ field for full-text search
+        if dynamic_field['name'] in missing_dynamics:
+            # the field is already in missing_dynamics, pop it out.
+            print(f'keep dynamic field {dynamic_field["name"]}')
+            del missing_dynamics[dynamic_field['name']]
+    # we don't do replace and delete at this phase.
+    create_list = [dynamic for _key, dynamic in missing_dynamics.items()]
+    print(f'add missing dynamic fields: {len(create_list)}')
+    payload = {
+        'add-dynamic-field': create_list
+    }
+    execute_result = requests.post(update_url, data=json.dumps(payload))
+    assert execute_result.status_code == 200, f'update copy fields failed: {execute_result.text}'
+
+
+def print_all_fields(list_url) -> Tuple[list, list, list, list]:
     fields_resp = requests.get(list_url)
     assert fields_resp.status_code == 200, 'unable to list fields'
     all_schema = fields_resp.json()['schema']
@@ -337,9 +366,12 @@ def print_all_fields(list_url):
             attr += 'R'
         if 'stored' in field and field['stored']:
             attr += 'S'
-        print(f'{field["name"]}: {field["type"]}{attr}')
+        if 'docValues' in field and field['docValues']:
+            attr += 'D'
+        default_value = field.get('default', 'no default')
+        print(f'{field["name"]} ({default_value}): {field["type"]}{attr}')
     print('----------------------------------------------------------------')
-    return all_fields, all_schema["fieldTypes"], all_schema["copyFields"]
+    return all_fields, all_schema['fieldTypes'], all_schema['copyFields'], all_schema['dynamicFields']
 
 
 def run(*args):
@@ -350,12 +382,14 @@ def run(*args):
     list_url = parse.urljoin(base_url, f'solr/{collection}/schema')
     update_url = parse.urljoin(base_url, f'solr/{collection}/schema')
     # list fields
-    all_fields, all_types, all_copies = print_all_fields(list_url)
+    all_fields, all_types, all_copies, all_dynamics = print_all_fields(list_url)
     # check and create diet enum
     ensure_diet_enum(all_types, update_url)
     # check and create all fields
     ensure_all_fields(all_fields, update_url)
     # check and create copy fields
     ensure_all_copies(all_copies, update_url)
+    # check and create dynamic fields
+    ensure_all_dynamic_fields(all_dynamics, update_url)
     # dump it again
     print_all_fields(list_url)

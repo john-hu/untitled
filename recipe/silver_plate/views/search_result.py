@@ -1,4 +1,5 @@
 import math
+from typing import List, Optional
 
 from django.conf import settings
 from django.views.generic import TemplateView
@@ -15,7 +16,7 @@ DIET_LABELS = ["GlutenFreeDiet", "VegetarianDiet"]
 class SearchResultView(TemplateView):
     template_name = 'search_result.html'
 
-    def _prepare_query_filter(self) -> list[str]:
+    def _prepare_query_filter(self) -> List[str]:
         vegetarian = self.request.GET.get('vegetarian', None) == 'true'
         easy_prepare = self.request.GET.get('easy_prepare', None) == 'true'
         easy_cook = self.request.GET.get('easy_cook', None) == 'true'
@@ -33,6 +34,20 @@ class SearchResultView(TemplateView):
 
         return filters
 
+    @staticmethod
+    def search(user_query: Optional[str], page_index: int, filters: List[str]):
+        client = Client(settings.CUTTING_BOARD_URL)
+        is_random = False
+        if user_query:
+            search_result = client.search_recipe(user_query, page_index, PAGE_SIZE, filters)
+            if search_result['hits'] < 1:
+                is_random = True
+                search_result = client.random_recipe()
+        else:
+            is_random = True
+            search_result = client.random_recipe()
+        return search_result, is_random
+
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
@@ -40,10 +55,7 @@ class SearchResultView(TemplateView):
         user_query = self.request.GET.get('q', None)
         page_index = int(self.request.GET.get('p', 0))
         filters = self._prepare_query_filter()
-
-        if not user_query:
-            return context
-        search_result = Client(settings.CUTTING_BOARD_URL).search_recipe(user_query, page_index, PAGE_SIZE, filters)
+        search_result, is_random = self.search(user_query, page_index, filters)
         # total search pages
         pages = math.ceil(search_result['hits'] / PAGE_SIZE)
         # prepare data
@@ -51,13 +63,14 @@ class SearchResultView(TemplateView):
         context['total_hits'] = search_result['hits']
         context['page_index'] = page_index
         context['search_result'] = search_result
+        context['is_random'] = is_random
         context['prev_index'] = -1 if page_index == 0 else page_index - 1
         context['next_index'] = -1 if page_index > pages - 2 else page_index + 1
         if page_index >= pages and search_result['hits'] > 0:
             context['redirect_page0'] = True
             # out of page cases, we should redirect back to the first page.
             return context
-        elif search_result['hits'] == 0:
+        elif search_result['hits'] == 0 or is_random:
             return context
         # prepare pagination: 5 pages at most
         # reserve two pages before page_index

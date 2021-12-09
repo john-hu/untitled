@@ -13,16 +13,20 @@
 {% include 'navbar_search.html' %}
 <div class="container hits-perf-container">
     {% if total_hits > 1000 %}
-    <div style="height:1rem;"></div>
-    <div class="alert alert-warning" role="alert">Too many recipes found, please add more keywords or filters for
-        better experience
+    <div class="alert alert-warning" style="margin-top: 1rem" role="alert">Too many recipes found, please add more
+        keywords or filters for better experience
     </div>
     {% endif %}
+    {% if not is_random %}
     <div class="perf">
         {{ total_hits }} recipes found at {{ search_result.query_time }}ms
     </div>
+    {% endif %}
 </div>
 {% if total_hits > 0 %}
+{% if is_random %}
+<div class="alert alert-warning" style="margin-top: 1rem" role="alert">No result found! Try some random recipes:</div>
+{% endif %}
 {% include 'recipes_search.html' %}
 {% include 'pagination_search.html' %}
 {% else %}
