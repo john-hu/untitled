@@ -25,7 +25,10 @@
 </div>
 {% if total_hits > 0 %}
 {% if is_random %}
-<div class="alert alert-warning" style="margin-top: 1rem" role="alert">No result found! Try some random recipes:</div>
+<div class="container">
+    <div class="alert alert-warning" style="margin-top: 1rem" role="alert">No result found! Try some random recipes:
+    </div>
+</div>
 {% endif %}
 {% include 'recipes_search.html' %}
 {% include 'pagination_search.html' %}

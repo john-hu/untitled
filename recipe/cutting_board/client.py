@@ -43,7 +43,7 @@ class Client:
     def add_recipe(self, docs: List[dict]) -> None:
         self.client.add([convert_solr_doc(doc) for doc in docs], commit=True)
 
-    def random_recipe(self, count: int = 12):
+    def random_recipe(self, count: int = 8):
         return self.search_recipe('*', page_size=count, sort=f'random_{randint(1, 100000)} desc')
 
     def search_recipe(self, query: str, page_index: int = 0, page_size: int = 36,
