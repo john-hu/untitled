@@ -98,8 +98,17 @@ def parse_image_urls(image: Optional[Union[List[str], dict, str]]) -> Optional[L
         return None
 
 
-def parse_suitable_for_diet(data: str) -> Optional[List[str]]:
-    return [DIET_MAP[data]] if data in DIET_MAP else None
+def parse_suitable_for_diet(data: Union[List[str], str]) -> Optional[List[str]]:
+    if isinstance(data, str):
+        return [DIET_MAP[data]] if data in DIET_MAP else None
+    elif isinstance(data, list):
+        ret = []
+        for item in data:
+            if data in DIET_MAP:
+                ret.append(item)
+        return ret if ret else None
+    else:
+        return None
 
 
 def parse_raw_ingredients(data: Optional[Union[List[str], str]]) -> Optional[List[str]]:
@@ -153,7 +162,7 @@ def is_type(data: dict, schema_type: str, with_context: bool = True) -> bool:
     return data.get('@type', None) == schema_type or schema_type in data.get('@type', [])
 
 
-def is_schema_org_context(data: dict):
+def is_schema_org_context(data: dict) -> bool:
     return '@context' in data and data['@context'] not in SCHEMA_ORG_NS
 
 
