@@ -64,7 +64,7 @@ chown -R silver_plate:silver_plate "${new_folder}"
 echo "$(date) - relink"
 ln -sfn "${new_folder}" /opt/silver_plate
 # remove the old version
-if test -f "/opt/silver_plate_${local_version}"; then
+if test -f "/opt/silver_plate_${local_version}/version"; then
   echo "$(date) - remove old silver_plate_${local_version}"
   rm -rf "/opt/silver_plate_${local_version}"
 fi
