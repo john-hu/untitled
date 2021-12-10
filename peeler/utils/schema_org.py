@@ -1,4 +1,5 @@
 import json
+import re
 from typing import Callable, List, Optional, Union
 
 from .parsers import MASS_REGEX_PARSER
@@ -169,8 +170,8 @@ def is_schema_org_context(data: dict) -> bool:
 def find_json_by_schema_org_type(json_texts: List[str], schema_type: str) -> Optional[dict]:
     # multiple ld+json case
     for json_text in json_texts:
-        # Some data may contain `\n` at the ld+json. It is not correct JSON. Replace the `\n` to space.
-        data = json.loads(json_text.replace('\n', ' '))
+        # Some data may contain `\n` or `\r` at the ld+json. It is not correct JSON. Replace the `[\r\n]` to space.
+        data = json.loads(re.sub(r'[\r\n]', ' ', json_text))
         if isinstance(data, list):
             # Some website will give us a list of schema org data
             for d in data:

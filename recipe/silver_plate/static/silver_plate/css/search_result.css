@@ -11,10 +11,6 @@ body, html {
     margin-right: 0;
 }
 
-.hits-perf-container {
-    padding: 0 2rem;
-}
-
 .perf {
     text-align: right;
 }
@@ -90,5 +86,11 @@ body, html {
     .recipe-card {
         max-width: 18rem;
         margin: 1rem;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .navbar-brand {
+        display: none;
     }
 }

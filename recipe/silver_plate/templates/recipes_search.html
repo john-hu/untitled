@@ -3,6 +3,8 @@
     <div class="card recipe-card">
         {% if doc.data.images and doc.data.images|length > 0 %}
         <div class="recipe-img" style="background-image: url({{doc.data.images.0}});"></div>
+        {% else %}
+        <div class="recipe-img" style="background-image: url(/static/silver_plate/image/not_found.jpg)"></div>
         {% endif %}
         <div class="card-body">
             <h5 class="card-title recipe-title">{{ doc.data.title }}</h5>
@@ -16,7 +18,9 @@
             {% endif %}
         </div>
         <div style="padding: 0 0 1rem 1rem;">
-            <a class="btn btn-primary" href="{{doc.data.mainLink}}" target="_blank">Show recipe</a>
+            <a class="btn btn-primary" href="{{doc.data.mainLink}}" target="_blank" onclick="onRecipeClick()">
+                Show recipe
+            </a>
         </div>
     </div>
     {% endfor %}
