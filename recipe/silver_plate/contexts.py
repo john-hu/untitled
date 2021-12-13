@@ -14,3 +14,7 @@ def get_version(_request: HttpRequest) -> dict:
     return {
         'SILVER_PLATE_VERSION': version if version else 'Unknown'
     }
+
+
+def is_debug_mode(_request: HttpRequest) -> dict:
+    return {"DEBUG": settings.DEBUG}

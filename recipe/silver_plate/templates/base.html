@@ -48,6 +48,7 @@
 <body>
 {% block content %}{% endblock %}
 <!-- ${{ SILVER_PLATE_VERSION }}$ -->
+{% if not DEBUG %}
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-VCQEG53TCT"></script>
 <script>
@@ -57,5 +58,6 @@
       gtag('config', 'G-VCQEG53TCT');
 
 </script>
+{% endif %}
 </body>
 </html>
