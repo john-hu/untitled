@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-sq$zw7*m-1j4!izxoni@d8%mntg^&gppe#r=qv4s_i9k(+@@86'
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'yes') == 'yes'
@@ -135,9 +138,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 DATA_UPLOAD_MAX_MEMORY_SIZE = 1024 * 1024 * 10
 
 # Silver plate configs
-CUTTING_BOARD_URL = os.environ.get('CUTTING_BOARD_URL', 'http://localhost:8983/solr/recipe')
+CUTTING_BOARD_URL = os.environ.get('CUTTING_BOARD_URL')
 
 # Peeler endpoint configs
-PEELER_BASIC_AUTH_USERNAME = os.environ.get('PEELER_USERNAME', 'peeler')
-PEELER_BASIC_AUTH_PASSWORD = os.environ.get('PEELER_PASSWORD', '123456')
+PEELER_BASIC_AUTH_USERNAME = os.environ.get('PEELER_USERNAME')
+PEELER_BASIC_AUTH_PASSWORD = os.environ.get('PEELER_PASSWORD')
 PEELER_BASIC_AUTH_REALM = 'peeler_endpoints'

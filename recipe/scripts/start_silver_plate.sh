@@ -1,6 +1,7 @@
 #!/bin/bash
 
 source env/bin/activate
+source ../.env
 echo "$(date): start gunicorn + django server"
 exec gunicorn\
      --workers 3\
