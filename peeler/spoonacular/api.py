@@ -1,5 +1,6 @@
-import requests
 from urllib import parse
+
+import requests
 
 BASE_URL = 'https://api.spoonacular.com'
 RANDOM_PATH = '/recipes/random'

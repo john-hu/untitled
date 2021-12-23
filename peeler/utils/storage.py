@@ -5,7 +5,6 @@ from enum import Enum
 from pathlib import Path
 from typing import List
 
-
 logger = logging.getLogger(__name__)
 
 
@@ -39,7 +38,7 @@ class Storage:
         cursor.close()
         conn.commit()
         conn.close()
-        logger.info(f'Recipe database inited')
+        logger.info('Recipe database inited')
 
     def add_recipe_url(self, url: str) -> None:
         conn = sqlite3.connect(self.__db_file)

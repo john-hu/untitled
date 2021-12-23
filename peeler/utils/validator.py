@@ -1,14 +1,15 @@
 import json
-import jsonschema
 import logging
 import os
 from argparse import ArgumentParser
+
+import jsonschema
 
 logger = logging.getLogger(__name__)
 
 recipe_schema_file = os.path.join('doc', 'recipe_json_schema', 'Recipe.json')
 if os.path.exists(recipe_schema_file):
-    with open(recipe_schema_file, 'r') as fp:
+    with open(recipe_schema_file, 'r', encoding="UTF-8") as fp:
         recipe_schema = json.load(fp)
 else:
     recipe_schema = None
@@ -24,10 +25,10 @@ def validate(recipe: dict):
 
 
 def run():
-    parser = ArgumentParser(f'peeler data to silver plate uploader')
+    parser = ArgumentParser('peeler data to silver plate uploader')
     parser.add_argument('file', type=str)
     args = parser.parse_args()
-    with open(args.file, 'r') as file:
+    with open(args.file, 'r', encoding="UTF-8") as file:
         data = json.load(file)
         for recipe in data:
             validate(recipe)

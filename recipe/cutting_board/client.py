@@ -32,8 +32,7 @@ class Client:
 
     def get_recipe(self, recipe_id: str) -> dict:
         escaped_id = re.sub(SOLR_ESCAPE_RE, SOLR_ESCAPE_SUB, recipe_id)
-        q = f'id:"{escaped_id}"'
-        results = self.client.search(q)
+        results = self.client.search(f'id:"{escaped_id}"')
         return {'recipe_id': recipe_id, 'num_of_found': len(results),
                 'docs': [json.loads(doc['_rawJSON_']) for doc in results.docs]}
 

@@ -19,7 +19,7 @@ class RecipeListSpider(Spider):
     def start_requests(self):
         yield Request(url=ADVANCED_SEARCH_PAGE, callback=self.base_page)
 
-    def base_page(self, response: Response, **kwargs):
+    def base_page(self, response: Response):
         if response.status != 200:
             return
 

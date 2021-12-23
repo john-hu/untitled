@@ -30,12 +30,11 @@ class RecipeResultSpider(GeneratorResultSpider):
                 ingredient_item['name'] += f' ({ingredient.css(".remainder::text").get().strip()})'
             if ingredient.css('.amount span::text'):
                 number_text = ingredient.css('.amount span::text').get().strip().replace(',', '')
-                ingredient_item['size'] = {'number': float(number_text)}
+                ingredient_item['size'] = {'number': float(number_text), "unit": None}
                 # may we see an unit element without amount? I don't think so.
                 if ingredient.css('.unit::text'):
+                    # pylint: disable=unsupported-assignment-operation
                     ingredient_item['size']['unit'] = ingredient.css('.unit::text').get().strip()
-                else:
-                    ingredient_item['size']['unit'] = None
             if ingredient_item in ingredients:
                 logger.warning(f'duplicated ingredient found {ingredient_item}')
             else:

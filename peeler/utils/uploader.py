@@ -1,7 +1,8 @@
 import json
-import requests
-from urllib import parse
 from argparse import ArgumentParser
+from urllib import parse
+
+import requests
 
 
 class Uploader:
@@ -27,7 +28,7 @@ class Uploader:
 
     def upload(self, file: str, mode: str = 'pull_merge'):
         if mode == 'pull_merge':
-            with open(file, 'r') as fp:
+            with open(file, 'r', encoding="UTF-8") as fp:
                 recipes = json.load(fp)
             if not recipes and not isinstance(recipes, list):
                 return
@@ -35,7 +36,7 @@ class Uploader:
             for recipe in recipes:
                 self.pull_and_merge(recipe)
         elif mode == 'push_all':
-            with open(file, 'r') as fp:
+            with open(file, 'r', encoding="UTF-8") as fp:
                 print('POST the whole file to server')
                 headers = {'content-type': 'application/json'}
                 result = requests.post(self.__endpoint, data=fp, auth=self.__auth, headers=headers)
@@ -45,7 +46,7 @@ class Uploader:
 
 
 def run():
-    parser = ArgumentParser(f'peeler data to silver plate uploader')
+    parser = ArgumentParser('peeler data to silver plate uploader')
     parser.add_argument('--endpoint', type=str, required=True,
                         help='the endpoint of silver plate, like: http://localhost:8081')
     parser.add_argument('--username', type=str, required=True, help='basic auth username')

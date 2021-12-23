@@ -36,7 +36,7 @@ class GeneralResultSpider(GeneratorResultSpider):
             yield from super().start_requests()
 
     def parse_recipe(self, response: Response, recipe_language: str, site_name: str) -> Generator[
-                     Union[RecipeItem, RecipeURLItem], None, None]:
+            Union[RecipeItem, RecipeURLItem], None, None]:
         # if recipe found, yield it
         recipe = find_json_by_schema_org_type(response.css(self.json_css_path).getall(), 'Recipe')
         self.ignore_validation_error = True
@@ -46,7 +46,7 @@ class GeneralResultSpider(GeneratorResultSpider):
                 yield item
 
     def parse_item_list_recipes(self, response: Response, recipe_language: str, site_name: str) -> Generator[
-                                Union[RecipeItem, RecipeURLItem], None, None]:
+            Union[RecipeItem, RecipeURLItem], None, None]:
         # if item list found, yield it
         item_list = find_json_by_schema_org_type(response.css(self.json_css_path).getall(), 'ItemList')
         if item_list:

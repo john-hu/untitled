@@ -38,7 +38,7 @@ def parse_nutrition_info(nutrition: Optional[dict]) -> Optional[dict]:
         "transFatContent": None,
         "unsaturatedFatContent": None,
     }
-    for key in ret.keys():
+    for key in ret:
         if key not in nutrition:
             continue
         match = MASS_REGEX_PARSER.match(nutrition[key])

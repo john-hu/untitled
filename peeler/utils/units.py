@@ -1,3 +1,4 @@
+# pylint: disable=too-many-return-statements
 def time_str_to_second(time_str: str) -> int:
     lower_str = time_str.lower()
     if lower_str == 'sec':

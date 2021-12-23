@@ -3,6 +3,7 @@ import json
 SOLR_DOC_VERSION = 1
 
 
+# pylint: disable=too-many-branches
 def convert_solr_doc(recipe: dict):
     # total fields: 23
 
@@ -16,7 +17,7 @@ def convert_solr_doc(recipe: dict):
         'images': len(recipe.get('images')) > 0 if recipe.get('images') else False,
         'videos': len(recipe.get('videos')) > 0 if recipe.get('videos') else False,
         'examples': len(recipe.get('examples')) > 0 if recipe.get('examples') else False,
-        'nutrition': True if recipe.get('nutrition') else False,
+        'nutrition': bool(recipe.get('nutrition')),
         '_rawJSON_': json.dumps(recipe)
     }
     # conditional 14 fields

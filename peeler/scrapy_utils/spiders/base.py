@@ -14,6 +14,7 @@ logger = logging.getLogger(__name__)
 
 class InvalidResponseData(Exception):
     def __init__(self, **kwargs):
+        super().__init__()
         if 'field' in kwargs:
             self.field = kwargs['field']
 

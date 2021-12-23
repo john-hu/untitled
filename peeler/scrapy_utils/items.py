@@ -16,6 +16,7 @@ class RecipeURLItem:
 # This class is a subset of Recipe.json
 @dataclass_json
 @dataclass
+# pylint: disable=too-many-instance-attributes
 class RecipeItem:
     id: str
     mainLink: str
