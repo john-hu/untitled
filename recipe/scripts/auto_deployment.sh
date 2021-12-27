@@ -49,7 +49,7 @@ source /opt/env39/bin/activate
 echo "$(date) - update dependency"
 pip install -r requirement.txt
 # keep the original settings.py and dummy db
-cp "${prod_folder}/recipe/settings.py" "${new_folder}/recipe/settings.py"
+ln -s /opt/.env "${new_folder}/.env"
 cp "${prod_folder}/db.sqlite3" "${new_folder}/db.sqlite3"
 # exec scrips
 echo "$(date) - exec scripts"
