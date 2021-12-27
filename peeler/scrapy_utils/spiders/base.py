@@ -4,6 +4,7 @@ from urllib.parse import urlparse
 
 from scrapy import Request, Spider
 from scrapy.http import Response
+from scrapy.responsetypes import ResponseTypes
 
 from ..items import RecipeItem
 from ...utils.storage import ParseState, Storage
@@ -58,12 +59,25 @@ class BaseResultSpider(Spider, metaclass=ABCMeta):
         for url in urls:
             yield Request(url=url, callback=self.parse, errback=self.handle_error)
 
-    def handle_error(self, failure):
+    def handle_error(self, failure) -> None:
         logger.error(repr(failure))
         storage = Storage(self.settings['storage'])
         storage.unlock_recipe_url(failure.request.url)
 
+    def handle_not_html_error(self, response: Response) -> None:
+        logger.error(f'url not HTML, mark as error: {response.request.url}')
+        storage = Storage(self.settings['storage'])
+        storage.mark_as(response.request.url, ParseState.WRONG_DATA)
+
+    @staticmethod
+    def is_parsable(response: Response) -> bool:
+        types = ResponseTypes()
+        return types.from_headers(response.headers) != Response
+
     def parse(self, response: Response, **kwargs):
+        if not self.is_parsable(response):
+            self.handle_not_html_error(response)
+            return
         storage = Storage(self.settings['storage'])
         self.fetched_count += 1
         try:
