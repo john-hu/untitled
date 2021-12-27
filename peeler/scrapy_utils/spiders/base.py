@@ -3,6 +3,7 @@ from abc import ABCMeta, abstractmethod
 from urllib.parse import urlparse
 
 from scrapy import Request, Spider
+from scrapy.exceptions import IgnoreRequest
 from scrapy.http import Response
 from scrapy.responsetypes import ResponseTypes
 
@@ -62,7 +63,12 @@ class BaseResultSpider(Spider, metaclass=ABCMeta):
     def handle_error(self, failure) -> None:
         logger.error(repr(failure))
         storage = Storage(self.settings['storage'])
-        storage.unlock_recipe_url(failure.request.url)
+        if failure.type == IgnoreRequest and 'Forbidden by robots.txt' in str(failure.value):
+            logger.error(f'Forbidden, mark as error: {failure.request.url}')
+            storage.mark_as(failure.request.url, ParseState.WRONG_DATA)
+        else:
+            logger.error(f'execute error, unlock: {failure.request.url}')
+            storage.unlock_recipe_url(failure.request.url)
 
     def handle_not_html_error(self, response: Response) -> None:
         logger.error(f'url not HTML, mark as error: {response.request.url}')
