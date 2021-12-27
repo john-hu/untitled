@@ -122,7 +122,7 @@ class SpoonacularPeeler:
     def is_out_of_quote(self):
         quota_file = os.path.join(self.__storage, 'quota.json')
         if os.path.isfile(quota_file):
-            with open(quota_file, 'r') as fp:
+            with open(quota_file, 'r', encoding="UTF-8") as fp:
                 quota = json.load(fp)
         else:
             quota = {
@@ -143,7 +143,7 @@ class SpoonacularPeeler:
             'utc': datetime.utcnow().strftime('%Y%m%d'),
             'used': quota
         }
-        with open(quota_file, 'w') as fp:
+        with open(quota_file, 'w', encoding="UTF-8") as fp:
             json.dump(quota_data, fp)
 
     def fetch_one(self):
@@ -192,7 +192,7 @@ class SpoonacularPeeler:
         for raw_file in raw_files:
             print(f'reconvert file: {raw_file}')
             # load the file
-            with open(raw_file, 'r') as fp:
+            with open(raw_file, 'r', encoding="UTF-8") as fp:
                 sources = json.load(fp)
             # parse the date string from file, + 1 for '_', -5 for '.json'
             basename = os.path.basename(os.path.normpath(raw_file))

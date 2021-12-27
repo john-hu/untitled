@@ -18,7 +18,7 @@ def main():
     if args.reconvert == 'yes':
         peeler.reconvert()
     else:
-        for i in range(args.count):
+        for _ in range(args.count):
             peeler.fetch_one()
             time.sleep(args.request_delay)
 

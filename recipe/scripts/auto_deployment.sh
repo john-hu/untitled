@@ -37,8 +37,6 @@ git checkout origin/production
 echo "$(date) - build source folder ${remote_version}"
 rm -rf "${new_folder}"
 cp -r recipe "${new_folder}"
-# keep the original python env
-cp -r "${prod_folder}/env" "${new_folder}/env"
 # create version file
 echo "${remote_version}" > "${new_folder}/version"
 if test -f "${prod_folder}/version"; then
@@ -46,8 +44,7 @@ if test -f "${prod_folder}/version"; then
   cp "${prod_folder}/version" "${new_folder}/old_version"
 fi
 cd "${new_folder}" || exit 1
-# shellcheck disable=SC1090
-source "${new_folder}/env/bin/activate"
+source /opt/env39/bin/activate
 # dependencies
 echo "$(date) - update dependency"
 pip install -r requirement.txt

@@ -22,6 +22,7 @@ def parse_duration(text) -> int:
     return isodate.parse_duration(text).seconds if text else None
 
 
+# pylint: disable=too-many-return-statements
 def parse_yield(yield_number: Optional[Union[str, int, float]]) -> Optional[dict]:
     if not yield_number:
         return None

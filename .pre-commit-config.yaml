@@ -3,14 +3,27 @@ repos:
     hooks:
       - id: autopep8
         name: autopep8
-        types: [python]
+        types: [ python ]
         language: system
         entry: autopep8
         args: ["--global-config", ".pep8", "--in-place", "--exit-code", "--aggressive", "--recursive"]
+      - id: pylint
+        name: pylint
+        entry: env PYTHONPATH=peeler python -m pylint.__main__
+        language: system
+        types: [ python ]
+        files: peeler/.*/.*py
+      - id: pylint
+        name: pylint
+        entry: env PYTHONPATH=recipe python -m pylint.__main__
+        language: system
+        types: [ python ]
+        files: recipe/.*/.*py
+        args: ["--load-plugins", "pylint_django", "--django-settings-module", "recipe.settings"]
     # Cause recipe using django, we need to separate these two folders
       - id: mypy
         name: mypy
-        types: [python]
+        types: [ python ]
         language: system
         entry: bash -c 'cd recipe && python -m mypy --config-file=./mypy.ini  ./'
     # TODO add mypy for peeler

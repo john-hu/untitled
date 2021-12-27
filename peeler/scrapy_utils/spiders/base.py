@@ -3,7 +3,9 @@ from abc import ABCMeta, abstractmethod
 from urllib.parse import urlparse
 
 from scrapy import Request, Spider
+from scrapy.exceptions import IgnoreRequest
 from scrapy.http import Response
+from scrapy.responsetypes import ResponseTypes
 
 from ..items import RecipeItem
 from ...utils.storage import ParseState, Storage
@@ -14,6 +16,7 @@ logger = logging.getLogger(__name__)
 
 class InvalidResponseData(Exception):
     def __init__(self, **kwargs):
+        super().__init__()
         if 'field' in kwargs:
             self.field = kwargs['field']
 
@@ -57,12 +60,30 @@ class BaseResultSpider(Spider, metaclass=ABCMeta):
         for url in urls:
             yield Request(url=url, callback=self.parse, errback=self.handle_error)
 
-    def handle_error(self, failure):
+    def handle_error(self, failure) -> None:
         logger.error(repr(failure))
         storage = Storage(self.settings['storage'])
-        storage.unlock_recipe_url(failure.request.url)
+        if failure.type == IgnoreRequest and 'Forbidden by robots.txt' in str(failure.value):
+            logger.error(f'Forbidden, mark as error: {failure.request.url}')
+            storage.mark_as(failure.request.url, ParseState.WRONG_DATA)
+        else:
+            logger.error(f'execute error, unlock: {failure.request.url}')
+            storage.unlock_recipe_url(failure.request.url)
+
+    def handle_not_html_error(self, response: Response) -> None:
+        logger.error(f'url not HTML, mark as error: {response.request.url}')
+        storage = Storage(self.settings['storage'])
+        storage.mark_as(response.request.url, ParseState.WRONG_DATA)
+
+    @staticmethod
+    def is_parsable(response: Response) -> bool:
+        types = ResponseTypes()
+        return types.from_headers(response.headers) != Response
 
     def parse(self, response: Response, **kwargs):
+        if not self.is_parsable(response):
+            self.handle_not_html_error(response)
+            return
         storage = Storage(self.settings['storage'])
         self.fetched_count += 1
         try:
@@ -74,12 +95,10 @@ class BaseResultSpider(Spider, metaclass=ABCMeta):
         except InvalidResponseData as invalid:
             logger.error(f'URL {response.url} does not have enough data: {invalid.field}')
             storage.mark_as(response.request.url, ParseState.WRONG_DATA)
-            return
-        except Exception as ex:
+        except Exception as ex:  # pylint: disable=broad-except
             logger.error(f'Parse url, {response.url},  {self.fetched_count} / {self.total_count}, '
-                         f'error: {repr(ex)}')
+                         f'error: {repr(ex)}', exc_info=ex)
             storage.unlock_recipe_url(response.request.url)
-            raise ex
 
     @abstractmethod
     def parse_response(self, response: Response) -> RecipeItem:

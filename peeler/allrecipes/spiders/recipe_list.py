@@ -17,6 +17,7 @@ def validate_link(link: str, domains: list):
     if isinstance(link, str):
         m = re.search(r'\w+.com', link)
         return m.group(0) in domains
+    return None
 
 
 def parse_sitemap(url):

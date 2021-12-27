@@ -256,6 +256,7 @@ def ensure_diet_enum(all_types, update_url):
     assert create_result.status_code == 200, f'create diet enum failed: {create_result.text}'
 
 
+# pylint: disable=too-many-return-statements
 def should_replace(field1, field2):
     assert field1['name'] == field2[
         'name'], f'inconsistent field name, unable to compare: {field1["name"]}, {field2["name"]}'
