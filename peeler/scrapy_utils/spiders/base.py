@@ -87,10 +87,12 @@ class BaseResultSpider(Spider, metaclass=ABCMeta):
     def is_parsable(response: Response) -> bool:
         # check supported types
         types = ResponseTypes()
-        if types.from_headers(response.headers) != Response:
+        if types.from_headers(response.headers) == Response:
+            logger.error(f'parsed header type is {repr(types.from_headers(response.headers))}')
             return False
         # check response code
         if 400 <= response.status < 500:
+            logger.error(f'4xx response code: {response.status}')
             return False
         return True
 
