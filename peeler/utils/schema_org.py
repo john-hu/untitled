@@ -1,8 +1,11 @@
 import json
+import logging
 import re
 from typing import Callable, List, Optional, Union
 
 from .parsers import MASS_REGEX_PARSER
+
+logger = logging.getLogger(__name__)
 
 DIET_MAP = {'https://schema.org/DiabeticDiet': 'DiabeticDiet',
             'https://schema.org/GlutenFreeDiet': 'GlutenFreeDiet',
@@ -167,24 +170,37 @@ def is_schema_org_context(data: dict) -> bool:
     return '@context' in data and data['@context'] not in SCHEMA_ORG_NS
 
 
+def find_json_from_list(data: List[dict], schema_type: str) -> Optional[dict]:
+    for single_item in data:
+        if is_type(single_item, schema_type):
+            return single_item
+    return None
+
+
+def find_json_from_graph(data: dict, schema_type: str) -> Optional[dict]:
+    for item in data['@graph']:
+        if is_type(item, schema_type, False):
+            return data
+    return None
+
+
 def find_json_by_schema_org_type(json_texts: List[str], schema_type: str) -> Optional[dict]:
     # multiple ld+json case
     for json_text in json_texts:
-        # Some data may contain `\n` or `\r` at the ld+json. It is not correct JSON. Replace the `[\r\n]` to space.
-        data = json.loads(re.sub(r'[\r\n]', ' ', json_text))
-        if isinstance(data, list):
-            # Some website will give us a list of schema org data
-            for d in data:
-                if is_type(d, schema_type):
-                    return d
-        elif isinstance(data, dict) and is_schema_org_context(data):
-            # If we have multiple data in a website, some website uses @graph to group them.
-            if '@graph' in data and isinstance(data['@graph'], list):
-                for item in data['@graph']:
-                    if is_type(item, schema_type, False):
-                        return data
-            elif is_type(data, schema_type):
-                # single data case
-                return data
+        try:
+            # Some data may contain `\n` or `\r` at the ld+json. It is not correct JSON. Replace the `[\r\n]` to space.
+            data = json.loads(re.sub(r'[\r\n]', ' ', json_text))
+            if isinstance(data, list):
+                # Some website will give us a list of schema org data
+                return find_json_from_list(data, schema_type)
+            elif isinstance(data, dict) and is_schema_org_context(data):
+                # If we have multiple data in a website, some website uses @graph to group them.
+                if '@graph' in data and isinstance(data['@graph'], list):
+                    return find_json_from_graph(data, schema_type)
+                elif is_type(data, schema_type):
+                    # single data case
+                    return data
+        except json.decoder.JSONDecodeError as json_error:
+            logger.error('unable to decode json text', exc_info=json_error)
 
     return None
