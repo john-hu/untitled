@@ -161,13 +161,13 @@ def parse_raw_instructions(data: Optional[Union[List[str], List[dict]]]) -> Opti
 
 
 def is_type(data: dict, schema_type: str, with_context: bool = True) -> bool:
-    if with_context and is_schema_org_context(data):
+    if with_context and not is_schema_org_context(data):
         return False
     return data.get('@type', None) == schema_type or schema_type in data.get('@type', [])
 
 
 def is_schema_org_context(data: dict) -> bool:
-    return '@context' in data and data['@context'] not in SCHEMA_ORG_NS
+    return '@context' in data and data['@context'] in SCHEMA_ORG_NS
 
 
 def find_json_from_list(data: List[dict], schema_type: str) -> Optional[dict]:
@@ -200,6 +200,8 @@ def find_json_by_schema_org_type(json_texts: List[str], schema_type: str) -> Opt
                 elif is_type(data, schema_type):
                     # single data case
                     return data
+            else:
+                logger.error(f'{repr(type(dict))} -> schema org context: {is_schema_org_context(data)}')
         except json.decoder.JSONDecodeError as json_error:
             logger.error('unable to decode json text', exc_info=json_error)
 
