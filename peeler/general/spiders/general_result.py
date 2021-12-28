@@ -64,7 +64,7 @@ class GeneralResultSpider(GeneratorResultSpider):
         current_hostname = urlparse(response.url).hostname
         current_defrag_url = urldefrag(response.url).url
         for href in all_hrefs:
-            resolved_url = urljoin(response.url, href)
+            resolved_url = urljoin(response.url, href).strip()
             resolved_hostname = urlparse(resolved_url).hostname
             resolved_defrag_url = urldefrag(resolved_url).url
             if resolved_hostname == current_hostname and current_defrag_url != resolved_defrag_url:

@@ -33,7 +33,7 @@ class RecipeURLPipeline:
     def process_item(self, item: RecipeURLItem, _spider):
         if isinstance(item, RecipeURLItem):
             self.__stats.inc_value('RecipeURLItem')
-            self.__storage.add_recipe_url(item.url)
+            self.__storage.add_recipe_url(item.url.strip())
         return item
 
 
