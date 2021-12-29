@@ -58,6 +58,16 @@ class Storage:
             cursor.close()
             conn.close()
 
+    def get_url(self, url: str) -> ParseState:
+        conn = sqlite3.connect(self.__db_file)
+        cursor = conn.cursor()
+        try:
+            cursor.execute('SELECT parse_state FROM RECIPES_LIST WHERE url = :url;', {'url': url})
+            return ParseState(cursor.fetchone()[0])
+        finally:
+            cursor.close()
+            conn.close()
+
     def lock_recipe_urls(self, count: int) -> List[str]:
         conn = sqlite3.connect(self.__db_file)
         cursor = conn.cursor()

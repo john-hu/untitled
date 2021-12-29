@@ -100,28 +100,45 @@ class BaseResultSpider(Spider, metaclass=ABCMeta):
     def is_server_error(response: Response) -> bool:
         return response.status >= 500
 
-    def parse(self, response: Response, **kwargs):
+    def check_and_handle_parsed_page(self, response: Response) -> bool:
+        storage = Storage(self.settings['storage'])
+        # we use response.url on purpose for checking if a URL is redirected to a parsed url.
+        state: ParseState = storage.get_url(response.url)
+        if state in [ParseState.PARSED, ParseState.WRONG_DATA]:
+            storage.mark_as(response.request.url, state)
+            return True
+        else:
+            return False
+
+    def pre_check_response(self, response: Response):
         if not self.is_parsable(response):
             self.handle_not_html_error(response)
-            return
+            return True
         elif self.is_server_error(response):
             self.handle_server_error(response)
+            return True
+        elif self.check_and_handle_parsed_page(response):
+            return True
+        return False
+
+    def parse(self, response: Response, **kwargs):
+        if self.pre_check_response(response):
             return
 
         storage = Storage(self.settings['storage'])
         self.fetched_count += 1
+        fetch_ratio_str = f'{self.fetched_count} / {self.total_count}'
         try:
             item = self.parse_response(response)
             validate(item.to_dict())
             yield item
-            logger.info(f'{response.url} is parsed successfully {self.fetched_count} / {self.total_count}')
+            logger.info(f'{response.url} is parsed successfully {fetch_ratio_str}')
             storage.mark_finished(response.request.url)
         except InvalidResponseData as invalid:
-            logger.error(f'URL {response.url} does not have enough data: {invalid.field}')
+            logger.error(f'URL {response.url} does not have enough data: {invalid.field} - {fetch_ratio_str}')
             storage.mark_as(response.request.url, ParseState.WRONG_DATA)
         except BaseException as ex:  # pylint: disable=broad-except
-            logger.error(f'Parse url, {response.url},  {self.fetched_count} / {self.total_count}, '
-                         f'error: {repr(ex)}', exc_info=ex)
+            logger.error(f'Parse url, {response.url},  {fetch_ratio_str}, error: {repr(ex)}', exc_info=ex)
             storage.unlock_recipe_url(response.request.url)
 
     @abstractmethod

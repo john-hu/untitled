@@ -27,11 +27,7 @@ class GeneratorResultSpider(BaseResultSpider):
         pass
 
     def parse(self, response: Response, **kwargs):
-        if not self.is_parsable(response):
-            self.handle_not_html_error(response)
-            return
-        elif self.is_server_error(response):
-            self.handle_server_error(response)
+        if self.pre_check_response(response):
             return
 
         storage = Storage(self.settings['storage'])
