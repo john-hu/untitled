@@ -119,7 +119,7 @@ class BaseResultSpider(Spider, metaclass=ABCMeta):
         except InvalidResponseData as invalid:
             logger.error(f'URL {response.url} does not have enough data: {invalid.field}')
             storage.mark_as(response.request.url, ParseState.WRONG_DATA)
-        except Exception as ex:  # pylint: disable=broad-except
+        except BaseException as ex:  # pylint: disable=broad-except
             logger.error(f'Parse url, {response.url},  {self.fetched_count} / {self.total_count}, '
                          f'error: {repr(ex)}', exc_info=ex)
             storage.unlock_recipe_url(response.request.url)

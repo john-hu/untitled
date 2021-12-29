@@ -38,6 +38,7 @@ class GeneratorResultSpider(BaseResultSpider):
         self.fetched_count += 1
         item_yield_count = 0
         url_yield_count = 0
+        fetch_ratio_str = f'{self.fetched_count} / {self.total_count}'
         try:
             for item in self.yield_results(response):
                 if isinstance(item, RecipeItem):
@@ -59,12 +60,12 @@ class GeneratorResultSpider(BaseResultSpider):
             yield_count = item_yield_count + url_yield_count
             if yield_count == 0:
                 raise InvalidResponseData(field='empty_payload')
-            logger.info(f'{response.url} yields {yield_count} - {self.fetched_count} / {self.total_count}')
+            logger.info(f'{response.url} yields {yield_count} - {fetch_ratio_str}')
             storage.mark_finished(response.request.url)
         except InvalidResponseData as invalid:
-            logger.error(f'URL {response.url} does not have enough data: {invalid.field}')
+            logger.error(f'URL {response.request.url} insufficient data, error: {invalid.field},  {fetch_ratio_str}')
             storage.mark_as(response.request.url, ParseState.WRONG_DATA)
-        except Exception as ex:  # pylint: disable=broad-except
-            logger.error(f'Parse url, {response.url},  {self.fetched_count} / {self.total_count}, '
+        except BaseException as ex:  # pylint: disable=broad-except
+            logger.error(f'Parse url error, unlock, {response.url},  {fetch_ratio_str}, '
                          f'error: {repr(ex)}', exc_info=ex)
             storage.unlock_recipe_url(response.request.url)
